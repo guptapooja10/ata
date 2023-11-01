@@ -48,13 +48,13 @@ props_col1 = list(properties.keys())[:len(properties) // 2]
 props_col2 = list(properties.keys())[len(properties) // 2:]
 
 for prop in props_col1:
-    prompt = f"Enter {prop}"
+    prompt = f"{prop}"
     if prop in units:
         prompt += f" ({units[prop]})"
     st.session_state.data[prop] = col1.text_input(prompt, value=st.session_state.data[prop]).strip()
 
 for prop in props_col2:
-    prompt = f"Enter {prop}"
+    prompt = f"{prop}"
     if prop in units:
         prompt += f" ({units[prop]})"
     st.session_state.data[prop] = col2.text_input(prompt, value=st.session_state.data[prop]).strip()
