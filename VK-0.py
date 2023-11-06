@@ -29,7 +29,7 @@ df = user_input_features()
 st.subheader('The final calculated values are:')
 st.write(df)
 
-
+# Download options
 if st.button("Download Excel"):
     output = io.BytesIO()
     with open("data.xlsx", "wb") as f:
