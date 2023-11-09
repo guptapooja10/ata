@@ -2,25 +2,22 @@ import streamlit as st
 import pandas as pd
 import io
 
-st.write("""# VK-0""")
+st.write("""# Deckung Gesamtstuden""")
 
 st.sidebar.header('User Input values')
 
 
 def user_input_features():
     Brennen = st.sidebar.text_input('Please input the value for Brennen in minutes', 0)
-    Richten = st.sidebar.text_input('Please input the value for Richten in minutes', 0)
-    Heften_Zussamenb_Verputzen = st.sidebar.text_input(
-        'Please input the value for Heften, Zusammenb., Verputzen in minutes', 0)
-    Anzeichnen = st.sidebar.text_input('Please input the value for Anzeichnen in minutes', 0)
+    Schlossern = st.sidebar.text_input('Please input the value for Schlossern in minutes', 0)
     Schweißen = st.sidebar.text_input('Please input the value for Schweißen in minutes', 0)
+    sonstiges = st.sidebar.text_input('Please input the value for sonstiges in minutes', 0)
+    # Schweißen = st.sidebar.text_input('Please input the value for Schweißen in minutes', 0)
 
-    data = {'Brennen': float(Brennen) / 60,
-            'Schlossern': float(float(Richten) + float(Heften_Zussamenb_Verputzen) + float(Anzeichnen)) / 60,
-            # 'Richten': Richten,
-            # 'Heften, Zusammenb., Verputzen': Heften_Zussamenb_Verputzen,
-            # 'Anzeichnen': Anzeichnen,
-            'Schweißen': float(Schweißen) / 60}
+    data = {'Brennen': float(Brennen),
+            'Schlossern': float(Schlossern),
+            'sonstiges': float(sonstiges),
+            'Schweißen': float(Schweißen)}
     features = pd.DataFrame(data, index=[0])
     return features
 
@@ -29,7 +26,7 @@ df = user_input_features()
 st.subheader('The final calculated values are:')
 st.write(df)
 
-# Download options
+
 if st.button("Download Excel"):
     output = io.BytesIO()
     with open("data.xlsx", "wb") as f:
