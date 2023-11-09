@@ -42,6 +42,7 @@ def main():
     for app_name, app_url in apps.items():
         st.sidebar.markdown(f"[{app_name}]({app_url})")
 
+    st.header('Project Instantiation')
     # Input fields for project instantiation
     with st.form(key='project_form'):
         kunde = st.text_input('Kunde')
