@@ -9,7 +9,7 @@ def main():
     apps = {
         "VK-ST-0": "https://vk-st-0.streamlit.app/",
         "Deckung": "https://deckung.streamlit.app/",
-        "VK-0": "https://vk-0.streamlit.app/",
+        "VK-0": "https://ata-vk-0.streamlit.app/",
         "ATA-Dashboard-App": "https://ata-dashboard-app.streamlit.app/"
     }
 
