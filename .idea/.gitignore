@@ -17,3 +17,5 @@ __pycache__/
 
 # Log files
 *.log
+# Ignore Streamlit secrets file
+secrets.toml
