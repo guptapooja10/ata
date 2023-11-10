@@ -16,7 +16,7 @@ def instantiate_project(kunde, benennung, zeichnungs_nr, ausfuehren_nr, db):
             "Kunde": kunde,
             "Benennung": benennung,
             "Ausführen Nr": ausfuehren_nr,
-            "id": zeichnungs_nr
+            "Zeichnungs- Nr.": zeichnungs_nr
         }
         doc_ref.set(project_data)
         print(f"Project with Zeichnungs Nr {zeichnungs_nr} created successfully.")
@@ -25,8 +25,12 @@ def instantiate_project(kunde, benennung, zeichnungs_nr, ausfuehren_nr, db):
 
 def main():
     # Authenticate to Firestore with the JSON account key.
-    db = firestore.Client.from_service_account_json(
-        "anlagentechnik-aschersleben-firebase-adminsdk-sfoug-5eb13936b2.json")
+    # db = firestore.Client.from_service_account_json(
+    # "anlagentechnik-aschersleben-firebase-adminsdk-sfoug-5eb13936b2.json")
+
+    key_dict = st.secrets["textkey"]
+    creds = service_account.Credentials.from_service_account_info(key_dict)
+    db = firestore.Client(credentials=creds)
     st.title('ATA App Navigator')
     image = Image.open('logo_ata.png')
     st.image(image, caption='Ata Logo')
