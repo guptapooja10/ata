@@ -101,7 +101,7 @@ for prop in props_col2:
 df = pd.DataFrame([st.session_state.data])
 
 
-# Function to download DataFrame as Excel
+# Function to download DataFrame as Excel sheet
 def download_excel(df):
     output = io.BytesIO()
     writer = pd.ExcelWriter(output, engine='xlsxwriter')
