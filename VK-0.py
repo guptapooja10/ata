@@ -55,6 +55,7 @@ for prop in props_col2:
 # Convert the user input data dictionary to a pandas DataFrame
 df = pd.DataFrame(st.session_state.data, index=[0])  # Specify index to create a DataFrame with one row
 
+# Download as Excel and JSON
 if st.button("Download Excel"):
     output = io.BytesIO()
     with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
