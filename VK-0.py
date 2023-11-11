@@ -57,7 +57,7 @@ for prop in props_col2:
 # Convert the user input data dictionary to a pandas DataFrame
 df = pd.DataFrame(st.session_state.data, index=[0])  # Specify index to create a DataFrame with one row
 
-# Transpose the DataFrame to have each column stacked vertically
+# Transpose the DataFrame to have each column stacked vertically and download excel
 df_transposed = df.transpose()
 
 if st.button("Download Excel"):
