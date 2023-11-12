@@ -7,6 +7,9 @@ from PIL import Image
 image = Image.open('logo_ata.png')
 st.image(image, caption='Ata Logo')
 
+# Upload image
+uploaded_file = st.file_uploader("Upload Image", type=["jpg", "jpeg", "png"])
+
 # Define data types and properties
 properties = {
     'Kunde': str,
@@ -203,9 +206,6 @@ if st.button("Download as Excel"):
     # Convert the dictionary to a DataFrame
     # Convert the dictionary to a DataFrame
     df = pd.DataFrame([data_dict])
-
-    # Add an option to upload an image in 'Dekung Kost' section
-    uploaded_file = st.file_uploader("Upload Image", type=["jpg", "jpeg", "png"])
 
     # Save the DataFrame to an Excel file in memory
     excel_file = io.BytesIO()
