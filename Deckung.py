@@ -204,19 +204,16 @@ if st.button("Download as Excel"):
     # Convert the dictionary to a DataFrame
     df = pd.DataFrame([data_dict])
 
-    # Save the DataFrame to an Excel file in memory and Download
+    # Add an option to upload an image in 'Dekung Kost' section
+    uploaded_file = st.file_uploader("Upload Image", type=["jpg", "jpeg", "png"])
+
+    # Save the DataFrame to an Excel file in memory
     excel_file = io.BytesIO()
     with pd.ExcelWriter(excel_file, engine='xlsxwriter') as writer:
         df.T.to_excel(writer, sheet_name='user_data', header=False)
     excel_file.seek(0)
 
-    
-
     # Download the Excel file using st.download_button
-    if st.download_button(label="Click here to download the Excel file", key="download_excel", data=excel_file,
+    st.download_button(label="Click here to download the Excel file", key="download_excel", data=excel_file,
                        file_name="user_data.xlsx",
                        mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
-
-    if st.button("Download JSON"):
-        json_data = df_kost.to_json(orient="records")
-        st.download_button("Download JSON File", json_data, file_name="data_kost.json", mime="application/json")
