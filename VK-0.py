@@ -4,7 +4,6 @@ import io
 from PIL import Image
 # import xlsxwriter
 
-#
 image = Image.open('logo_ata.png')
 st.image(image, caption='Ata Logo', use_column_width=True)
 
