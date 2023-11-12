@@ -7,6 +7,8 @@ from google.oauth2 import service_account
 # Function to instantiate a new project and save it to Firestore
 def instantiate_project(kunde, benennung, zeichnungs_nr, ausfuehren_nr, db):
     doc_ref = db.collection(zeichnungs_nr).document('Details')
+    vk_0_ref = db.collection(zeichnungs_nr).document('VK-0')
+    
     doc = doc_ref.get()
     if doc.exists:
         print(f"A project with Zeichnungs Nr {zeichnungs_nr} already exists.")
@@ -19,6 +21,16 @@ def instantiate_project(kunde, benennung, zeichnungs_nr, ausfuehren_nr, db):
             "Zeichnungs- Nr.": zeichnungs_nr
         }
         doc_ref.set(project_data)
+
+        vk_0_data = {
+            "Brennen": "",
+            "Richten": "",
+            "Heften_Zussamenb_Verputzen": "",
+            "Anzeichnen": "",
+            "Schweißen": ""
+        }
+        vk_0_ref.set(vk_0_data)
+        
         print(f"Project with Zeichnungs Nr {zeichnungs_nr} created successfully.")
         return True
 
