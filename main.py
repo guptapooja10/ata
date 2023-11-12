@@ -23,6 +23,20 @@ def instantiate_project(kunde, benennung, zeichnungs_nr, ausfuehren_nr, db):
         print(f"Project with Zeichnungs Nr {zeichnungs_nr} created successfully.")
         return True
 
+        # Create VK-0 document
+        vk0_doc_ref = db.collection(zeichnungs_nr).document('VK-0')
+        vk0_data = {
+            "Brennen": 0,
+            "Richten": 0,
+            "Heften_Zussamenb_Verputzen": 0,
+            "Anzeichnen": 0,
+            "Schweißen": 0
+        }
+        vk0_doc_ref.set(vk0_data)
+        print("'VK-0' document created successfully.")
+        return True
+        
+
 
 def main():
     # Authenticate to Firestore with the JSON account key.
