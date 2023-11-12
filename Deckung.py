@@ -204,7 +204,7 @@ if st.button("Download as Excel"):
     # Convert the dictionary to a DataFrame
     df = pd.DataFrame([data_dict])
 
-    # Save the DataFrame to an Excel file in memory
+    # Save the DataFrame to an Excel file in memory and Download
     excel_file = io.BytesIO()
     with pd.ExcelWriter(excel_file, engine='xlsxwriter') as writer:
         df.T.to_excel(writer, sheet_name='user_data', header=False)
