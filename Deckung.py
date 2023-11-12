@@ -116,7 +116,7 @@ with st.expander("Deckungsbeitrag"):
     st.session_state.deckungsbeitrag = st.number_input("Deckungsbeitrag (€)", value=st.session_state.deckungsbeitrag)
 
 
-# Gesamtstuden expander
+# Deckung Gesamtstuden expander
 with st.expander("Gesamtstuden"):
     for prop in ['Brennen', 'Schlossern', 'Schweißen', 'sonstiges (Eur/hour)', 'sonstiges (hour)']:
         prompt = f"{prop}"
