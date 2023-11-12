@@ -2,8 +2,9 @@ import streamlit as st
 import pandas as pd
 import io
 from PIL import Image
-import xlsxwriter
+# import xlsxwriter
 
+#
 image = Image.open('logo_ata.png')
 st.image(image, caption='Ata Logo', use_column_width=True)
 
@@ -61,12 +62,12 @@ df_transposed = df.transpose()
 
 if st.button("Download Excel"):
     output = io.BytesIO()
-    with pd.ExcelWriter(output) as writer:
+    with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
         df_transposed.to_excel(writer, sheet_name='Sheet1', header=False)  # Set header to False to exclude column names
     output.seek(0)
     st.download_button("Download Excel File", output, key="download_excel", file_name="data.xlsx", mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
 
-    
+
 if st.button("Download JSON"):
     json_data = df.to_json(orient="records")
     st.download_button("Download JSON File", json_data, file_name="data.json", mime="application/json")
