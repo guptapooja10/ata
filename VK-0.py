@@ -56,13 +56,24 @@ for prop in props_col2:
 # Convert the user input data dictionary to a pandas DataFrame
 df = pd.DataFrame([st.session_state.data])
 
-if st.button("Download Excel"):
+def download_excel(df):
     output = io.BytesIO()
-    with open("data.xlsx", "wb") as f:
-        df.to_excel(output, index=False)
-        f.write(output.read())
-    st.download_button("Download Excel File", output, key="download_excel", file_name="data.xlsx", mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+    writer = pd.ExcelWriter(output, engine='xlsxwriter')
+    df.to_excel(writer, sheet_name='Sheet1', index=False)
+    writer.save()
+    return output.getvalue()
 
-if st.button("Download JSON"):
-    json_data = df.to_json(orient="records")
+# Function to download DataFrame as JSON
+def download_json(df):
+    return df.to_json(orient="records")
+
+
+# Provide download options
+if st.button("Download as Excel"):
+    excel_data = download_excel(df)
+    st.download_button("Download Excel File", excel_data, file_name="data.xlsx",
+                       mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+
+if st.button("Download as JSON"):
+    json_data = download_json(df)
     st.download_button("Download JSON File", json_data, file_name="data.json", mime="application/json")
