@@ -60,6 +60,7 @@ df = pd.DataFrame(st.session_state.data, index=[0])  # Specify index to create a
 # Transpose the DataFrame to have each column stacked vertically
 df_transposed = df.transpose()
 
+# Download
 if st.button("Download Excel"):
     output = io.BytesIO()
     with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
