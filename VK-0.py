@@ -1,11 +1,12 @@
 import streamlit as st
 import pandas as pd
 import io
-# from PIL import Image
+from PIL import Image
+# import xlsxwriter
 
-
-# image = Image.open('logo_ata.png')
-# st.image(image, caption='Ata Logo', use_column_width=True)
+#
+image = Image.open('logo_ata.png')
+st.image(image, caption='Ata Logo', use_column_width=True)
 
 # Define data types and properties
 properties = {
@@ -54,26 +55,19 @@ for prop in props_col2:
     st.session_state.data[prop] = col2.text_input(prompt, value=st.session_state.data[prop]).strip()
 
 # Convert the user input data dictionary to a pandas DataFrame
-df = pd.DataFrame([st.session_state.data])
+df = pd.DataFrame(st.session_state.data, index=[0])  # Specify index to create a DataFrame with one row
 
-def download_excel(df):
+# Transpose the DataFrame to have each column stacked vertically
+df_transposed = df.transpose()
+
+if st.button("Download Excel"):
     output = io.BytesIO()
-    writer = pd.ExcelWriter(output, engine='xlsxwriter')
-    df.to_excel(writer, sheet_name='Sheet1', index=False)
-    writer.save()
-    return output.getvalue()
-
-# Function to download DataFrame as JSON
-def download_json(df):
-    return df.to_json(orient="records")
+    with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
+        df_transposed.to_excel(writer, sheet_name='Sheet1', header=False)  # Set header to False to exclude column names
+    output.seek(0)
+    st.download_button("Download Excel File", output, key="download_excel", file_name="data.xlsx", mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
 
 
-# Provide download options
-if st.button("Download as Excel"):
-    excel_data = download_excel(df)
-    st.download_button("Download Excel File", excel_data, file_name="data.xlsx",
-                       mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
-
-if st.button("Download as JSON"):
-    json_data = download_json(df)
+if st.button("Download JSON"):
+    json_data = df.to_json(orient="records")
     st.download_button("Download JSON File", json_data, file_name="data.json", mime="application/json")
