@@ -207,6 +207,10 @@ if st.button("Download as Excel"):
     # Convert the dictionary to a DataFrame
     df = pd.DataFrame([data_dict])
 
+    if st.button("Download JSON"):
+        json_data = df.to_json(orient="records")
+        st.download_button("Download JSON File", json_data, file_name="data.json", mime="application/json")
+
     # Save the DataFrame to an Excel file in memory
     excel_file = io.BytesIO()
     with pd.ExcelWriter(excel_file, engine='xlsxwriter') as writer:
