@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import io
 from PIL import Image
-# import xlsxwriter
+import xlsxwriter
 
 image = Image.open('logo_ata.png')
 st.image(image, caption='Ata Logo', use_column_width=True)
