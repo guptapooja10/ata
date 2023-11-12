@@ -207,6 +207,16 @@ if st.button("Download as Excel"):
     # Convert the dictionary to a DataFrame
     df = pd.DataFrame([data_dict])
 
+    excel_file = io.BytesIO()
+    with pd.ExcelWriter(excel_file, engine='xlsxwriter') as writer:
+        df.T.to_excel(writer, sheet_name='user_data', header=False)
+    excel_file.seek(0)
+
+    # Download the Excel file using st.download_button
+    st.download_button(label="Click here to download the Excel file", key="download_excel", data=excel_file,
+                       file_name="user_data.xlsx",
+                       mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+
 # Add a button to download the data as JSON
 if st.button("Download as JSON"):
     # Convert the DataFrame to JSON
