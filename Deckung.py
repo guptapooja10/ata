@@ -35,7 +35,7 @@ units = {
     'Brennen': 'min',
     'Schlossern': 'min',
     'Schweißen': 'min',
-    'sonstiges (Euro/hour)': '€/min',
+    'sonstiges (Eur/hour)': '€/min',
     'sonstiges (hour)': 'min',
     'Prüfen , Doku': '€',
     'Strahlen / Streichen': '€',
@@ -45,7 +45,6 @@ units = {
     'Zwischentransporte': '€',
     'transporte': '€',
 }
-
 
 # Initialize session state for each property
 if "data" not in st.session_state:
@@ -115,8 +114,7 @@ with st.expander("Deckungsbeitrag"):
     st.session_state.db_percentage = st.number_input("DB (%)", value=st.session_state.db_percentage, step=0.01)
     st.session_state.deckungsbeitrag = st.number_input("Deckungsbeitrag (€)", value=st.session_state.deckungsbeitrag)
 
-
-# Deckung Gesamtstuden expander
+# Gesamtstuden expander
 with st.expander("Gesamtstuden"):
     for prop in ['Brennen', 'Schlossern', 'Schweißen', 'sonstiges (Eur/hour)', 'sonstiges (hour)']:
         prompt = f"{prop}"
@@ -126,7 +124,8 @@ with st.expander("Gesamtstuden"):
 
 # Grenzkosten expander
 with st.expander("Grenzkosten"):
-    for prop in ['Prüfen , Doku', 'Strahlen / Streichen', 'techn. Bearb.', 'mech. Vorbearb.', 'mech. Bearbeitung', 'Zwischentransporte', 'transporte']:
+    for prop in ['Prüfen , Doku', 'Strahlen / Streichen', 'techn. Bearb.', 'mech. Vorbearb.', 'mech. Bearbeitung',
+                 'Zwischentransporte', 'transporte']:
         prompt = f"{prop}"
         if prop in units:
             prompt += f" ({units[prop]})"
@@ -146,80 +145,72 @@ combined_data = {
 # Convert the combined data to a pandas DataFrame
 df = pd.DataFrame([combined_data])
 
-# Add 'Next' button to navigate to 'Dekung Kost' section
-# if st.button("Gesamtstunden"):
-#     st.write("""# Deckung Gesamtstuden""")
-#
-# #     st.sidebar.header('User Input values')
-#
-#
-#     # Define user input function for 'Dekung Part 2'
-#     def user_input_features():
-#         Brennen = st.sidebar.text_input('Please input the value for Brennen in minutes', 0)
-#         Schlossern = st.sidebar.text_input('Please input the value for Schlossern in minutes', 0)
-#         Schweißen = st.sidebar.text_input('Please input the value for Schweißen in minutes', 0)
-#         sonstiges = st.sidebar.text_input('Please input the value for sonstiges in minutes', 0)
-#
-#         data = {'Brennen': float(Brennen),
-#                 'Schlossern': float(Schlossern),
-#                 'sonstiges': float(sonstiges),
-#                 'Schweißen': float(Schweißen)}
-#         features = pd.DataFrame(data, index=[0])
-#         return features
-#
-#
-#     # Store user input data for 'Dekung Part 2'
-#     df_part_2 = user_input_features()
-#     st.subheader('The final calculated values are:')
-#     st.write(df_part_2)
-#
-# # Add 'Next' button to navigate to 'Dekung Kost' section
-# if st.button("Grenzkosten"):
-#     st.write("""# Deckung Grenzkosten""")
-#
-#     # Go to 'Dekung Kost' section
-#     st.sidebar.header('User Input values')
-#
-#
-#     # Function for user input in 'Dekung Kost' section
-#     def user_input_features_kost():
-#
-#         Prüfen_Doku = st.sidebar.text_input('Please input the value for Prüfen , Doku', 0)
-#         Strahlen_Streichen = st.sidebar.text_input('Please input the value for Strahlen / Streichen', 0)
-#         techn_Bearb = st.sidebar.text_input('Please input the value for techn. Bearb.', 0)
-#         mech_Vorbearb = st.sidebar.text_input('Please input the value for mech. Vorbearb.', 0)
-#         mech_Bearbeitung = st.sidebar.text_input('Please input the value for mech. Bearbeitung', 0)
-#         Zwischentransporte = st.sidebar.text_input('Please input the value for Zwischentransporte', 0)
-#         Transporte = st.sidebar.text_input('Please input the value for transporte', 0)
-#
-#         data = {'Prüfen_Doku': float(Prüfen_Doku),
-#                 'Strahlen_Streichen': float(Strahlen_Streichen),
-#                 'techn_Bearb': float(techn_Bearb),
-#                 'mech_Vorbearb': float(mech_Vorbearb),
-#                 'mech_Bearbeitung': float(mech_Bearbeitung),
-#                 'Zwischentransporte': float(Zwischentransporte),
-#                 'Transporte': float(Transporte)}
-#         features = pd.DataFrame(data, index=[0])
-#         return features
-#
-#
-#     # Call the function for user input in 'Dekung Kost' section
-#     df_kost = user_input_features_kost()
-#     st.subheader('The final calculated values are:')
-#     st.write(df_kost)
-#
-#     # Add an option to upload an image in 'Dekung Kost' section
-#     uploaded_file = st.file_uploader("Upload Image", type=["jpg", "jpeg", "png"])
-#
-#     # Download buttons for 'Dekung Kost'
-#     if st.button("Download Excel"):
-#         output = io.BytesIO()
-#         with open("data_kost.xlsx", "wb") as f:
-#             df_kost.to_excel(output, index=False)
-#             f.write(output.read())
-#         st.download_button("Download Excel File", output, key="download_excel_kost", file_name="data_kost.xlsx",
-#                            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
-#
-#     if st.button("Download JSON"):
-#         json_data = df_kost.to_json(orient="records")
-#         st.download_button("Download JSON File", json_data, file_name="data_kost.json", mime="application/json")
+# Add a button to download the data as Excel
+if st.button("Download as Excel"):
+    # Convert relevant values to numeric types
+    hourly_rate = pd.to_numeric(st.session_state.data['sonstiges (Eur/hour)'], errors='coerce')
+    hours = pd.to_numeric(st.session_state.data['sonstiges (hour)'], errors='coerce')
+    # Create a dictionary with the data
+    data_dict = {
+        'Kunde': st.session_state.data['Kunde'],
+        'Benennung': st.session_state.data['Benennung'],
+        'Anfr. Nr.': st.session_state.data['Zeichnungs- Nr.'],
+        'Gewicht': st.session_state.data['Gewicht'],
+        'Material': st.session_state.data['Material Kosten'],
+        'Brennen': st.session_state.data['Brennen'],
+        'Schlossern': st.session_state.data['Schlossern'],
+        'Schweißen': st.session_state.data['Schweißen'],
+        'sonstiges': hourly_rate * hours,
+        'Gesamtstunden': (
+                st.session_state.data['Brennen'] +
+                st.session_state.data['Schlossern'] +
+                st.session_state.data['Schweißen'] +
+                st.session_state.data['sonstiges (hour)'] +
+                st.session_state.data['sonstiges (Eur/hour)']
+        ),
+        'Stunden / Tonne': 0 if st.session_state.data['Gewicht'] == 0 else st.session_state.data['Gesamtstunden'] /
+                                                                           st.session_state.data['Gewicht'],
+        'Fertigung EUR': (
+                st.session_state.data['Brennen'] +
+                st.session_state.data['Schlossern'] +
+                st.session_state.data['Schweißen'] +
+                st.session_state.data['sonstiges (hour)'] +
+                st.session_state.data['sonstiges (Eur/hour)']
+        ),
+        'Glühen': 0,  # You need to replace this with the actual value for 'Glühen'
+        'Prüfen , Doku': st.session_state.data['Prüfen , Doku'],
+        'Strahlen / Streichen': st.session_state.data['Strahlen / Streichen'],
+        'techn. Bearb.': st.session_state.data['techn. Bearb.'],
+        'mech. Vorbearb.': st.session_state.data['mech. Vorbearb.'],
+        'mech. Bearbeitung': st.session_state.data['mech. Bearbeitung'],
+        'Zwischentransporte': st.session_state.data['Zwischentransporte'],
+        'Transporte': st.session_state.data['transporte'],
+        'Grenzkosten': (
+                st.session_state.data['Prüfen , Doku'] +
+                st.session_state.data['Strahlen / Streichen'] +
+                st.session_state.data['techn. Bearb.'] +
+                st.session_state.data['mech. Vorbearb.'] +
+                st.session_state.data['mech. Bearbeitung'] +
+                st.session_state.data['Zwischentransporte'] +
+                st.session_state.data['transporte']
+        ),
+        'Erlös': st.session_state.erlos,
+        'DB': st.session_state.deckungsbeitrag,
+        'Soll 10%': st.session_state.erlos * 0.1,
+        'Deckungsbeitrag': st.session_state.deckungsbeitrag
+    }
+
+    # Convert the dictionary to a DataFrame
+    # Convert the dictionary to a DataFrame
+    df = pd.DataFrame([data_dict])
+
+    # Save the DataFrame to an Excel file in memory
+    excel_file = io.BytesIO()
+    with pd.ExcelWriter(excel_file, engine='xlsxwriter') as writer:
+        df.T.to_excel(writer, sheet_name='user_data', header=False)
+    excel_file.seek(0)
+
+    # Download the Excel file using st.download_button
+    st.download_button(label="Click here to download the Excel file", key="download_excel", data=excel_file,
+                       file_name="user_data.xlsx",
+                       mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
