@@ -213,7 +213,7 @@ if st.button("Download as Excel"):
     
 
     # Download the Excel file using st.download_button
-    st.download_button(label="Click here to download the Excel file", key="download_excel", data=excel_file,
+    if st.download_button(label="Click here to download the Excel file", key="download_excel", data=excel_file,
                        file_name="user_data.xlsx",
                        mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
 
