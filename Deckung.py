@@ -210,7 +210,13 @@ if st.button("Download as Excel"):
         df.T.to_excel(writer, sheet_name='user_data', header=False)
     excel_file.seek(0)
 
+    
+
     # Download the Excel file using st.download_button
     st.download_button(label="Click here to download the Excel file", key="download_excel", data=excel_file,
                        file_name="user_data.xlsx",
                        mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+
+    if st.button("Download JSON"):
+        json_data = df_kost.to_json(orient="records")
+        st.download_button("Download JSON File", json_data, file_name="data_kost.json", mime="application/json")
