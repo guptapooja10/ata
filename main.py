@@ -3,6 +3,7 @@ from PIL import Image
 from google.cloud import firestore
 from google.oauth2 import service_account
 import json
+from Deckung import properties
 
 
 # Function to instantiate a new project and save it to Firestore
@@ -34,6 +35,13 @@ def instantiate_project(kunde, benennung, zeichnungs_nr, ausfuehren_nr, db):
         }
         vk0_doc_ref.set(vk0_data)
         print("'VK-0' document created successfully.")
+
+        # Create Deckung and add to Firebase
+        deckung_doc_ref = db.collection(zeichnungs_nr).document('Deckung')
+        deckung_data = {prop: 0 for prop in properties}
+        deckung_doc_ref.set(deckung_data)
+        st.success("'Deckung' document created successfully.")
+
         return True
 
 
