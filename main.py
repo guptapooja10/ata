@@ -3,7 +3,7 @@ from PIL import Image
 from google.cloud import firestore
 from google.oauth2 import service_account
 from Deckung import properties
-from VK_ST_0 import properties as vk_st_0_properties
+from VK_ST_0 import vk_st_0_properties
 
 
 # Function to instantiate a new project and save it to Firestore

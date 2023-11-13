@@ -36,7 +36,7 @@ image = Image.open('logo_ata.png')
 st.image(image, caption='Ata Logo', use_column_width=True)
 
 # Define data types and properties
-properties = {
+vk_st_0_properties = {
     'Kunde': str,
     'Gegenstand': str,
     'Zeichnungs- Nr.': str,
@@ -86,7 +86,7 @@ st.title("Material List Data")
 
 # Initialize session state for each property
 if "data" not in st.session_state:
-    st.session_state.data = {prop: "" for prop in properties}
+    st.session_state.data = {prop: "" for prop in vk_st_0_properties}
 
 # If firestore_data is fetched, update the session state
 if firestore_data:
@@ -98,8 +98,8 @@ if firestore_data:
 
 col1, col2 = st.columns(2)
 
-props_col1 = list(properties.keys())[:len(properties) // 2]
-props_col2 = list(properties.keys())[len(properties) // 2:]
+props_col1 = list(vk_st_0_properties.keys())[:len(vk_st_0_properties) // 2]
+props_col2 = list(vk_st_0_properties.keys())[len(vk_st_0_properties) // 2:]
 
 for prop in props_col1:
     prompt = f"{prop} ({units.get(prop, '')})"
