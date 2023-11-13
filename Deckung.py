@@ -51,7 +51,7 @@ units = {
 
 # Initialize session state for each property
 if "data" not in st.session_state:
-    st.session_state.deckung_data = {prop: "" for prop in properties}
+    st.session_state.data = {prop: "" for prop in properties}
 
 st.title("Deckung")
 
@@ -63,7 +63,7 @@ with st.expander("Project Details"):
         prompt = f"{prop}"
         if prop in units:
             prompt += f" ({units[prop]})"
-        st.session_state.deckung_data[prop] = st.text_input(prompt, value=st.session_state.deckung_data[prop]).strip()
+        st.session_state.data[prop] = st.text_input(prompt, value=st.session_state.data[prop]).strip()
 
 # Product Details Expander
 with st.expander("Product Details"):
@@ -72,10 +72,10 @@ with st.expander("Product Details"):
         if prop in units:
             prompt += f" ({units[prop]})"
         if properties[prop] == float:
-            current_value = float(st.session_state.deckung_data[prop]) if st.session_state.deckung_data[prop] else 0.0
-            st.session_state.deckung_data[prop] = st.number_input(prompt, value=current_value, step=0.1)
+            current_value = float(st.session_state.data[prop]) if st.session_state.data[prop] else 0.0
+            st.session_state.data[prop] = st.number_input(prompt, value=current_value, step=0.1)
         else:
-            st.session_state.deckung_data[prop] = st.text_input(prompt, value=st.session_state.deckung_data[prop]).strip()
+            st.session_state.data[prop] = st.text_input(prompt, value=st.session_state.data[prop]).strip()
 
 with st.expander("Material Cost Details"):
     df = pd.DataFrame(
@@ -138,8 +138,7 @@ with st.expander("Grenzkosten"):
 # df = pd.DataFrame([st.session_state.data])
 # Combine data for downloads
 combined_data = {
-    **st.session_state.data,
-    **st.session_state.deckung_data,# Project and Product Details
+    **st.session_state.data,  # Project and Product Details
     **st.session_state['Material'],  # Material Cost Details
     'Erlös': st.session_state.erlos,
     'DB (%)': st.session_state.db_percentage,

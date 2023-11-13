@@ -3,9 +3,10 @@ from PIL import Image
 from google.cloud import firestore
 from google.oauth2 import service_account
 from Deckung import properties
-from VK_ST_0 import vk_st_0_properties
 
-
+# Initialize session state data if it doesn't exist
+if 'data' not in st.session_state:
+    st.session_state.data = {}
 # Function to instantiate a new project and save it to Firestore
 def instantiate_project(kunde, benennung, zeichnungs_nr, ausfuehren_nr, db):
     doc_ref = db.collection(zeichnungs_nr).document('Details')
@@ -44,7 +45,22 @@ def instantiate_project(kunde, benennung, zeichnungs_nr, ausfuehren_nr, db):
 
         # Create VK-ST-0 document
         vk_st_0_doc_ref = db.collection(zeichnungs_nr).document('VK-ST-0')
-        vk_st_0_data = {prop: 0 for prop in vk_st_0_properties}
+        vk_st_0_data = {
+            'Kunde': "",
+            'Gegenstand': "",
+            'Zeichnungs- Nr.': "",
+            'Ausführen Nr.': "",
+            'Fertigung Gesamt': 0,
+            'bis 90mm Einsatz': 0,
+            'bis 90mm Fertig': 0,
+            'bis 90mm Preis': 0,
+            'ab 100mm Einsatz': 0,
+            'ab 100mm Fertig': 0,
+            'ab 100mm Preis': 0,
+            'Profile Einsatz': 0,
+            'Profile fertig': 0,
+            'Profile Preis': 0
+        }
         vk_st_0_doc_ref.set(vk_st_0_data)
         st.success("'VK-ST-0' document created successfully.")
         return True

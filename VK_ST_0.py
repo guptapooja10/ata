@@ -36,7 +36,7 @@ image = Image.open('logo_ata.png')
 st.image(image, caption='Ata Logo', use_column_width=True)
 
 # Define data types and properties
-vk_st_0_properties = {
+properties = {
     'Kunde': str,
     'Gegenstand': str,
     'Zeichnungs- Nr.': str,
@@ -86,7 +86,7 @@ st.title("Material List Data")
 
 # Initialize session state for each property
 if "data" not in st.session_state:
-    st.session_state.vk_st_0_data = {prop: "" for prop in vk_st_0_properties}
+    st.session_state.data = {prop: "" for prop in properties}
 
 # If firestore_data is fetched, update the session state
 if firestore_data:
@@ -94,26 +94,26 @@ if firestore_data:
         # Assuming 'Gegenstand' should map to 'Benennung' in Firestore
         if app_field == 'Gegenstand':
             firestore_field = 'Benennung'
-        st.session_state.vk_st_0_data[app_field] = firestore_data.get(firestore_field, "")
+        st.session_state.data[app_field] = firestore_data.get(firestore_field, "")
 
 col1, col2 = st.columns(2)
 
-props_col1 = list(vk_st_0_properties.keys())[:len(vk_st_0_properties) // 2]
-props_col2 = list(vk_st_0_properties.keys())[len(vk_st_0_properties) // 2:]
+props_col1 = list(properties.keys())[:len(properties) // 2]
+props_col2 = list(properties.keys())[len(properties) // 2:]
 
 for prop in props_col1:
     prompt = f"{prop} ({units.get(prop, '')})"
     # Use the session state data to populate the fields
-    st.session_state.vk_st_0_data[prop] = col1.text_input(prompt, value=st.session_state.vk_st_0_data[prop]).strip()
+    st.session_state.data[prop] = col1.text_input(prompt, value=st.session_state.data[prop]).strip()
 
 for prop in props_col2:
     prompt = f"{prop} ({units.get(prop, '')})"
     # Use the session state data to populate the fields
-    st.session_state.vk_st_0_data[prop] = col2.text_input(prompt, value=st.session_state.vk_st_0_data[prop]).strip()
+    st.session_state.data[prop] = col2.text_input(prompt, value=st.session_state.data[prop]).strip()
 
 
 # Convert the user input data dictionary to a pandas DataFrame
-df = pd.DataFrame([st.session_state.vk_st_0_data])
+df = pd.DataFrame([st.session_state.data])
 
 
 # Function to download DataFrame as Excel
