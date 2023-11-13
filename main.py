@@ -21,7 +21,7 @@ def instantiate_project(kunde, benennung, zeichnungs_nr, ausfuehren_nr, db):
         }
         doc_ref.set(project_data)
         print(f"Project with Zeichnungs Nr {zeichnungs_nr} created successfully.")
-        return True
+        # return True
 
         # Create VK-0 document
         vk0_doc_ref = db.collection(zeichnungs_nr).document('VK-0')
