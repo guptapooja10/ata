@@ -35,7 +35,6 @@ def instantiate_project(kunde, benennung, zeichnungs_nr, ausfuehren_nr, db):
         vk0_doc_ref.set(vk0_data)
         print("'VK-0' document created successfully.")
         return True
-        
 
 
 def main():
