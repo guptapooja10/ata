@@ -23,7 +23,7 @@ def instantiate_project(kunde, benennung, zeichnungs_nr, ausfuehren_nr, db):
         print(f"Project with Zeichnungs Nr {zeichnungs_nr} created successfully.")
         # return True
 
-        # Create VK-0 document
+        # Create VK-0 document and add to Firebase
         vk0_doc_ref = db.collection(zeichnungs_nr).document('VK-0')
         vk0_data = {
             "Brennen": 0,
