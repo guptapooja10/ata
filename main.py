@@ -2,8 +2,8 @@ import streamlit as st
 from PIL import Image
 from google.cloud import firestore
 from google.oauth2 import service_account
-import json
 from Deckung import properties
+from VK_ST_0 import properties as vk_st_0_properties
 
 
 # Function to instantiate a new project and save it to Firestore
@@ -34,16 +34,20 @@ def instantiate_project(kunde, benennung, zeichnungs_nr, ausfuehren_nr, db):
             "Schweißen": 0
         }
         vk0_doc_ref.set(vk0_data)
-        print("'VK-0' document created successfully.")
+        st.success("'VK-0' document created successfully.")
 
         # Create Deckung document and add to Firebase
         deckung_doc_ref = db.collection(zeichnungs_nr).document('Deckung')
         deckung_data = {prop: 0 for prop in properties}
         deckung_doc_ref.set(deckung_data)
         st.success("'Deckung' document created successfully.")
-        
+
+        # Create VK-ST-0 document
+        vk_st_0_doc_ref = db.collection(zeichnungs_nr).document('VK-ST-0')
+        vk_st_0_data = {prop: 0 for prop in vk_st_0_properties}
+        vk_st_0_doc_ref.set(vk_st_0_data)
+        st.success("'VK-ST-0' document created successfully.")
         return True
-        
 
 
 def main():
@@ -54,7 +58,7 @@ def main():
     image = Image.open('logo_ata.png')
     st.image(image, caption='Ata Logo')
     apps = {
-        "VK-ST-0": "https://vk-st-0.streamlit.app/",
+        "VK-ST-0": "https://ata-vk-st-0.streamlit.app/",
         "VK-0": "https://ata-vk-0.streamlit.app/",
         "Deckung": "https://deckung.streamlit.app/",
         "ATA-Dashboard-App": "https://ata-dashboard-app.streamlit.app/"
