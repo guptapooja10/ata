@@ -3,11 +3,13 @@ import pandas as pd
 import io
 from PIL import Image
 from google.cloud import firestore
+from google.oauth2 import service_account
 import os
 
 # Initialize Firestore client
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "anlagentechnik-aschersleben-firebase-adminsdk-sfoug-5eb13936b2.json"
-db = firestore.Client()
+key_dict = st.secrets["textkey"]
+creds = service_account.Credentials.from_service_account_info(key_dict)
+db = firestore.Client(credentials=creds)
 
 
 # Function to get all collection names from Firestore database
@@ -28,6 +30,13 @@ def get_data_from_firestore(collection_name, document_id):
     doc_ref = db.collection(collection_name).document(document_id)
     doc = doc_ref.get()
     return doc.to_dict() if doc.exists else None
+
+
+# Function to upload data to Firestore
+def upload_data_to_firestore(db, collection_name, document_id, data):
+    doc_ref = db.collection(collection_name).document(document_id)
+    doc_ref.set(data)
+    st.success("Data uploaded successfully!")
 
 
 image = Image.open('logo_ata.png')
@@ -109,7 +118,6 @@ for prop in props_col2:
     # Use the session state data to populate the fields
     st.session_state.data[prop] = col2.text_input(prompt, value=st.session_state.data[prop]).strip()
 
-
 # Convert the user input data dictionary to a pandas DataFrame
 df = pd.DataFrame([st.session_state.data])
 
@@ -137,3 +145,9 @@ if st.button("Download as Excel"):
 if st.button("Download as JSON"):
     json_data = download_json(df)
     st.download_button("Download JSON File", json_data, file_name="data.json", mime="application/json")
+
+if st.button("Upload to Database"):
+    # Convert session state data to the appropriate format for Firestore
+    # Assuming your Firestore expects a dictionary with specific keys
+    upload_data = {field_mapping.get(k, k): v for k, v in st.session_state.data.items()}
+    upload_data_to_firestore(db, selected_collection, 'VK-ST-0', upload_data)
