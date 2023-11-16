@@ -31,9 +31,6 @@ properties = {
     'mech. Bearbeitung': float,
     'Zwischentransporte': float,
     'transporte': float,
-    'Erlös': float,
-    'deckungsbeitrag': float,
-    'db_percentage': float,
 }
 
 units = {
@@ -51,9 +48,6 @@ units = {
     'mech. Bearbeitung': '€',
     'Zwischentransporte': '€',
     'transporte': '€',
-    'Erlös': '€',
-    'deckungsbeitrag': '€',
-    'db_percentage': '%',
 }
 
 # Initialize session state for each property
@@ -204,11 +198,17 @@ if st.button("Download as Excel"):
                 st.session_state.data['Zwischentransporte'] +
                 st.session_state.data['transporte']
         ),
-        'Erlös': st.session_state.data['Erlös'],
+        'Erlös': st.session_state.erlos,
         'DB': st.session_state.deckungsbeitrag,
         'Soll 10%': st.session_state.erlos * 0.1,
         'Deckungsbeitrag': st.session_state.deckungsbeitrag
     }
+    data_dict.update({
+        'Erlös': st.session_state.erlos,
+        'DB (%)': st.session_state.db_percentage,
+        'Deckungsbeitrag': st.session_state.deckungsbeitrag,
+        'Soll 10%': st.session_state.erlos * 0.1
+    })
 
     # Convert the dictionary to a DataFrame
     # Convert the dictionary to a DataFrame
