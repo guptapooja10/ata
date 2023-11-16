@@ -2,7 +2,7 @@ import streamlit as st
 from PIL import Image
 from google.cloud import firestore
 from google.oauth2 import service_account
-from Deckung import properties
+from Deckung import Deckung_properties
 
 # Initialize session state data if it doesn't exist
 if 'data' not in st.session_state:
