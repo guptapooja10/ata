@@ -11,7 +11,8 @@ st.image(image, caption='Ata Logo')
 uploaded_file = st.file_uploader("Upload Image", type=["jpg", "jpeg", "png"])
 
 # Define data types and properties
-properties = {
+
+Deckung_properties = {
     'Kunde': str,
     'Benennung': str,
     'Zeichnungs- Nr.': str,
@@ -30,6 +31,9 @@ properties = {
     'mech. Bearbeitung': float,
     'Zwischentransporte': float,
     'transporte': float,
+    'Erlös': float,
+    'deckungsbeitrag': float,
+    'db_percentage': float,
 }
 
 units = {
@@ -47,11 +51,14 @@ units = {
     'mech. Bearbeitung': '€',
     'Zwischentransporte': '€',
     'transporte': '€',
+    'Erlös': '€',
+    'deckungsbeitrag': '€',
+    'db_percentage': '%',
 }
 
 # Initialize session state for each property
 if "data" not in st.session_state:
-    st.session_state.data = {prop: "" for prop in properties}
+    st.session_state.data = {prop: "" for prop in Deckung_properties}
 
 st.title("Deckung")
 
@@ -71,7 +78,7 @@ with st.expander("Product Details"):
         prompt = f"{prop}"
         if prop in units:
             prompt += f" ({units[prop]})"
-        if properties[prop] == float:
+        if Deckung_properties[prop] == float:
             current_value = float(st.session_state.data[prop]) if st.session_state.data[prop] else 0.0
             st.session_state.data[prop] = st.number_input(prompt, value=current_value, step=0.1)
         else:
@@ -180,7 +187,7 @@ if st.button("Download as Excel"):
                 st.session_state.data['sonstiges (hour)'] +
                 st.session_state.data['sonstiges (Eur/hour)']
         ),
-        'Glühen': 0,  # You need to replace this with the actual value for 'Glühen'
+        'Glühen': 0,
         'Prüfen , Doku': st.session_state.data['Prüfen , Doku'],
         'Strahlen / Streichen': st.session_state.data['Strahlen / Streichen'],
         'techn. Bearb.': st.session_state.data['techn. Bearb.'],
@@ -197,7 +204,7 @@ if st.button("Download as Excel"):
                 st.session_state.data['Zwischentransporte'] +
                 st.session_state.data['transporte']
         ),
-        'Erlös': st.session_state.erlos,
+        'Erlös': st.session_state.data['Erlös'],
         'DB': st.session_state.deckungsbeitrag,
         'Soll 10%': st.session_state.erlos * 0.1,
         'Deckungsbeitrag': st.session_state.deckungsbeitrag
