@@ -2,14 +2,52 @@ import streamlit as st
 import pandas as pd
 import io
 from PIL import Image
-# import xlsxwriter
+from google.cloud import firestore
+from google.oauth2 import service_account
+import os
 
-#
+# Initialize Firestore client
+key_dict = st.secrets["textkey"]
+creds = service_account.Credentials.from_service_account_info(key_dict)
+db = firestore.Client(credentials=creds)
+
+
+# Function to get all collection names from Firestore database
+def get_all_collections(db):
+    excluded_collections = {'operators', 'posts', 'projects'}  # Set of collections to exclude
+    collections = db.collections()
+    return [collection.id for collection in collections if collection.id not in excluded_collections]
+
+
+# Function to get all document IDs from a Firestore collection
+def get_all_document_ids(collection_name):
+    docs = db.collection(collection_name).stream()
+    return [doc.id for doc in docs]
+
+
+# Function to get data from Firestore for a specific document in a collection
+def get_data_from_firestore(collection_name, document_id):
+    doc_ref = db.collection(collection_name).document(document_id)
+    doc = doc_ref.get()
+    return doc.to_dict() if doc.exists else None
+
+
+# Function to upload data to Firestore
+def upload_data_to_firestore(db, collection_name, document_id, data):
+    doc_ref = db.collection(collection_name).document(document_id)
+    doc_ref.set(data)
+    st.success("Data uploaded successfully!")
+
+
 image = Image.open('logo_ata.png')
 st.image(image, caption='Ata Logo', use_column_width=True)
 
 # Define data types and properties
 properties = {
+    'Kunde': str,
+    'Gegenstand': str,
+    'Zeichnungs- Nr.': str,
+    'Ausführen Nr.': str,
     'Brennen': float,
     'Richten': float,
     'Heften_Zussamenb_Verputzen': float,
@@ -25,19 +63,38 @@ units = {
     'Schweißen': 'min',
 }
 
+firestore_data = {}
+
+# Display a select box with all collection names
+collection_names = get_all_collections(db)
+selected_collection = st.selectbox('Select Collection:', options=collection_names)
+
+# Fetch and display the data for a known document ID ('Details') from the selected collection
+if selected_collection:
+    firestore_data = get_data_from_firestore(selected_collection, 'Details')
+
 field_mapping = {
-    'Brennen': 'Brennen',
-    'Richten': 'Richten',
-    'Heften_Zussamenb_Verputzen': 'Heften_Zussamenb_Verputzen',
-    'Anzeichnen': 'Anzeichnen',
-    'Schweißen': 'Schweißen'
+    'Kunde': 'Kunde',
+    'Gegenstand': 'Benennung',
+    'Zeichnungs- Nr.': 'Zeichnungs- Nr.',
+    'Ausführen Nr.': 'Ausführen Nr.'
 }
+
 
 st.title("Vorkalkulation")
 
 # Initialize session state for each property
 if "data" not in st.session_state:
     st.session_state.data = {prop: "" for prop in properties}
+
+# If firestore_data is fetched, update the session state
+if firestore_data:
+    for app_field, firestore_field in field_mapping.items():
+        # Assuming 'Gegenstand' should map to 'Benennung' in Firestore
+        if app_field == 'Gegenstand':
+            firestore_field = 'Benennung'
+        st.session_state.data[app_field] = firestore_data.get(firestore_field, "")
+
 
 col1, col2 = st.columns(2)
 
@@ -66,9 +123,16 @@ if st.button("Download Excel"):
     with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
         df_transposed.to_excel(writer, sheet_name='Sheet1', header=False)  # Set header to False to exclude column names
     output.seek(0)
-    st.download_button("Download Excel File", output, key="download_excel", file_name="data.xlsx", mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
-
+    st.download_button("Download Excel File", output, key="download_excel", file_name="data.xlsx",
+                       mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
 
 if st.button("Download JSON"):
     json_data = df.to_json(orient="records")
     st.download_button("Download JSON File", json_data, file_name="data.json", mime="application/json")
+
+
+if st.button("Upload to Database"):
+    # Convert session state data to the appropriate format for Firestore
+    # Assuming your Firestore expects a dictionary with specific keys
+    upload_data = {field_mapping.get(k, k): v for k, v in st.session_state.data.items()}
+    upload_data_to_firestore(db, selected_collection, 'VK-0', upload_data)
