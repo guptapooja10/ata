@@ -30,9 +30,6 @@ properties = {
     'mech. Bearbeitung': float,
     'Zwischentransporte': float,
     'transporte': float,
-    'Erlös': float,
-    'deckungsbeitrag': float,
-    'db_percentage': float,
 }
 
 units = {
@@ -50,9 +47,6 @@ units = {
     'mech. Bearbeitung': '€',
     'Zwischentransporte': '€',
     'transporte': '€',
-    'Erlös': '€',
-    'deckungsbeitrag': '€',
-    'db_percentage': '%',
 }
 
 # Initialize session state for each property
