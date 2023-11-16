@@ -2,7 +2,7 @@ import streamlit as st
 from PIL import Image
 from google.cloud import firestore
 from google.oauth2 import service_account
-from Deckung import Deckung_properties
+from Deckung import properties
 
 # Initialize session state data if it doesn't exist
 if 'data' not in st.session_state:
@@ -39,7 +39,7 @@ def instantiate_project(kunde, benennung, zeichnungs_nr, ausfuehren_nr, db):
 
         # Create Deckung document and add to Firebase
         deckung_doc_ref = db.collection(zeichnungs_nr).document('Deckung')
-        deckung_data = {prop: 0 for prop in Deckung_properties}
+        deckung_data = {prop: 0 for prop in properties}
         deckung_doc_ref.set(deckung_data)
         st.success("'Deckung' document created successfully.")
 
