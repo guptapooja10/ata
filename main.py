@@ -24,6 +24,26 @@ def instantiate_project(kunde, benennung, zeichnungs_nr, ausfuehren_nr, db):
         print(f"Project with Zeichnungs Nr {zeichnungs_nr} created successfully.")
         # return True
 
+        vk_st0_doc_ref = db.collection(zeichnungs_nr).document('VK-ST-0')
+        vk_st0_data = {
+            "Kunde": 0,
+            "Gegenstand": 0,
+            "Zeichnungs- Nr.": 0,
+            "Ausführen Nr.": 0,
+            "Fertigung Gesamt": 0,
+            "bis 90mm Einsatz": 0,
+            "bis 90mm Fertig": 0,
+            "bis 90mm Preis": 0,
+            "ab 100mm Einsatz": 0,
+            "ab 100mm Fertig": 0,
+            "ab 100mm Preis": 0,
+            "Profile Einsatz": 0,
+            "Profile fertig": 0,
+            "Profile Preis": 0
+        }
+        vk_st0_doc_ref.set(vk_st0_data)
+        print("'VK-ST-0' document created successfully.")
+
         # Create VK-0 document and add to Firebase
         vk0_doc_ref = db.collection(zeichnungs_nr).document('VK-0')
         vk0_data = {
