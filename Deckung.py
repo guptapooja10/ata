@@ -12,7 +12,7 @@ uploaded_file = st.file_uploader("Upload Image", type=["jpg", "jpeg", "png"])
 
 # Define data types and properties
 
-Deckung_properties = {
+properties = {
     'Kunde': str,
     'Benennung': str,
     'Zeichnungs- Nr.': str,
@@ -58,7 +58,7 @@ units = {
 
 # Initialize session state for each property
 if "data" not in st.session_state:
-    st.session_state.data = {prop: "" for prop in Deckung_properties}
+    st.session_state.data = {prop: "" for prop in properties}
 
 st.title("Deckung")
 
@@ -78,7 +78,7 @@ with st.expander("Product Details"):
         prompt = f"{prop}"
         if prop in units:
             prompt += f" ({units[prop]})"
-        if Deckung_properties[prop] == float:
+        if properties[prop] == float:
             current_value = float(st.session_state.data[prop]) if st.session_state.data[prop] else 0.0
             st.session_state.data[prop] = st.number_input(prompt, value=current_value, step=0.1)
         else:
