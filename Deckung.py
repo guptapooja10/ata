@@ -58,7 +58,7 @@ units = {
 
 # Initialize session state for each property
 if "deckung_data" not in st.session_state:
-    st.session_state.deckung_data = {prop: "" for prop in properties}
+    st.session_state.deckung_data = {prop: "" for prop in deckung_properties}
 
 st.title("Deckung")
 
@@ -78,7 +78,7 @@ with st.expander("Product Details"):
         prompt = f"{prop}"
         if prop in units:
             prompt += f" ({units[prop]})"
-        if properties[prop] == float:
+        if deckung_properties[prop] == float:
             current_value = float(st.session_state.deckung_data[prop]) if st.session_state.deckung_data[prop] else 0.0
             st.session_state.deckung_data[prop] = st.number_input(prompt, value=current_value, step=0.1)
         else:
