@@ -12,7 +12,7 @@ uploaded_file = st.file_uploader("Upload Image", type=["jpg", "jpeg", "png"])
 
 # Define data types and properties
 
-properties = {
+deckung_properties = {
     'Kunde': str,
     'Benennung': str,
     'Zeichnungs- Nr.': str,
@@ -57,8 +57,8 @@ units = {
 }
 
 # Initialize session state for each property
-if "data" not in st.session_state:
-    st.session_state.data = {prop: "" for prop in properties}
+if "deckung_data" not in st.session_state:
+    st.session_state.deckung_data = {prop: "" for prop in properties}
 
 st.title("Deckung")
 
@@ -70,7 +70,7 @@ with st.expander("Project Details"):
         prompt = f"{prop}"
         if prop in units:
             prompt += f" ({units[prop]})"
-        st.session_state.data[prop] = st.text_input(prompt, value=st.session_state.data[prop]).strip()
+        st.session_state.deckung_data[prop] = st.text_input(prompt, value=st.session_state.deckung_data[prop]).strip()
 
 # Product Details Expander
 with st.expander("Product Details"):
@@ -79,10 +79,10 @@ with st.expander("Product Details"):
         if prop in units:
             prompt += f" ({units[prop]})"
         if properties[prop] == float:
-            current_value = float(st.session_state.data[prop]) if st.session_state.data[prop] else 0.0
-            st.session_state.data[prop] = st.number_input(prompt, value=current_value, step=0.1)
+            current_value = float(st.session_state.deckung_data[prop]) if st.session_state.deckung_data[prop] else 0.0
+            st.session_state.deckung_data[prop] = st.number_input(prompt, value=current_value, step=0.1)
         else:
-            st.session_state.data[prop] = st.text_input(prompt, value=st.session_state.data[prop]).strip()
+            st.session_state.deckung_data[prop] = st.text_input(prompt, value=st.session_state.deckung_data[prop]).strip()
 
 with st.expander("Material Cost Details"):
     df = pd.DataFrame(
@@ -130,7 +130,7 @@ with st.expander("Gesamtstuden"):
         prompt = f"{prop}"
         if prop in units:
             prompt += f" ({units[prop]})"
-        st.session_state.data[prop] = st.text_input(prompt, value=st.session_state.data[prop]).strip()
+        st.session_state.deckung_data[prop] = st.text_input(prompt, value=st.session_state.deckung_data[prop]).strip()
 
 # Grenzkosten expander
 with st.expander("Grenzkosten"):
@@ -139,13 +139,13 @@ with st.expander("Grenzkosten"):
         prompt = f"{prop}"
         if prop in units:
             prompt += f" ({units[prop]})"
-        st.session_state.data[prop] = st.text_input(prompt, value=st.session_state.data[prop]).strip()
+        st.session_state.deckung_data[prop] = st.text_input(prompt, value=st.session_state.deckung_data[prop]).strip()
 #
 # Convert the user input data dictionary to a pandas DataFrame
 # df = pd.DataFrame([st.session_state.data])
 # Combine data for downloads
 combined_data = {
-    **st.session_state.data,  # Project and Product Details
+    **st.session_state.deckung_data,  # Project and Product Details
     **st.session_state['Material'],  # Material Cost Details
     'Erlös': st.session_state.erlos,
     'DB (%)': st.session_state.db_percentage,
@@ -158,51 +158,51 @@ df = pd.DataFrame([combined_data])
 # Add a button to download the data as Excel
 if st.button("Download as Excel"):
     # Convert relevant values to numeric types
-    hourly_rate = pd.to_numeric(st.session_state.data['sonstiges (Eur/hour)'], errors='coerce')
-    hours = pd.to_numeric(st.session_state.data['sonstiges (hour)'], errors='coerce')
+    hourly_rate = pd.to_numeric(st.session_state.deckung_data['sonstiges (Eur/hour)'], errors='coerce')
+    hours = pd.to_numeric(st.session_state.deckung_data['sonstiges (hour)'], errors='coerce')
     # Create a dictionary with the data
     data_dict = {
-        'Kunde': st.session_state.data['Kunde'],
-        'Benennung': st.session_state.data['Benennung'],
-        'Anfr. Nr.': st.session_state.data['Zeichnungs- Nr.'],
-        'Gewicht': st.session_state.data['Gewicht'],
-        'Material': st.session_state.data['Material Kosten'],
-        'Brennen': st.session_state.data['Brennen'],
-        'Schlossern': st.session_state.data['Schlossern'],
-        'Schweißen': st.session_state.data['Schweißen'],
+        'Kunde': st.session_state.deckung_data['Kunde'],
+        'Benennung': st.session_state.deckung_data['Benennung'],
+        'Anfr. Nr.': st.session_state.deckung_data['Zeichnungs- Nr.'],
+        'Gewicht': st.session_state.deckung_data['Gewicht'],
+        'Material': st.session_state.deckung_data['Material Kosten'],
+        'Brennen': st.session_state.deckung_data['Brennen'],
+        'Schlossern': st.session_state.deckung_data['Schlossern'],
+        'Schweißen': st.session_state.deckung_data['Schweißen'],
         'sonstiges': hourly_rate * hours,
         'Gesamtstunden': (
-                st.session_state.data['Brennen'] +
-                st.session_state.data['Schlossern'] +
-                st.session_state.data['Schweißen'] +
-                st.session_state.data['sonstiges (hour)'] +
-                st.session_state.data['sonstiges (Eur/hour)']
+                st.session_state.deckung_data['Brennen'] +
+                st.session_state.deckung_data['Schlossern'] +
+                st.session_state.deckung_data['Schweißen'] +
+                st.session_state.deckung_data['sonstiges (hour)'] +
+                st.session_state.deckung_data['sonstiges (Eur/hour)']
         ),
-        'Stunden / Tonne': 0 if st.session_state.data['Gewicht'] == 0 else st.session_state.data['Gesamtstunden'] /
-                                                                           st.session_state.data['Gewicht'],
+        'Stunden / Tonne': 0 if st.session_state.deckung_data['Gewicht'] == 0 else st.session_state.deckung_data['Gesamtstunden'] /
+                                                                           st.session_state.deckung_data['Gewicht'],
         'Fertigung EUR': (
-                st.session_state.data['Brennen'] +
-                st.session_state.data['Schlossern'] +
-                st.session_state.data['Schweißen'] +
-                st.session_state.data['sonstiges (hour)'] +
-                st.session_state.data['sonstiges (Eur/hour)']
+                st.session_state.deckung_data['Brennen'] +
+                st.session_state.deckung_data['Schlossern'] +
+                st.session_state.deckung_data['Schweißen'] +
+                st.session_state.deckung_data['sonstiges (hour)'] +
+                st.session_state.deckung_data['sonstiges (Eur/hour)']
         ),
         'Glühen': 0,
-        'Prüfen , Doku': st.session_state.data['Prüfen , Doku'],
-        'Strahlen / Streichen': st.session_state.data['Strahlen / Streichen'],
-        'techn. Bearb.': st.session_state.data['techn. Bearb.'],
-        'mech. Vorbearb.': st.session_state.data['mech. Vorbearb.'],
-        'mech. Bearbeitung': st.session_state.data['mech. Bearbeitung'],
-        'Zwischentransporte': st.session_state.data['Zwischentransporte'],
-        'Transporte': st.session_state.data['transporte'],
+        'Prüfen , Doku': st.session_state.deckung_data['Prüfen , Doku'],
+        'Strahlen / Streichen': st.session_state.deckung_data['Strahlen / Streichen'],
+        'techn. Bearb.': st.session_state.deckung_data['techn. Bearb.'],
+        'mech. Vorbearb.': st.session_state.deckung_data['mech. Vorbearb.'],
+        'mech. Bearbeitung': st.session_state.deckung_data['mech. Bearbeitung'],
+        'Zwischentransporte': st.session_state.deckung_data['Zwischentransporte'],
+        'Transporte': st.session_state.deckung_data['transporte'],
         'Grenzkosten': (
-                st.session_state.data['Prüfen , Doku'] +
-                st.session_state.data['Strahlen / Streichen'] +
-                st.session_state.data['techn. Bearb.'] +
-                st.session_state.data['mech. Vorbearb.'] +
-                st.session_state.data['mech. Bearbeitung'] +
-                st.session_state.data['Zwischentransporte'] +
-                st.session_state.data['transporte']
+                st.session_state.deckung_data['Prüfen , Doku'] +
+                st.session_state.deckung_data['Strahlen / Streichen'] +
+                st.session_state.deckung_data['techn. Bearb.'] +
+                st.session_state.deckung_data['mech. Vorbearb.'] +
+                st.session_state.deckung_data['mech. Bearbeitung'] +
+                st.session_state.deckung_data['Zwischentransporte'] +
+                st.session_state.deckung_data['transporte']
         ),
         'Erlös': st.session_state.erlos,
         'DB': st.session_state.deckungsbeitrag,
@@ -217,9 +217,7 @@ if st.button("Download as Excel"):
     })
 
     # Convert the dictionary to a DataFrame
-    # Convert the dictionary to a DataFrame
     df = pd.DataFrame([data_dict])
-
     excel_file = io.BytesIO()
     with pd.ExcelWriter(excel_file, engine='xlsxwriter') as writer:
         df.T.to_excel(writer, sheet_name='user_data', header=False)
