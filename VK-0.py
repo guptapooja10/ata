@@ -11,19 +11,11 @@ key_dict = st.secrets["textkey"]
 creds = service_account.Credentials.from_service_account_info(key_dict)
 db = firestore.Client(credentials=creds)
 
-
 # Function to get all collection names from Firestore database
 def get_all_collections(db):
     excluded_collections = {'operators', 'posts', 'projects'}  # Set of collections to exclude
     collections = db.collections()
     return [collection.id for collection in collections if collection.id not in excluded_collections]
-
-
-# Function to get all document IDs from a Firestore collection
-def get_all_document_ids(collection_name):
-    docs = db.collection(collection_name).stream()
-    return [doc.id for doc in docs]
-
 
 # Function to get data from Firestore for a specific document in a collection
 def get_data_from_firestore(collection_name, document_id):
@@ -31,13 +23,11 @@ def get_data_from_firestore(collection_name, document_id):
     doc = doc_ref.get()
     return doc.to_dict() if doc.exists else None
 
-
 # Function to upload data to Firestore
 def upload_data_to_firestore(db, collection_name, document_id, data):
     doc_ref = db.collection(collection_name).document(document_id)
     doc_ref.set(data)
     st.success("Data uploaded successfully!")
-
 
 image = Image.open('logo_ata.png')
 st.image(image, caption='Ata Logo', use_column_width=True)
@@ -77,11 +67,11 @@ if "vk_0_data" not in st.session_state:
 if selected_collection:
     firestore_data = get_data_from_firestore(selected_collection, 'Details')
 
-# Update the session state data for specific fields when a new collection is selected
-if st.session_state.vk_0_data and selected_collection:
-    for prop in st.session_state.vk_0_data.keys():
-        if prop not in ['Kunde', 'Gegenstand', 'Zeichnungs- Nr.', 'Ausführen Nr.']:
-            st.session_state.vk_0_data[prop] = ""
+# Update the session state data with existing values from the Firestore database
+if firestore_data:
+    for prop, value in firestore_data.items():
+        if prop in st.session_state.vk_0_data:
+            st.session_state.vk_0_data[prop] = value
 
 col1, col2 = st.columns(2)
 
@@ -122,10 +112,4 @@ if st.button("Download Excel"):
 
 if st.button("Download JSON"):
     json_data = df.to_json(orient="records")
-    st.download_button("Download JSON File", json_data, file_name="data.json", mime="application/json")
-
-if st.button("Upload to Database"):
-    # Convert session state data to the appropriate format for Firestore
-    # Assuming your Firestore expects a dictionary with specific keys
-    upload_data = {field_mapping.get(k, k): v for k, v in st.session_state.vk_0_data.items()}
-    upload_data_to_firestore(db, selected_collection, 'VK-0', upload_data)
+    st.download_button
