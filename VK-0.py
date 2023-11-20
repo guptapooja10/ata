@@ -73,6 +73,12 @@ selected_collection = st.selectbox('Select Collection:', options=collection_name
 if selected_collection:
     firestore_data = get_data_from_firestore(selected_collection, 'Details')
 
+
+if st.session_state.vk_0_data and selected_collection:
+    for prop in st.session_state.vk_0_data.keys():
+        if prop not in ['Kunde', 'Gegenstand', 'Zeichnungs- Nr.', 'Ausführen Nr.']:
+            st.session_state.vk_0_data[prop] = ""
+
 field_mapping = {
     'Kunde': 'Kunde',
     'Gegenstand': 'Benennung',
@@ -84,7 +90,7 @@ field_mapping = {
 st.title("Vorkalkulation")
 
 # Initialize session state for each property
-if "data" not in st.session_state:
+if "vk_0_data" not in st.session_state:
     st.session_state.vk_0_data = {prop: "" for prop in properties}
 
 # If firestore_data is fetched, update the session state
