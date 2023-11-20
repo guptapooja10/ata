@@ -81,7 +81,7 @@ field_mapping = {
 st.title("Vorkalkulation")
 
 # Initialize session state for each property
-if "data" not in st.session_state:
+if "vk_0_data" not in st.session_state:
     st.session_state.vk_0_data = {prop: "" for prop in properties}
 
 # Define a key in session state to track the currently selected collection
@@ -109,14 +109,6 @@ if vk_0_data:
     for prop in properties:
         if prop not in ['Kunde', 'Gegenstand', 'Zeichnungs- Nr.', 'Ausführen Nr.']:  # Remaining fields
             st.session_state.vk_0_data[prop] = vk_0_data.get(prop, "")
-
-# If firestore_data is fetched, update the session state
-if firestore_data:
-    for app_field, firestore_field in field_mapping.items():
-        # Assuming 'Gegenstand' should map to 'Benennung' in Firestore
-        if app_field == 'Gegenstand':
-            firestore_field = 'Benennung'
-        st.session_state.vk_0_data[app_field] = firestore_data.get(firestore_field, "")
 
 col1, col2 = st.columns(2)
 
@@ -155,5 +147,5 @@ if st.button("Download JSON"):
 if st.button("Upload to Database"):
     # Convert session state data to the appropriate format for Firestore
     # Assuming your Firestore expects a dictionary with specific keys
-    upload_data = {field_mapping.get(k, k): v for k, v in st.session_state.data.items()}
+    upload_data = {field_mapping.get(k, k): v for k, v in st.session_state.vk_0_data.items()}
     upload_data_to_firestore(db, selected_collection, 'VK-0', upload_data)
