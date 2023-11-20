@@ -69,9 +69,9 @@ if selected_collection:
 
 # Update the session state data with existing values from the Firestore database
 if firestore_data:
-    for prop, value in firestore_data.items():
-        if prop in st.session_state.vk_0_data:
-            st.session_state.vk_0_data[prop] = value
+    for prop in st.session_state.vk_0_data.keys():
+        if prop in firestore_data:
+            st.session_state.vk_0_data[prop] = firestore_data[prop]
 
 col1, col2 = st.columns(2)
 
@@ -101,7 +101,7 @@ df = pd.DataFrame(st.session_state.vk_0_data, index=[0])  # Specify index to cre
 # Transpose the DataFrame to have each column stacked vertically
 df_transposed = df.transpose()
 
-# Download Excel and JSON format
+# Download Excel and JSON
 if st.button("Download Excel"):
     output = io.BytesIO()
     with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
@@ -112,4 +112,10 @@ if st.button("Download Excel"):
 
 if st.button("Download JSON"):
     json_data = df.to_json(orient="records")
-    st.download_button
+    st.download_button("Download JSON File", json_data, file_name="data.json", mime="application/json")
+
+if st.button("Upload to Database"):
+    # Convert session state data to the appropriate format for Firestore
+    # Assuming your Firestore expects a dictionary with specific keys
+    upload_data = {field_mapping.get(k, k): v for k, v in st.session_state.vk_0_data.items()}
+    upload_data_to_firestore(db, selected_collection, 'VK-0', upload_data)
