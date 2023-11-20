@@ -65,20 +65,6 @@ units = {
 
 firestore_data = {}
 
-# Display a select box with all collection names
-collection_names = get_all_collections(db)
-selected_collection = st.selectbox('Select Collection:', options=collection_names)
-
-# Fetch and display the data for a known document ID ('Details') from the selected collection
-if selected_collection:
-    firestore_data = get_data_from_firestore(selected_collection, 'Details')
-
-
-if st.session_state.vk_0_data and selected_collection:
-    for prop in st.session_state.vk_0_data.keys():
-        if prop not in ['Kunde', 'Gegenstand', 'Zeichnungs- Nr.', 'Ausführen Nr.']:
-            st.session_state.vk_0_data[prop] = ""
-
 field_mapping = {
     'Kunde': 'Kunde',
     'Gegenstand': 'Benennung',
@@ -92,6 +78,30 @@ st.title("Vorkalkulation")
 # Initialize session state for each property
 if "vk_0_data" not in st.session_state:
     st.session_state.vk_0_data = {prop: "" for prop in properties}
+
+
+# Display a select box with all collection names
+collection_names = get_all_collections(db)
+selected_collection = st.selectbox('Select Collection:', options=collection_names)
+
+# Fetch and display the data for a known document ID ('Details') from the selected collection
+if selected_collection:
+    firestore_data = get_data_from_firestore(selected_collection, 'Details')
+
+# Update the session state data for specific fields when a new collection is selected
+if st.session_state.vk_0_data and selected_collection:
+    for prop in st.session_state.vk_0_data.keys():
+        if prop not in ['Kunde', 'Gegenstand', 'Zeichnungs- Nr.', 'Ausführen Nr.']:
+            st.session_state.vk_0_data[prop] = ""
+
+# If firestore_data is fetched, update the session state
+if firestore_data:
+    for app_field, firestore_field in field_mapping.items():
+        # Assuming 'Gegenstand' should map to 'Benennung' in Firestore
+        if app_field == 'Gegenstand':
+            firestore_field = 'Benennung'
+        st.session_state.vk_0_data[app_field] = firestore_data.get(firestore_field, "")
+
 
 # If firestore_data is fetched, update the session state
 if firestore_data:
