@@ -65,24 +65,13 @@ units = {
 
 firestore_data = {}
 
-field_mapping = {
-    'Kunde': 'Kunde',
-    'Gegenstand': 'Benennung',
-    'Zeichnungs- Nr.': 'Zeichnungs- Nr.',
-    'Ausführen Nr.': 'Ausführen Nr.'
-}
-
-
-st.title("Vorkalkulation")
+# Display a select box with all collection names
+collection_names = get_all_collections(db)
+selected_collection = st.selectbox('Select Collection:', options=collection_names)
 
 # Initialize session state for each property
 if "vk_0_data" not in st.session_state:
     st.session_state.vk_0_data = {prop: "" for prop in properties}
-
-
-# Display a select box with all collection names
-collection_names = get_all_collections(db)
-selected_collection = st.selectbox('Select Collection:', options=collection_names)
 
 # Fetch and display the data for a known document ID ('Details') from the selected collection
 if selected_collection:
@@ -93,24 +82,6 @@ if st.session_state.vk_0_data and selected_collection:
     for prop in st.session_state.vk_0_data.keys():
         if prop not in ['Kunde', 'Gegenstand', 'Zeichnungs- Nr.', 'Ausführen Nr.']:
             st.session_state.vk_0_data[prop] = ""
-
-# If firestore_data is fetched, update the session state
-if firestore_data:
-    for app_field, firestore_field in field_mapping.items():
-        # Assuming 'Gegenstand' should map to 'Benennung' in Firestore
-        if app_field == 'Gegenstand':
-            firestore_field = 'Benennung'
-        st.session_state.vk_0_data[app_field] = firestore_data.get(firestore_field, "")
-
-
-# If firestore_data is fetched, update the session state
-if firestore_data:
-    for app_field, firestore_field in field_mapping.items():
-        # Assuming 'Gegenstand' should map to 'Benennung' in Firestore
-        if app_field == 'Gegenstand':
-            firestore_field = 'Benennung'
-        st.session_state.vk_0_data[app_field] = firestore_data.get(firestore_field, "")
-
 
 col1, col2 = st.columns(2)
 
@@ -145,7 +116,6 @@ if st.button("Download Excel"):
 if st.button("Download JSON"):
     json_data = df.to_json(orient="records")
     st.download_button("Download JSON File", json_data, file_name="data.json", mime="application/json")
-
 
 if st.button("Upload to Database"):
     # Convert session state data to the appropriate format for Firestore
