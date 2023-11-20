@@ -98,6 +98,13 @@ for prop in props_col2:
     # Use the session state data to populate the fields
     st.session_state.vk_0_data[prop] = col2.text_input(prompt, value=st.session_state.vk_0_data[prop]).strip()
 
+field_mapping = {
+    'Kunde': 'Kunde',
+    'Gegenstand': 'Benennung',
+    'Zeichnungs- Nr.': 'Zeichnungs- Nr.',
+    'Ausführen Nr.': 'Ausführen Nr.'
+}
+
 # Convert the user input data dictionary to a pandas DataFrame
 df = pd.DataFrame(st.session_state.vk_0_data, index=[0])  # Specify index to create a DataFrame with one row
 
