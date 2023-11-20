@@ -11,11 +11,13 @@ key_dict = st.secrets["textkey"]
 creds = service_account.Credentials.from_service_account_info(key_dict)
 db = firestore.Client(credentials=creds)
 
+
 # Function to get all collection names from Firestore database
 def get_all_collections(db):
     excluded_collections = {'operators', 'posts', 'projects'}  # Set of collections to exclude
     collections = db.collections()
     return [collection.id for collection in collections if collection.id not in excluded_collections]
+
 
 # Function to get data from Firestore for a specific document in a collection
 def get_data_from_firestore(collection_name, document_id):
@@ -23,11 +25,13 @@ def get_data_from_firestore(collection_name, document_id):
     doc = doc_ref.get()
     return doc.to_dict() if doc.exists else None
 
+
 # Function to upload data to Firestore
 def upload_data_to_firestore(db, collection_name, document_id, data):
     doc_ref = db.collection(collection_name).document(document_id)
     doc_ref.set(data)
     st.success("Data uploaded successfully!")
+
 
 image = Image.open('logo_ata.png')
 st.image(image, caption='Ata Logo', use_column_width=True)
@@ -114,6 +118,7 @@ if st.button("Download JSON"):
     json_data = df.to_json(orient="records")
     st.download_button("Download JSON File", json_data, file_name="data.json", mime="application/json")
 
+# Upload to Database
 if st.button("Upload to Database"):
     # Convert session state data to the appropriate format for Firestore
     # Assuming your Firestore expects a dictionary with specific keys
