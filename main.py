@@ -75,7 +75,7 @@ def main():
     image = Image.open('logo_ata.png')
     st.image(image, caption='Ata Logo')
     apps = {
-        "VK-ST-0": "https://ata-vk-st-0.streamlit.app/",
+        "VK-ST-0": "https://vk-st-0.streamlit.app/",
         "VK-0": "https://ata-vk-0.streamlit.app/",
         "Deckung": "https://deckung.streamlit.app/",
         "ATA-Dashboard-App": "https://ata-dashboard-app.streamlit.app/"
