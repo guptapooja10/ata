@@ -241,11 +241,16 @@ with st.expander("Deckungsbeitrag"):
 
 # Gesamtstuden expander
 with st.expander("Gesamtstuden"):
-    for prop in ['Brennen_Deckung', 'Schlossern_Deckung', 'Schweißen_Deckung', 'sonstiges (Eur/hour)', 'sonstiges (hour)']:
+    for prop in ['Brennen_Deckung', 'Schlossern_Deckung', 'Schweißen_Deckung', 'sonstiges (Eur/hour)',
+                 'sonstiges (hour)']:
         prompt = f"{prop}"
         if prop in units:
             prompt += f" ({units[prop]})"
-        st.session_state.deckung_data[prop] = st.text_input(prompt, value=st.session_state.deckung_data[prop]).strip()
+
+        # Safely convert the input to float, default to 0.0 if conversion fails
+        st.session_state.deckung_data[prop] = try_convert_to_float(
+            st.text_input(prompt, value=st.session_state.deckung_data[prop]).strip()
+        )
 
 # Grenzkosten expander
 with st.expander("Grenzkosten"):
