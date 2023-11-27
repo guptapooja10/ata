@@ -161,6 +161,6 @@ if st.button("Download as JSON"):
     st.download_button("Download JSON File", json_data, file_name="data.json", mime="application/json")
 
 if st.button("Upload to Database"):
-    upload_data = {prop: st.session_state.vk_st0_data[prop] for prop in properties if
+    upload_data = {prop: st.session_state.vk_0_data[prop] for prop in properties if
                    prop not in ['Kunde', 'Gegenstand', 'Zeichnungs- Nr.', 'Ausführen Nr.']}
     upload_data_to_firestore(db, selected_collection, 'VK-0', upload_data)
