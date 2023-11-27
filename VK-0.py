@@ -134,6 +134,14 @@ for prop in props_col2:
     st.session_state.vk_0_data[prop] = col2.text_input(prompt, value=st.session_state.vk_0_data[prop]).strip()
 
 
+def perform_calculations(data):
+    # Perform the specified calculations
+    data['Brennen_VK_0'] = data['Brennen'] / 60
+    data['Schlossern_VK_0'] = (data['Richten'] + data['Heften_Zussamenb_Verputzen'] + data['Anzeichnen']) / 60
+    data['Schweißen_VK_0'] = data['Schweißen'] / 60
+    return data
+
+
 # Convert the user input data dictionary to a pandas DataFrame
 df = pd.DataFrame(st.session_state.vk_0_data, index=[0])  # Specify index to create a DataFrame with one row
 
@@ -154,6 +162,14 @@ if st.button("Download JSON"):
     st.download_button("Download JSON File", json_data, file_name="data.json", mime="application/json")
 
 if st.button("Upload to Database"):
-    upload_data = {prop: st.session_state.vk_0_data[prop] for prop in properties if
-                   prop not in ['Kunde', 'Gegenstand', 'Zeichnungs- Nr.', 'Ausführen Nr.']}
-    upload_data_to_firestore(db, selected_collection, 'VK-0', upload_data)
+    # Extract the user input data
+    user_input_data = {prop: st.session_state.vk_0_data[prop] for prop in properties if
+                       prop not in ['Kunde', 'Gegenstand', 'Zeichnungs- Nr.', 'Ausführen Nr.']}
+
+    # Perform calculations on the input data
+    user_input_data_calculated = perform_calculations(user_input_data)
+
+    # Upload the original and calculated data to the database
+    upload_data_to_firestore(db, selected_collection, 'VK-0', user_input_data_calculated)
+
+    st.success("Data uploaded successfully!")
