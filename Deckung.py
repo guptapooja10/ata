@@ -5,6 +5,10 @@ from PIL import Image
 from google.cloud import firestore
 from google.oauth2 import service_account
 from VK_ST_0 import get_all_collections, get_data_from_firestore, field_mapping, upload_data_to_firestore
+from VK_0 import get_all_collections as vk_get_all_collections, \
+    get_data_from_firestore as vk_get_data_from_firestore, \
+    field_mapping as vk_field_mapping, \
+    upload_data_to_firestore as vk_upload_data_to_firestore
 
 # Initialize Firestore client
 key_dict = st.secrets["textkey"]
@@ -241,11 +245,36 @@ with st.expander("Deckungsbeitrag"):
 
 # Gesamtstuden expander
 with st.expander("Gesamtstuden"):
-    for prop in ['Brennen_Deckung', 'Schlossern_Deckung', 'Schweißen_Deckung', 'sonstiges (Eur/hour)', 'sonstiges (hour)']:
+    for prop in ['Brennen_Deckung', 'Schlossern_Deckung', 'Schweißen_Deckung', 'sonstiges (Eur/hour)',
+                 'sonstiges (hour)']:
         prompt = f"{prop}"
         if prop in units:
             prompt += f" ({units[prop]})"
         st.session_state.deckung_data[prop] = st.text_input(prompt, value=st.session_state.deckung_data[prop]).strip()
+
+# Load new data from VK-0 for the selected collection
+if selected_collection:
+    # Fetch data from VK-0 for the selected collection
+    vk_0_data = vk_get_data_from_firestore(selected_collection, 'VK-0')
+
+    # Update session state with new data
+    if vk_0_data:
+        for prop in ['Brennen', 'Richten', 'Heften_Zussamenb_Verputzen', 'Anzeichnen', 'Schweißen']:
+            st.session_state.deckung_data[prop] = vk_0_data.get(prop, "")
+
+        # Perform operations on the fetched data
+        brennen_value = st.session_state.deckung_data['Brennen']
+        richten_value = st.session_state.deckung_data['Richten']
+        heften_value = st.session_state.deckung_data['Heften_Zussamenb_Verputzen']
+        anzeichnen_value = st.session_state.deckung_data['Anzeichnen']
+        schweissen_value = st.session_state.deckung_data['Schweißen']
+
+        # Example operation: Calculate the total time
+        Brennen_VK_0 = brennen_value / 60
+        Schlossern_VK_0 = (richten_value + heften_value + anzeichnen_value) / 60
+        Schweissen_VK_0 = schweissen_value / 60
+
+        st.write(f"Calculated VK_0 values {Brennen_VK_0, Schlossern_VK_0, Schweissen_VK_0}")
 
 # Grenzkosten expander
 with st.expander("Grenzkosten"):
