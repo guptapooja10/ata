@@ -9,7 +9,7 @@ import os
 
 def navigation_bar():
     apps = {
-        "VK-ST-0": "https://vk-st-0.streamlit.app/",
+        "Project Instantiation": "https://ata-app-navigator.streamlit.app/",
         "VK-0": "https://ata-vk-0.streamlit.app/",
         "Deckung": "https://deckung.streamlit.app/",
         "ATA-Dashboard-App": "https://ata-dashboard-app.streamlit.app/"
