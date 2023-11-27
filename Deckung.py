@@ -181,7 +181,7 @@ with st.expander("Project Details"):
         prompt = f"{prop}"
         if prop in units:
             prompt += f" ({units[prop]})"
-        st.session_state.deckung_data[prop] = st.text_input(prompt, value=st.session_state.deckung_data[prop]).strip()
+        st.session_state.deckung_data[prop] = st.text_input(prompt, key=f"{prop}_input", value=st.session_state.deckung_data[prop]).strip()
 
 # Product Details Expander
 with st.expander("Product Details"):
@@ -193,12 +193,13 @@ with st.expander("Product Details"):
             # Default to the stored total cost if available, otherwise use the current value
             default_value = st.session_state.get('total_material_cost', float(st.session_state.deckung_data[prop]) if
             st.session_state.deckung_data[prop] else 0.0)
-            st.session_state.deckung_data[prop] = st.number_input(prompt, value=default_value, step=0.1)
+            st.session_state.deckung_data[prop] = st.number_input(prompt, key=f"{prop}_input", value=default_value, step=0.1)
         elif deckung_properties[prop] == float:
             current_value = float(st.session_state.deckung_data[prop]) if st.session_state.deckung_data[prop] else 0.0
-            st.session_state.deckung_data[prop] = st.number_input(prompt, value=current_value, step=0.1)
+            st.session_state.deckung_data[prop] = st.number_input(prompt, key=f"{prop}_input", value=current_value, step=0.1)
         else:
             st.session_state.deckung_data[prop] = st.text_input(prompt,
+                                                                key=f"{prop}_input",
                                                                 value=st.session_state.deckung_data[prop]).strip()
 
 with st.expander("Material Cost Details"):
