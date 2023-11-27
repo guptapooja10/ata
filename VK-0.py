@@ -133,17 +133,20 @@ for prop in props_col2:
     # Use the session state data to populate the fields
     st.session_state.vk_0_data[prop] = col2.text_input(prompt, value=st.session_state.vk_0_data[prop]).strip()
 
-# Convert the user input data dictionary to a pandas DataFrame
-df = pd.DataFrame([st.session_state.vk_0_data])
 
+df = pd.DataFrame(st.session_state.vk_0_data, index=[0])  # Specify index to create a DataFrame with one row
 
-# Function to download DataFrame as Excel
-def download_excel(df):
+# Transpose the DataFrame to have each column stacked vertically
+df_transposed = df.transpose()
+
+# Download Excel and JSON
+if st.button("Download Excel"):
     output = io.BytesIO()
-    writer = pd.ExcelWriter(output, engine='xlsxwriter')
-    df.to_excel(writer, sheet_name='Sheet1', index=False)
-    writer.save()
-    return output.getvalue()
+    with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
+        df_transposed.to_excel(writer, sheet_name='Sheet1', header=False)  # Set header to False to exclude column names
+    output.seek(0)
+    st.download_button("Download Excel File", output, key="download_excel", file_name="data.xlsx",
+                       mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
 
 
 # Function to download DataFrame as JSON
