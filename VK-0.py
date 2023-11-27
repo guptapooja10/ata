@@ -6,27 +6,28 @@ from google.cloud import firestore
 from google.oauth2 import service_account
 import os
 
-# Initialize Firestore client
 key_dict = st.secrets["textkey"]
 creds = service_account.Credentials.from_service_account_info(key_dict)
 db = firestore.Client(credentials=creds)
 
 
-# Function to get all collection names from Firestore database
 def get_all_collections(db):
-    excluded_collections = {'operators', 'posts', 'projects'}  # Set of collections to exclude
+    excluded_collections = {'operators', 'posts', 'projects'}
     collections = db.collections()
     return [collection.id for collection in collections if collection.id not in excluded_collections]
 
 
-# Function to get data from Firestore for a specific document in a collection
+def get_all_document_ids(collection_name):
+    docs = db.collection(collection_name).stream()
+    return [doc.id for doc in docs]
+
+
 def get_data_from_firestore(collection_name, document_id):
     doc_ref = db.collection(collection_name).document(document_id)
     doc = doc_ref.get()
     return doc.to_dict() if doc.exists else None
 
 
-# Function to upload data to Firestore
 def upload_data_to_firestore(db, collection_name, document_id, data):
     doc_ref = db.collection(collection_name).document(document_id)
     doc_ref.set(data)
@@ -57,25 +58,65 @@ units = {
     'Schweißen': 'min',
 }
 
-firestore_data = {}
-
-# Display a select box with all collection names
-collection_names = get_all_collections(db)
-selected_collection = st.selectbox('Select Collection:', options=collection_names)
+field_mapping = {
+    'Kunde': 'Kunde',
+    'Gegenstand': 'Benennung',  # Note the different field name here
+    'Zeichnungs- Nr.': 'Zeichnungs- Nr.',
+    'Ausführen Nr.': 'Ausführen Nr.'
+}
 
 # Initialize session state for each property
 if "vk_0_data" not in st.session_state:
     st.session_state.vk_0_data = {prop: "" for prop in properties}
+# Define a key in session state to track the currently selected collection
+if 'current_collection' not in st.session_state:
+    st.session_state.current_collection = None
+# Display a select box with all collection names
+collection_names = get_all_collections(db)
+# Update session state with selected collection
+selected_collection = st.selectbox('Select Collection:', options=collection_names)
+firestore_data = {}
+details_data = {}
+vk_0_data = {}
 
-# Fetch and display the data for a known document ID ('Details') from the selected collection
-if selected_collection:
-    firestore_data = get_data_from_firestore(selected_collection, 'Details')
+# Check if the selected collection has changed
+if st.session_state.current_collection != selected_collection:
+    st.session_state.current_collection = selected_collection
 
-# Update the session state data with existing values from the Firestore database
+    # Clear the previous data from session state
+    st.session_state.vk_0_data = {prop: "" for prop in properties}
+
+    # Load new data from Firestore for the selected collection
+    if selected_collection:
+        firestore_data = get_data_from_firestore(selected_collection, 'Details')
+        vk_0_data = get_data_from_firestore(selected_collection, 'VK-0')
+
+        # Update session state with new data
+        if firestore_data:
+            for app_field, firestore_field in field_mapping.items():
+                st.session_state.vk_0_data[app_field] = firestore_data.get(firestore_field, "")
+
+# Update session state with data from 'Details'
+if details_data:
+    for app_field, firestore_field in field_mapping.items():
+        if app_field in ['Kunde', 'Gegenstand', 'Zeichnungs- Nr.', 'Ausführen Nr.']:  # Fields from 'Details'
+            st.session_state.data[app_field] = details_data.get(firestore_field, "")
+
+# Update session state with data from 'VK-0'
+if vk_0_data:
+    for prop in properties:
+        if prop not in ['Kunde', 'Gegenstand', 'Zeichnungs- Nr.', 'Ausführen Nr.']:  # Remaining fields
+            st.session_state.vk_0_data[prop] = vk_0_data.get(prop, "")
+
+st.title("Material List Data")
+
+# If firestore_data is fetched, update the session state
 if firestore_data:
-    for prop in st.session_state.vk_0_data.keys():
-        if prop in firestore_data:
-            st.session_state.vk_0_data[prop] = firestore_data[prop]
+    for app_field, firestore_field in field_mapping.items():
+        # Assuming 'Gegenstand' should map to 'Benennung' in Firestore
+        if app_field == 'Gegenstand':
+            firestore_field = 'Benennung'
+        st.session_state.vk_0_data[app_field] = firestore_data.get(firestore_field, "")
 
 col1, col2 = st.columns(2)
 
@@ -92,35 +133,34 @@ for prop in props_col2:
     # Use the session state data to populate the fields
     st.session_state.vk_0_data[prop] = col2.text_input(prompt, value=st.session_state.vk_0_data[prop]).strip()
 
-field_mapping = {
-    'Kunde': 'Kunde',
-    'Gegenstand': 'Benennung',
-    'Zeichnungs- Nr.': 'Zeichnungs- Nr.',
-    'Ausführen Nr.': 'Ausführen Nr.'
-}
-
 # Convert the user input data dictionary to a pandas DataFrame
-df = pd.DataFrame(st.session_state.vk_0_data, index=[0])  # Specify index to create a DataFrame with one row
+df = pd.DataFrame([st.session_state.vk_0_data])
 
-# Transpose the DataFrame to have each column stacked vertically
-df_transposed = df.transpose()
 
-# Download Excel and JSON
-if st.button("Download Excel"):
+# Function to download DataFrame as Excel
+def download_excel(df):
     output = io.BytesIO()
-    with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
-        df_transposed.to_excel(writer, sheet_name='Sheet1', header=False)  # Set header to False to exclude column names
-    output.seek(0)
-    st.download_button("Download Excel File", output, key="download_excel", file_name="data.xlsx",
+    writer = pd.ExcelWriter(output, engine='xlsxwriter')
+    df.to_excel(writer, sheet_name='Sheet1', index=False)
+    writer.save()
+    return output.getvalue()
+
+
+# Function to download DataFrame as JSON
+def download_json(df):
+    return df.to_json(orient="records")
+
+
+if st.button("Download as Excel"):
+    excel_data = download_excel(df)
+    st.download_button("Download Excel File", excel_data, file_name="data.xlsx",
                        mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
 
-if st.button("Download JSON"):
-    json_data = df.to_json(orient="records")
+if st.button("Download as JSON"):
+    json_data = download_json(df)
     st.download_button("Download JSON File", json_data, file_name="data.json", mime="application/json")
 
-# Upload to Database
 if st.button("Upload to Database"):
-    # Convert session state data to the appropriate format for Firestore
-    # Assuming your Firestore expects a dictionary with specific keys
-    upload_data = {field_mapping.get(k, k): v for k, v in st.session_state.vk_0_data.items()}
+    upload_data = {prop: st.session_state.vk_st0_data[prop] for prop in properties if
+                   prop not in ['Kunde', 'Gegenstand', 'Zeichnungs- Nr.', 'Ausführen Nr.']}
     upload_data_to_firestore(db, selected_collection, 'VK-0', upload_data)
