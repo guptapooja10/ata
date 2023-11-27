@@ -135,6 +135,11 @@ for prop in props_col2:
 
 
 def perform_calculations(data):
+    # Convert relevant fields to numeric type
+    numeric_fields = ['Brennen', 'Richten', 'Heften_Zussamenb_Verputzen', 'Anzeichnen', 'Schweißen']
+    for field in numeric_fields:
+        data[field] = float(data[field]) if data[field] else 0.0
+
     # Perform the specified calculations
     data['Brennen_VK_0'] = data['Brennen'] / 60
     data['Schlossern_VK_0'] = (data['Richten'] + data['Heften_Zussamenb_Verputzen'] + data['Anzeichnen']) / 60
