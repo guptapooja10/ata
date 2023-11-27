@@ -170,6 +170,15 @@ if st.session_state.current_collection != selected_collection:
         except Exception as e:
             st.error(f"An error occurred while fetching data: {e}")
 
+# Fetch values from Firestore for VK-0 document
+vk_0_data = get_data_from_firestore(selected_collection, 'VK-0')
+if vk_0_data:
+    # Update session state with VK-0 data
+    st.session_state.deckung_data['Brennen_VK_0'] = vk_0_data.get('Brennen_VK_0', "")
+    st.session_state.deckung_data['Schlossern_VK_0'] = vk_0_data.get('Schlossern_VK_0', "")
+    st.session_state.deckung_data['Schweißen_VK_0'] = vk_0_data.get('Schweißen_VK_0', "")
+
+
 st.write("Current Selection:", selected_collection)
 st.write("Session State Collection:", st.session_state.current_collection)
 
@@ -243,14 +252,13 @@ with st.expander("Deckungsbeitrag"):
 # Gesamtstuden expander
 with st.expander("Gesamtstuden"):
     for prop in ['Brennen_Deckung', 'Schlossern_Deckung', 'Schweißen_Deckung', 'sonstiges (Eur/hour)',
-                 'sonstiges (hour)']:
+                 'sonstiges (hour)', 'Brennen_VK_0', 'Schlossern_VK_0', 'Schweißen_VK_0']:
         prompt = f"{prop}"
         if prop in units:
             prompt += f" ({units[prop]})"
-
         # Safely convert the input to float, default to 0.0 if conversion fails
         st.session_state.deckung_data[prop] = try_convert_to_float(
-            st.text_input(prompt, value=st.session_state.deckung_data[prop]).strip()
+            st.text_input(prompt, key=f"{prop}_input", value=st.session_state.deckung_data[prop]).strip()
         )
 
 # Grenzkosten expander
