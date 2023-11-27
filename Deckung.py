@@ -6,17 +6,14 @@ from google.cloud import firestore
 from google.oauth2 import service_account
 from VK_ST_0 import get_all_collections, get_data_from_firestore, field_mapping, upload_data_to_firestore
 
-
 # Initialize Firestore client
 key_dict = st.secrets["textkey"]
 creds = service_account.Credentials.from_service_account_info(key_dict)
 db = firestore.Client(credentials=creds)
 
-
 # # st.set_page_config(layout="wide")
 image = Image.open('logo_ata.png')
 st.image(image, caption='Ata Logo')
-
 
 # Upload image
 uploaded_file = st.file_uploader("Upload Image", type=["jpg", "jpeg", "png"])
@@ -30,7 +27,6 @@ def try_convert_to_float(value, default=0.0):
         return default
 
 
-
 # Define data types and properties
 deckung_properties = {
     'Kunde': str,
@@ -39,9 +35,9 @@ deckung_properties = {
     'Ausführen Nr.': str,
     'Gewicht': float,
     'Material Kosten': float,
-    'Brennen': float,
-    'Schlossern': float,
-    'Schweißen': float,
+    'Brennen_Deckung': float,
+    'Schlossern_Deckung': float,
+    'Schweißen_Deckung': float,
     'sonstiges (Eur/hour)': float,
     'sonstiges (hour)': float,
     'Prüfen , Doku': float,
@@ -56,13 +52,12 @@ deckung_properties = {
     'Deckungsbeitrag': float,
 }
 
-
 units = {
     'Gewicht': 'kg',
     'Material Kosten': '€',
-    'Brennen': 'min',
-    'Schlossern': 'min',
-    'Schweißen': 'min',
+    'Brennen_Deckung': 'min',
+    'Schlossern_Deckung': 'min',
+    'Schweißen_Deckung': 'min',
     'sonstiges (Eur/hour)': '€/min',
     'sonstiges (hour)': 'min',
     'Prüfen , Doku': '€',
@@ -77,11 +72,9 @@ units = {
     'Deckungsbeitrag': '€',
 }
 
-
 vk_st_0_field_mapping = {
     "Gewicht": "Fertigung Gesamt"
 }
-
 
 material_cost_field_mapping = {
     "bis 90mm Einsatz": ("0 – 80mm", "Calculated Weight(Kg)"),
@@ -95,11 +88,9 @@ material_cost_field_mapping = {
     "Profile Preis": ("Profile, Rohre etc.", "Price(€)")
 }
 
-
 # Initialize session state for each property
 if "deckung_data" not in st.session_state:
     st.session_state.deckung_data = {prop: "" for prop in deckung_properties}
-
 
 if 'Material' not in st.session_state:
     # Initialize 'df' with an empty DataFrame or default values if not in session state
@@ -108,19 +99,15 @@ if 'Material' not in st.session_state:
         columns=["Calculated Weight(Kg)", "Delivery Weight(Kg)", "Price(€)", "Price per Kg(€/Kg)"]
     ).to_dict(orient='index')
 
-
 # Initialize session state for Erlös, Deckungsbeitrag, and DB if not already initialized
 if "Erlös" not in st.session_state:
     st.session_state.erlos = 0.0
 
-
 if "Deckungsbeitrag" not in st.session_state:
     st.session_state.deckungsbeitrag = 0.0
 
-
 if "DB (%)" not in st.session_state:
     st.session_state.db_percentage = 0.0
-
 
 # Now 'df' is defined from the session state
 df = pd.DataFrame.from_dict(st.session_state['Material']).transpose()
@@ -128,14 +115,11 @@ df = pd.DataFrame.from_dict(st.session_state['Material']).transpose()
 if 'total_material_cost' not in st.session_state:
     st.session_state['total_material_cost'] = 0.0
 
-
 if 'current_collection' not in st.session_state:
     st.session_state.current_collection = None
 
-
 collection_names = get_all_collections(db)
 selected_collection = st.selectbox('Select Collection:', options=collection_names, key="Deckung")
-
 
 if st.session_state.current_collection != selected_collection:
     st.session_state.current_collection = selected_collection
@@ -186,7 +170,6 @@ if st.session_state.current_collection != selected_collection:
         except Exception as e:
             st.error(f"An error occurred while fetching data: {e}")
 
-
 st.write("Current Selection:", selected_collection)
 st.write("Session State Collection:", st.session_state.current_collection)
 
@@ -199,7 +182,6 @@ with st.expander("Project Details"):
         if prop in units:
             prompt += f" ({units[prop]})"
         st.session_state.deckung_data[prop] = st.text_input(prompt, value=st.session_state.deckung_data[prop]).strip()
-
 
 # Product Details Expander
 with st.expander("Product Details"):
@@ -218,7 +200,6 @@ with st.expander("Product Details"):
         else:
             st.session_state.deckung_data[prop] = st.text_input(prompt,
                                                                 value=st.session_state.deckung_data[prop]).strip()
-
 
 with st.expander("Material Cost Details"):
     # Display the DataFrame using Streamlit's dataframe function
@@ -247,7 +228,6 @@ with st.expander("Material Cost Details"):
         if 'Material Kosten' in st.session_state.deckung_data:
             st.session_state.deckung_data['Material Kosten'] = st.session_state['total_material_cost']
 
-
 with st.expander("Deckungsbeitrag"):
     # Input fields
     # st.session_state.erlos = float(st.session_state.erlos) if st.session_state.erlos else 0.0
@@ -259,15 +239,13 @@ with st.expander("Deckungsbeitrag"):
     st.session_state.deckungsbeitrag = st.number_input("Deckungsbeitrag", value=st.session_state.deckungsbeitrag)
     st.write("Deckungsbeitrag in UI:", st.session_state.deckungsbeitrag)
 
-
 # Gesamtstuden expander
 with st.expander("Gesamtstuden"):
-    for prop in ['Brennen', 'Schlossern', 'Schweißen', 'sonstiges (Eur/hour)', 'sonstiges (hour)']:
+    for prop in ['Brennen_Deckung', 'Schlossern_Deckung', 'Schweißen_Deckung', 'sonstiges (Eur/hour)', 'sonstiges (hour)']:
         prompt = f"{prop}"
         if prop in units:
             prompt += f" ({units[prop]})"
         st.session_state.deckung_data[prop] = st.text_input(prompt, value=st.session_state.deckung_data[prop]).strip()
-
 
 # Grenzkosten expander
 with st.expander("Grenzkosten"):
@@ -277,7 +255,6 @@ with st.expander("Grenzkosten"):
         if prop in units:
             prompt += f" ({units[prop]})"
         st.session_state.deckung_data[prop] = st.text_input(prompt, value=st.session_state.deckung_data[prop]).strip()
-
 
 # Combine data for downloads
 combined_data = {
@@ -303,14 +280,14 @@ if st.button("Download as Excel", key="Deckung_Excel"):
         'Anfr. Nr.': st.session_state.deckung_data['Zeichnungs- Nr.'],
         'Gewicht': st.session_state.deckung_data['Gewicht'],
         'Material': st.session_state.deckung_data['Material Kosten'],
-        'Brennen': st.session_state.deckung_data['Brennen'],
-        'Schlossern': st.session_state.deckung_data['Schlossern'],
-        'Schweißen': st.session_state.deckung_data['Schweißen'],
+        'Brennen_Deckung': st.session_state.deckung_data['Brennen_Deckung'],
+        'Schlossern_Deckung': st.session_state.deckung_data['Schlossern_Deckung'],
+        'Schweißen_Deckung': st.session_state.deckung_data['Schweißen_Deckung'],
         'sonstiges': hourly_rate * hours,
         'Gesamtstunden': (
-                st.session_state.deckung_data['Brennen'] +
-                st.session_state.deckung_data['Schlossern'] +
-                st.session_state.deckung_data['Schweißen'] +
+                st.session_state.deckung_data['Brennen_Deckung'] +
+                st.session_state.deckung_data['Schlossern_Deckung'] +
+                st.session_state.deckung_data['Schweißen_Deckung'] +
                 st.session_state.deckung_data['sonstiges (hour)'] +
                 st.session_state.deckung_data['sonstiges (Eur/hour)']
         ),
@@ -319,9 +296,9 @@ if st.button("Download as Excel", key="Deckung_Excel"):
                                                                                    st.session_state.deckung_data[
                                                                                        'Gewicht'],
         'Fertigung EUR': (
-                st.session_state.deckung_data['Brennen'] +
-                st.session_state.deckung_data['Schlossern'] +
-                st.session_state.deckung_data['Schweißen'] +
+                st.session_state.deckung_data['Brennen_Deckung'] +
+                st.session_state.deckung_data['Schlossern_Deckung'] +
+                st.session_state.deckung_data['Schweißen_Deckung'] +
                 st.session_state.deckung_data['sonstiges (hour)'] +
                 st.session_state.deckung_data['sonstiges (Eur/hour)']
         ),
