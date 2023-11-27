@@ -247,6 +247,11 @@ with st.expander("Gesamtstuden"):
         if prop in units:
             prompt += f" ({units[prop]})"
 
+        # Fetching existing data
+
+        existing_data = st.session_state.deckung_data.get(prop, "")
+        st.session_state.deckung_data[prop] = st.text_input(prompt, value=existing_data).strip()
+
         # Safely convert the input to float, default to 0.0 if conversion fails
         st.session_state.deckung_data[prop] = try_convert_to_float(
             st.text_input(prompt, value=st.session_state.deckung_data[prop]).strip()
@@ -259,6 +264,12 @@ with st.expander("Grenzkosten"):
         prompt = f"{prop}"
         if prop in units:
             prompt += f" ({units[prop]})"
+
+        # Fetch previously existing data from the database
+        existing_data = st.session_state.deckung_data.get(prop, "")
+
+        # Display the fetched data in the input field
+        st.session_state.deckung_data[prop] = st.text_input(prompt, value=existing_data).strip()
         st.session_state.deckung_data[prop] = st.text_input(prompt, value=st.session_state.deckung_data[prop]).strip()
 
 # Combine data for downloads
