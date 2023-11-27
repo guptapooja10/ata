@@ -20,6 +20,7 @@ def navigation_bar():
     for app_name, app_url in apps.items():
         st.sidebar.markdown(f"[{app_name}]({app_url})")
 
+navigation_bar()
 
 key_dict = st.secrets["textkey"]
 creds = service_account.Credentials.from_service_account_info(key_dict)
@@ -123,7 +124,7 @@ if vk_0_data:
         if prop not in ['Kunde', 'Gegenstand', 'Zeichnungs- Nr.', 'Ausführen Nr.']:  # Remaining fields
             st.session_state.vk_0_data[prop] = vk_0_data.get(prop, "")
 
-st.title("Material List Data")
+st.title("Vorkalkulation")
 
 # If firestore_data is fetched, update the session state
 if firestore_data:
