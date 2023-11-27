@@ -20,6 +20,7 @@ def navigation_bar():
     for app_name, app_url in apps.items():
         st.sidebar.markdown(f"[{app_name}]({app_url})")
 
+
 navigation_bar()
 
 key_dict = st.secrets["textkey"]

@@ -6,6 +6,23 @@ from google.cloud import firestore
 from google.oauth2 import service_account
 import os
 
+
+def navigation_bar():
+    apps = {
+        "VK-ST-0": "https://vk-st-0.streamlit.app/",
+        "VK-0": "https://ata-vk-0.streamlit.app/",
+        "Deckung": "https://deckung.streamlit.app/",
+        "ATA-Dashboard-App": "https://ata-dashboard-app.streamlit.app/"
+    }
+
+    st.sidebar.title('Navigation')
+
+    for app_name, app_url in apps.items():
+        st.sidebar.markdown(f"[{app_name}]({app_url})")
+
+
+navigation_bar()
+
 # Initialize Firestore client
 key_dict = st.secrets["textkey"]
 creds = service_account.Credentials.from_service_account_info(key_dict)
