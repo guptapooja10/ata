@@ -6,7 +6,8 @@ from google.cloud import firestore
 from google.oauth2 import service_account
 from VK_ST_0 import get_all_collections, get_data_from_firestore, field_mapping, upload_data_to_firestore
 
-#Navigation bar
+
+# Navigation bar
 def navigation_bar():
     apps = {
         "Login page": "https://credentials-page.streamlit.app/",
@@ -177,13 +178,13 @@ if st.session_state.current_collection != selected_collection:
                 st.session_state.deckungsbeitrag = try_convert_to_float(
                     deckungsbeitrag_data.get('Deckungsbeitrag', 0.0))
                 # Debugging
-                st.write("Deckungsbeitrag from DB:", st.session_state.deckungsbeitrag)
+                # st.write("Deckungsbeitrag from DB:", st.session_state.deckungsbeitrag)
                 st.session_state.db_percentage = try_convert_to_float(deckungsbeitrag_data.get('DB (%)', 0.0))
             else:
                 st.write("No data found for the selected collection.")
 
             # Debugging: Display the fetched data
-            st.write("Fetched Data:", deckungsbeitrag_data)
+            # st.write("Fetched Data:", deckungsbeitrag_data)
 
         except Exception as e:
             st.error(f"An error occurred while fetching data: {e}")
@@ -196,7 +197,6 @@ if vk_0_data:
     st.session_state.deckung_data['Schlossern_VK_0'] = vk_0_data.get('Schlossern_VK_0', "")
     st.session_state.deckung_data['Schweißen_VK_0'] = vk_0_data.get('Schweißen_VK_0', "")
 
-
 st.write("Current Selection:", selected_collection)
 st.write("Session State Collection:", st.session_state.current_collection)
 
@@ -208,7 +208,8 @@ with st.expander("Project Details"):
         prompt = f"{prop}"
         if prop in units:
             prompt += f" ({units[prop]})"
-        st.session_state.deckung_data[prop] = st.text_input(prompt, key=f"{prop}_input", value=st.session_state.deckung_data[prop]).strip()
+        st.session_state.deckung_data[prop] = st.text_input(prompt, key=f"{prop}_input",
+                                                            value=st.session_state.deckung_data[prop]).strip()
 
 # Product Details Expander
 with st.expander("Product Details"):
@@ -220,10 +221,12 @@ with st.expander("Product Details"):
             # Default to the stored total cost if available, otherwise use the current value
             default_value = st.session_state.get('total_material_cost', float(st.session_state.deckung_data[prop]) if
             st.session_state.deckung_data[prop] else 0.0)
-            st.session_state.deckung_data[prop] = st.number_input(prompt, key=f"{prop}_input", value=default_value, step=0.1)
+            st.session_state.deckung_data[prop] = st.number_input(prompt, key=f"{prop}_input", value=default_value,
+                                                                  step=0.1)
         elif deckung_properties[prop] == float:
             current_value = float(st.session_state.deckung_data[prop]) if st.session_state.deckung_data[prop] else 0.0
-            st.session_state.deckung_data[prop] = st.number_input(prompt, key=f"{prop}_input", value=current_value, step=0.1)
+            st.session_state.deckung_data[prop] = st.number_input(prompt, key=f"{prop}_input", value=current_value,
+                                                                  step=0.1)
         else:
             st.session_state.deckung_data[prop] = st.text_input(prompt,
                                                                 key=f"{prop}_input",
