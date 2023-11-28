@@ -24,3 +24,4 @@ def navigation_bar():
 
 
 navigation_bar()
+st.title("Login Page")
