@@ -197,8 +197,8 @@ if vk_0_data:
     st.session_state.deckung_data['Schlossern_VK_0'] = vk_0_data.get('Schlossern_VK_0', "")
     st.session_state.deckung_data['Schweißen_VK_0'] = vk_0_data.get('Schweißen_VK_0', "")
 
-st.write("Current Selection:", selected_collection)
-st.write("Session State Collection:", st.session_state.current_collection)
+# st.write("Current Selection:", selected_collection)
+# st.write("Session State Collection:", st.session_state.current_collection)
 
 st.title("Deckung")
 
