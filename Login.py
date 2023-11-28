@@ -5,6 +5,7 @@ from PIL import Image
 import firebase_admin
 from firebase_admin import credentials, auth
 
+
 # Navigation bar
 def navigation_bar():
     apps = {
@@ -36,6 +37,7 @@ db = firestore.Client(credentials=creds)
 firebase_cred = credentials.Certificate(key_dict)
 firebase_admin.initialize_app(firebase_cred)
 
+
 def register_user(email, password):
     try:
         # Create user in Firebase Authentication
@@ -51,6 +53,7 @@ def register_user(email, password):
         st.error(f"Error registering user: {e}")
         return None
 
+
 def login_user(email, password):
     try:
         # Authenticate user using Firebase Authentication
@@ -59,6 +62,7 @@ def login_user(email, password):
     except Exception as e:
         st.error(f"Authentication failed: {e}")
         return None
+
 
 def main():
     st.title("Firebase Authentication Demo")
@@ -91,6 +95,7 @@ def main():
                     st.error("Error during registration. Please try again.")
             else:
                 st.error("Passwords do not match. Please try again.")
+
 
 if __name__ == "__main__":
     main()
