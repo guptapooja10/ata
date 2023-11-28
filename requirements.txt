@@ -6,10 +6,9 @@ certifi==2023.7.22
 charset-normalizer==3.2.0
 click==8.1.7
 colorama==0.4.6
-firebase-admin
 gitdb==4.0.10
 GitPython==3.1.36
-google-api-core
+google-api-core==2.11.1
 google-auth==2.23.0
 google-auth-oauthlib==1.1.0
 google-cloud-core==2.3.3
