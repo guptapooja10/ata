@@ -6,7 +6,7 @@ from google.cloud import firestore
 from google.oauth2 import service_account
 from VK_ST_0 import get_all_collections, get_data_from_firestore, field_mapping, upload_data_to_firestore
 
-
+#Navigation bar
 def navigation_bar():
     apps = {
         "Login page": "https://credentials-page.streamlit.app/",

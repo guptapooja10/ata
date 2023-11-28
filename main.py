@@ -74,6 +74,7 @@ def main():
     st.title('ATA App Navigator')
     image = Image.open('logo_ata.png')
     st.image(image, caption='Ata Logo')
+    # Navigation bar
     apps = {
         "Login page": "https://credentials-page.streamlit.app/",
         "VK-ST-0": "https://vk-st-0.streamlit.app/",

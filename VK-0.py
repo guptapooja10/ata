@@ -7,6 +7,7 @@ from google.oauth2 import service_account
 import os
 
 
+#Navigation bar
 def navigation_bar():
     apps = {
         "Login page": "https://credentials-page.streamlit.app/",
