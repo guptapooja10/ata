@@ -290,7 +290,16 @@ with st.expander("Grenzkosten"):
         prompt = f"{prop}"
         if prop in units:
             prompt += f" ({units[prop]})"
-        st.session_state.deckung_data[prop] = st.text_input(prompt, value=st.session_state.deckung_data[prop]).strip()
+        st.session_state.deckung_data[prop] = st.text_input(prompt, key=prop, value=st.session_state.deckung_data[prop]).strip()
+
+# Check if all fields in the expander have data
+if all(value.strip() for value in st.session_state.deckung_data.values()):
+    # Calculate Grenzkosten by summing up the values
+    grenzkosten_value = sum(float(value) for value in st.session_state.deckung_data.values())
+    grenzkosten_container = st.text_input("Grenzkosten", value=grenzkosten_value).strip()
+else:
+    grenzkosten_container = st.empty()
+    grenzkosten_container.text("Please fill in all fields in the expander.")
 
 
 
