@@ -290,23 +290,27 @@ with st.expander("Grenzkosten"):
         prompt = f"{prop}"
         if prop in units:
             prompt += f" ({units[prop]})"
-        st.session_state.deckung_data[prop] = st.text_input(prompt, key=prop, value=st.session_state.deckung_data[prop]).strip()
+        st.session_state.deckung_data[prop] = st.text_input(prompt, key=prop,
+                                                            value=st.session_state.deckung_data[prop]).strip()
 
 # Create a button to calculate Grenzkosten
 calculate_button = st.button("Calculate Grenzkosten")
 
+# Create a placeholder for Grenzkosten
+grenzkosten_container = st.empty()
+
 # Check if the button is clicked and all fields in the expander have data
 if calculate_button and all(value.strip() for value in st.session_state.deckung_data.values()):
+    # Disable Grenzkosten field during calculation
+    grenzkosten_input = st.text_input("Grenzkosten", value="", disabled=True)
+
     # Calculate Grenzkosten by summing up the values
     grenzkosten_value = sum(float(value) for value in st.session_state.deckung_data.values())
-    grenzkosten_container = st.text_input("Grenzkosten", value=grenzkosten_value).strip()
-elif calculate_button:
-    grenzkosten_container = st.empty()
+
+    # Update Grenzkosten field after calculation
+    grenzkosten_input.value = grenzkosten_value
+else:
     grenzkosten_container.text("Please fill in all fields in the expander before calculating Grenzkosten.")
-
-
-
-
 
 # Combine data for downloads
 combined_data = {
