@@ -109,11 +109,6 @@ material_cost_field_mapping = {
     "Profile Preis": ("Profile, Rohre etc.", "Price(€)")
 }
 
-# Clear session state
-session_state = st.session_state
-for key in list(session_state.keys()):
-    del session_state[key]
-
 # Initialize session state for each property
 if "deckung_data" not in st.session_state:
     st.session_state.deckung_data = {prop: "" for prop in deckung_properties}
@@ -298,30 +293,6 @@ with st.expander("Grenzkosten"):
         st.session_state.deckung_data[prop] = st.text_input(prompt, key=f"Grenzkosten_{prop}_input",
                                                             value=st.session_state.deckung_data[prop]).strip()
 
-
-        def calculate_totals(ges_data):
-            numeric_fields = ['total_material_cost', 'Fertigung', 'Prüfen , Doku', 'Strahlen / Streichen',
-                              'techn. Bearb.', 'mech. Vorbearb.', 'mech. Bearbeitung',
-                              'Zwischentransporte', 'transporte', 'Grenzkosten']
-            for field in numeric_fields:
-                ges_data[field] = float(ges_data[field]) if ges_data[field] else 0.0
-
-            ges_data['Grenzkosten'] = ges_data['total_material_cost'] + ges_data['Fertigung'] + ges_data[
-                'Prüfen , Doku'] + ges_data['Strahlen / Streichen'] + ges_data['techn. Bearb.'] + ges_data[
-                                          'mech. Vorbearb.'] + ges_data['mech. Bearbeitung'] + ges_data[
-                                          'Zwischentransporte'] + ges_data['transporte']
-            return ges_data
-
-
-        if st.button("Calculate", key="calculate_totals_button"):
-            user_data = {prop: st.session_state.vk_0_data[prop] for prop in deckung_properties if
-                         prop not in ['Kunde', 'Gegenstand', 'Zeichnungs- Nr.', 'Ausführen Nr.']}
-            user_input_data_calculated = calculate_totals(user_data)
-
-            # Upload the original and calculated data to the database
-            upload_data_to_firestore(db, selected_collection, 'Deckung', user_input_data_calculated)
-
-            st.success("Data uploaded successfully!")
 
 # Combine data for downloads
 combined_data = {
