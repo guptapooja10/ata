@@ -16,6 +16,7 @@ google-cloud-firestore==2.12.0
 googleapis-common-protos==1.60.0
 grpcio==1.58.0
 grpcio-status==1.58.0
+firebase-admin
 idna==3.4
 importlib-metadata==6.8.0
 Jinja2==3.1.2
