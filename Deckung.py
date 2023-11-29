@@ -288,7 +288,7 @@ with st.expander("Gesamtstuden"):
         # Update the table data
         table_data.loc[prop, 'Eur/hour'] = st.session_state.deckung_data[prop]
 
-    # Add a "Calculate" button to perform operations
+
     if st.button("Calculate", key="Calculate_Gesamtstuden"):
         # Perform operations to calculate 'Stunden' and 'Total' columns
         table_data['Stunden'] = table_data.loc[:, ['Brennen_VK_0', 'Schlossern_VK_0', 'Schweißen_VK_0']]
