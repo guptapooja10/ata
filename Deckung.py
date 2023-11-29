@@ -284,7 +284,7 @@ with st.expander("Gesamtstuden"):
 # Create the expander
 with st.expander("Grenzkosten"):
     for prop in ['Prüfen , Doku', 'Strahlen / Streichen', 'techn. Bearb.', 'mech. Vorbearb.', 'mech. Bearbeitung',
-                 'Zwischentransporte', 'transporte']:
+                 'Zwischentransporte', 'transporte', 'Grenzkosten']:
         prompt = f"{prop}"
         if prop in units:
             prompt += f" ({units[prop]})"
@@ -299,14 +299,11 @@ grenzkosten_container = st.empty()
 
 # Check if the button is clicked and all fields in the expander have data
 if calculate_button and all(value.strip() for value in st.session_state.deckung_data.values()):
-    # Disable Grenzkosten field during calculation
-    grenzkosten_input = st.text_input("Grenzkosten", value="", disabled=True)
-
     # Calculate Grenzkosten by summing up the values
     grenzkosten_value = sum(float(value) for value in st.session_state.deckung_data.values())
 
-    # Update Grenzkosten field after calculation
-    grenzkosten_input.value = grenzkosten_value
+    # Display Grenzkosten
+    grenzkosten_container.text(f"Grenzkosten: {grenzkosten_value}")
 else:
     grenzkosten_container.text("Please fill in all fields in the expander before calculating Grenzkosten.")
 
