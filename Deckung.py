@@ -271,28 +271,18 @@ with st.expander("Deckungsbeitrag"):
     st.write("Deckungsbeitrag in UI:", st.session_state.deckungsbeitrag)
 
 # Gesamtstuden expander
-with st.expander("Gesamtstuden"):
-    # Define the properties for each column
-    properties = ['Brennen_Deckung', 'Schlossern_Deckung', 'Schweißen_Deckung', 'sonstiges (Eur/hour)',
-                  'sonstiges (hour)', 'Brennen_VK_0', 'Schlossern_VK_0', 'Schweißen_VK_0']
+gesamt_data = {
+    'Eur/hour': [0, 0, 0, 0],
+    'Stunden': [0, 0, 0, 0],
+    'total': [0, 0, 0, 0],
+}
 
-    # Create a DataFrame to store the values
-    table_data = pd.DataFrame(index=properties, columns=['Eur/hour', 'Stunden', 'Total'])
+index = ['Brennen', 'Schlossern', 'Schweißen', 'sonstiges', 'Gesamtstunden', 'Stunden / Tonne', 'Fertigung EUR']
 
-    # Display the input fields in the table
-    for prop in properties:
-        prompt = f"{prop} ({units[prop]})" if prop in units else prop
-        st.session_state.deckung_data[prop] = try_convert_to_float(
-            st.text_input(prompt, key=f"{prop}_input", value=st.session_state.deckung_data[prop]).strip()
-        )
-        # Update the table data
-        table_data.loc[prop, 'Eur/hour'] = st.session_state.deckung_data[prop]
+df = pd.DataFrame(gesamt_data, index=index)
 
-
-    if st.button("Calculate", key="Calculate_Gesamtstuden"):
-        # Perform operations to calculate 'Stunden' and 'Total' columns
-        table_data['Stunden'] = table_data.loc[:, ['Brennen_VK_0', 'Schlossern_VK_0', 'Schweißen_VK_0']]
-        # Perform any additional operations for the 'Total' column
+# Display the table using st.table()
+st.table(df)
 
 # Grenzkosten expander
 with st.expander("Grenzkosten"):
