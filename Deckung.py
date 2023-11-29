@@ -284,15 +284,28 @@ with st.expander("Gesamtstuden"):
         )
 
 # Grenzkosten expander
-with st.expander("Grenzkosten"):
-    for prop in ['Prüfen , Doku', 'Strahlen / Streichen', 'techn. Bearb.', 'mech. Vorbearb.', 'mech. Bearbeitung',
-                 'Zwischentransporte', 'transporte', 'Grenzkosten']:
-        prompt = f"{prop}"
-        if prop in units:
-            prompt += f" ({units[prop]})"
-        st.session_state.deckung_data[prop] = st.text_input(prompt, value=st.session_state.deckung_data[prop]).strip()
+user_inputs = {
+    "Glühen": 0,
+    "Prüfen , Doku": 0,
+    "Strahlen / Streichen": 0,
+    "techn. Bearb.": 0,
+    "mech. Vorbearb.": 0,
+    "mech. Bearbeitung": 0,
+    "Zwischentransporte": 0,
+    "Transporte": 0,
+    "Grenzkosten": 0
+}
+for key in user_inputs.keys():
+    if key != "Grenzkosten":
+        user_inputs[key] = st.number_input(key, value=user_inputs[key])
 
+# Create a button to calculate Grenzkosten
+if st.button("Calculate Grenzkosten"):
+    # Calculate the sum of values for Grenzkosten excluding Grenzkosten itself
+    user_inputs["Grenzkosten"] = sum(value for key, value in user_inputs.items() if key != "Grenzkosten")
 
+# Display the table
+st.table([user_inputs])
 
 # Combine data for downloads
 combined_data = {
