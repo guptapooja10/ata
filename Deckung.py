@@ -286,7 +286,7 @@ with st.expander("Gesamtstuden"):
 # Grenzkosten expander
 with st.expander("Grenzkosten"):
     for prop in ['Prüfen , Doku', 'Strahlen / Streichen', 'techn. Bearb.', 'mech. Vorbearb.', 'mech. Bearbeitung',
-                 'Zwischentransporte', 'transporte', 'Grenzkosten']:
+                 'Zwischentransporte', 'transporte']:
         prompt = f"{prop}"
         if prop in units:
             prompt += f" ({units[prop]})"
