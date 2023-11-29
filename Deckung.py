@@ -109,6 +109,11 @@ material_cost_field_mapping = {
     "Profile Preis": ("Profile, Rohre etc.", "Price(€)")
 }
 
+# Clear session state
+session_state = st.session_state
+for key in list(session_state.keys()):
+    del session_state[key]
+
 # Initialize session state for each property
 if "deckung_data" not in st.session_state:
     st.session_state.deckung_data = {prop: "" for prop in deckung_properties}
