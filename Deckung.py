@@ -271,18 +271,21 @@ with st.expander("Deckungsbeitrag"):
     st.write("Deckungsbeitrag in UI:", st.session_state.deckungsbeitrag)
 
 # Gesamtstuden expander
-gesamt_data = {
-    'Eur/hour': [0, 0, 0, 0, 0, 0, 0],
-    'Stunden': [0, 0, 0, 0, 0, 0, 0],
-    'total': [0, 0, 0, 0, 0, 0, 0],
-}
+with st.expander("Gesamtstunden"):
+    gesamt_data = {
+        'Eur/hour': [0, 0, 0, 0, 0, 0, 0],
+        'Stunden': [0, 0, 0, 0, 0, 0, 0],
+        'total': [0, 0, 0, 0, 0, 0, 0],
+    }
 
-index = ['Brennen', 'Schlossern', 'Schweißen', 'sonstiges', 'Gesamtstunden', 'Stunden / Tonne', 'Fertigung EUR']
+    index = ['Brennen', 'Schlossern', 'Schweißen', 'sonstiges', 'Gesamtstunden', 'Stunden / Tonne', 'Fertigung EUR']
 
-df = pd.DataFrame(gesamt_data, index=index)
+    df = pd.DataFrame(gesamt_data, index=index)
 
-# Display the table using st.table()
-st.table(df)
+    # Display the table using st.table()
+    st.table(df)
+
+
 
 # Grenzkosten expander
 with st.expander("Grenzkosten"):
