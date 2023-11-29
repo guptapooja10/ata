@@ -25,7 +25,7 @@ image = Image.open('logo_ata.png')
 st.image(image, caption='Ata Logo', use_column_width=True)
 
 # Initialize Firestore client
-db = firestore.Client()
+db = firestore.Client(project="anlagentechnik-aschersleben")
 
 
 # Function to register a new user
