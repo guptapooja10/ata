@@ -284,27 +284,15 @@ with st.expander("Gesamtstuden"):
         )
 
 # Grenzkosten expander
-grenz_data = {
-    "Category": ["Glühen", "Prüfen , Doku", "Strahlen / Streichen", "techn. Bearb.", "mech. Vorbearb.",
-                 "mech. Bearbeitung", "Zwischentransporte", "Transporte", "Grenzkosten"],
-    "Value": [0] * 9  # Initialize all values to 0
-}
-df1 = pd.DataFrame(grenz_data)
+with st.expander("Grenzkosten"):
+    for prop in ['Prüfen , Doku', 'Strahlen / Streichen', 'techn. Bearb.', 'mech. Vorbearb.', 'mech. Bearbeitung',
+                 'Zwischentransporte', 'transporte', 'Grenzkosten']:
+        prompt = f"{prop}"
+        if prop in units:
+            prompt += f" ({units[prop]})"
+        st.session_state.deckung_data[prop] = st.text_input(prompt, value=st.session_state.deckung_data[prop]).strip()
 
-# Display the editable table
-editable_df = st.table(df1.style.format({"Value": "{:.2f}"}).hide_index())
 
-# Create a button to calculate Grenzkosten
-if st.button("Calculate Grenzkosten"):
-    # Update the DataFrame with user inputs
-    user_inputs = editable_df.get_changed_df1()
-    df1["Value"] = user_inputs["Value"]
-
-    # Calculate the sum of values for Grenzkosten excluding Grenzkosten itself
-    df1.at[8, "Value"] = df1.iloc[:8]["Value"].sum()
-
-    # Display the updated table
-    st.table(df1.style.format({"Value": "{:.2f}"}).hide_index())
 
 # Combine data for downloads
 combined_data = {
