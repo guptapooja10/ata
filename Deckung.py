@@ -280,7 +280,7 @@ with st.expander("Gesamtstuden"):
         if prop in units:
             prompt += f" ({units[prop]})"
         st.session_state.deckung_data[prop] = try_convert_to_float(
-            st.text_input(prompt, key=f"{prop}_input", value=st.session_state.deckung_data[prop]).strip()
+            st.text_input(prompt, key=f"Gesamtstuden_{prop}_input", value=st.session_state.deckung_data[prop]).strip()
         )
 
 # Grenzkosten expander
@@ -290,7 +290,9 @@ with st.expander("Grenzkosten"):
         prompt = f"{prop}"
         if prop in units:
             prompt += f" ({units[prop]})"
-        st.session_state.deckung_data[prop] = st.text_input(prompt, value=st.session_state.deckung_data[prop]).strip()
+        st.session_state.deckung_data[prop] = st.text_input(prompt, key=f"Grenzkosten_{prop}_input",
+                                                            value=st.session_state.deckung_data[prop]).strip()
+
 
         def calculate_totals(ges_data):
             numeric_fields = ['total_material_cost', 'Fertigung', 'Prüfen , Doku', 'Strahlen / Streichen',
@@ -305,6 +307,7 @@ with st.expander("Grenzkosten"):
                                           'Zwischentransporte'] + ges_data['transporte']
             return ges_data
 
+
         if st.button("Calculate", key="calculate_totals_button"):
             user_data = {prop: st.session_state.vk_0_data[prop] for prop in deckung_properties if
                          prop not in ['Kunde', 'Gegenstand', 'Zeichnungs- Nr.', 'Ausführen Nr.']}
@@ -314,8 +317,6 @@ with st.expander("Grenzkosten"):
             upload_data_to_firestore(db, selected_collection, 'Deckung', user_input_data_calculated)
 
             st.success("Data uploaded successfully!")
-
-
 
 # Combine data for downloads
 combined_data = {
