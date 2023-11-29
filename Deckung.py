@@ -307,7 +307,7 @@ with st.expander("Grenzkosten"):
             return ges_data
 
 
-        if st.button("Calculate"):
+        if st.button("Calculate", key="calculate_totals"):
             user_data = {prop: st.session_state.vk_0_data[prop] for prop in deckung_properties if
                          prop not in ['Kunde', 'Gegenstand', 'Zeichnungs- Nr.', 'Ausführen Nr.']}
             user_input_data_calculated = calculate_totals(user_data)
