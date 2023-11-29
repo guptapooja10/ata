@@ -297,7 +297,7 @@ editable_df = st.table(df1.style.format({"Value": "{:.2f}"}).hide_index())
 # Create a button to calculate Grenzkosten
 if st.button("Calculate Grenzkosten"):
     # Update the DataFrame with user inputs
-    user_inputs = editable_df.get_changed_df()
+    user_inputs = editable_df.get_changed_df1()
     df1["Value"] = user_inputs["Value"]
 
     # Calculate the sum of values for Grenzkosten excluding Grenzkosten itself
