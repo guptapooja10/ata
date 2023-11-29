@@ -272,9 +272,9 @@ with st.expander("Deckungsbeitrag"):
 
 # Gesamtstuden expander
 gesamt_data = {
-    'Eur/hour': [0, 0, 0, 0],
-    'Stunden': [0, 0, 0, 0],
-    'total': [0, 0, 0, 0],
+    'Eur/hour': [0, 0, 0, 0, 0, 0, 0],
+    'Stunden': [0, 0, 0, 0, 0, 0, 0],
+    'total': [0, 0, 0, 0, 0, 0, 0],
 }
 
 index = ['Brennen', 'Schlossern', 'Schweißen', 'sonstiges', 'Gesamtstunden', 'Stunden / Tonne', 'Fertigung EUR']
