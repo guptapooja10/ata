@@ -284,28 +284,27 @@ with st.expander("Gesamtstuden"):
         )
 
 # Grenzkosten expander
-user_inputs = {
-    "Glühen": 0,
-    "Prüfen , Doku": 0,
-    "Strahlen / Streichen": 0,
-    "techn. Bearb.": 0,
-    "mech. Vorbearb.": 0,
-    "mech. Bearbeitung": 0,
-    "Zwischentransporte": 0,
-    "Transporte": 0,
-    "Grenzkosten": 0
+grenz_data = {
+    "Category": ["Glühen", "Prüfen , Doku", "Strahlen / Streichen", "techn. Bearb.", "mech. Vorbearb.",
+                 "mech. Bearbeitung", "Zwischentransporte", "Transporte", "Grenzkosten"],
+    "Value": [0] * 9  # Initialize all values to 0
 }
-for key in user_inputs.keys():
-    if key != "Grenzkosten":
-        user_inputs[key] = st.number_input(key, value=user_inputs[key])
+df1 = pd.DataFrame(grenz_data)
+
+# Display the editable table
+editable_df = st.table(df1.style.format({"Value": "{:.2f}"}).hide_index())
 
 # Create a button to calculate Grenzkosten
 if st.button("Calculate Grenzkosten"):
-    # Calculate the sum of values for Grenzkosten excluding Grenzkosten itself
-    user_inputs["Grenzkosten"] = sum(value for key, value in user_inputs.items() if key != "Grenzkosten")
+    # Update the DataFrame with user inputs
+    user_inputs = editable_df.get_changed_df()
+    df1["Value"] = user_inputs["Value"]
 
-# Display the table
-st.table([user_inputs])
+    # Calculate the sum of values for Grenzkosten excluding Grenzkosten itself
+    df1.at[8, "Value"] = df1.iloc[:8]["Value"].sum()
+
+    # Display the updated table
+    st.table(df1.style.format({"Value": "{:.2f}"}).hide_index())
 
 # Combine data for downloads
 combined_data = {
