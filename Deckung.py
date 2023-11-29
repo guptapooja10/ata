@@ -283,23 +283,26 @@ with st.expander("Gesamtstuden"):
             st.text_input(prompt, key=f"{prop}_input", value=st.session_state.deckung_data[prop]).strip()
         )
 
-# Grenzkosten expander
+# Create the expander
 with st.expander("Grenzkosten"):
     for prop in ['Prüfen , Doku', 'Strahlen / Streichen', 'techn. Bearb.', 'mech. Vorbearb.', 'mech. Bearbeitung',
-                 'Zwischentransporte', 'transporte']:
+                 'Zwischentransporte', 'transporte', 'Grenzkosten']:
         prompt = f"{prop}"
         if prop in units:
             prompt += f" ({units[prop]})"
         st.session_state.deckung_data[prop] = st.text_input(prompt, key=prop, value=st.session_state.deckung_data[prop]).strip()
 
-    # Check if all fields in the expander have data
-    if all(value.strip() for value in st.session_state.deckung_data.values()):
-        # Calculate Grenzkosten by summing up the values
-        grenzkosten_value = sum(float(value) for value in st.session_state.deckung_data.values())
-        grenzkosten_container = st.text_input("Grenzkosten", value=grenzkosten_value).strip()
-    else:
-        grenzkosten_container = st.empty()
-        grenzkosten_container.text("Please fill in all fields in the expander.")
+# Create a button to calculate Grenzkosten
+calculate_button = st.button("Calculate Grenzkosten")
+
+# Check if the button is clicked and all fields in the expander have data
+if calculate_button and all(value.strip() for value in st.session_state.deckung_data.values()):
+    # Calculate Grenzkosten by summing up the values
+    grenzkosten_value = sum(float(value) for value in st.session_state.deckung_data.values())
+    grenzkosten_container = st.text_input("Grenzkosten", value=grenzkosten_value).strip()
+elif calculate_button:
+    grenzkosten_container = st.empty()
+    grenzkosten_container.text("Please fill in all fields in the expander before calculating Grenzkosten.")
 
 
 
