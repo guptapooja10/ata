@@ -271,22 +271,16 @@ with st.expander("Deckungsbeitrag"):
     st.write("Deckungsbeitrag in UI:", st.session_state.deckungsbeitrag)
 
 # Gesamtstuden expander
-with st.expander("Gesamtstunden"):
-    gesamt_data = {
-        'Eur/hour': [0, 0, 0, 0, 0, 0, 0],
-        'Stunden': [0, 0, 0, 0, 0, 0, 0],
-        'total': [0, 0, 0, 0, 0, 0, 0],
-    }
-
-    index = ['Brennen', 'Schlossern', 'Schweißen', 'sonstiges', 'Gesamtstunden', 'Stunden / Tonne', 'Fertigung EUR']
-
-    df = pd.DataFrame(gesamt_data, index=index)
-
-    # Display the table using st.table()
-    st.table(df)
-
-
-
+with st.expander("Gesamtstuden"):
+    for prop in ['Brennen_Deckung', 'Schlossern_Deckung', 'Schweißen_Deckung', 'sonstiges (Eur/hour)',
+                 'sonstiges (hour)', 'Brennen_VK_0', 'Schlossern_VK_0', 'Schweißen_VK_0']:
+        prompt = f"{prop}"
+        if prop in units:
+            prompt += f" ({units[prop]})"
+        # Safely convert the input to float, default to 0.0 if conversion fails
+        st.session_state.deckung_data[prop] = try_convert_to_float(
+            st.text_input(prompt, key=f"{prop}_input", value=st.session_state.deckung_data[prop]).strip()
+        )
 # Grenzkosten expander
 with st.expander("Grenzkosten"):
     for prop in ['Prüfen , Doku', 'Strahlen / Streichen', 'techn. Bearb.', 'mech. Vorbearb.', 'mech. Bearbeitung',
