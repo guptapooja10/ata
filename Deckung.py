@@ -277,10 +277,11 @@ with st.expander("Gesamtstuden"):
         prompt = f"{prop}"
         if prop in units:
             prompt += f" ({units[prop]})"
-        # Safely convert the input to float, default to 0.0 if conversion fails
         st.session_state.deckung_data[prop] = try_convert_to_float(
             st.text_input(prompt, key=f"{prop}_input", value=st.session_state.deckung_data[prop]).strip()
         )
+
+
 # Grenzkosten expander
 with st.expander("Grenzkosten"):
     for prop in ['Prüfen , Doku', 'Strahlen / Streichen', 'techn. Bearb.', 'mech. Vorbearb.', 'mech. Bearbeitung',
