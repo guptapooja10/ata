@@ -66,6 +66,7 @@ deckung_properties = {
     'mech. Bearbeitung': float,
     'Zwischentransporte': float,
     'transporte': float,
+    'Grenzkosten': float,
     'Erlös': float,
     'DB': float,
     'Deckungsbeitrag': float,
@@ -86,6 +87,7 @@ units = {
     'mech. Bearbeitung': '€',
     'Zwischentransporte': '€',
     'transporte': '€',
+    'Grenzkosten': '€',
     'Erlös': '€',
     'DB': '%',
     'Deckungsbeitrag': '€',
@@ -281,15 +283,14 @@ with st.expander("Gesamtstuden"):
             st.text_input(prompt, key=f"{prop}_input", value=st.session_state.deckung_data[prop]).strip()
         )
 
-# Create the expander
+# Grenzkosten expander
 with st.expander("Grenzkosten"):
     for prop in ['Prüfen , Doku', 'Strahlen / Streichen', 'techn. Bearb.', 'mech. Vorbearb.', 'mech. Bearbeitung',
                  'Zwischentransporte', 'transporte', 'Grenzkosten']:
         prompt = f"{prop}"
         if prop in units:
             prompt += f" ({units[prop]})"
-        st.session_state.deckung_data[prop] = st.text_input(prompt, key=prop,
-                                                            value=st.session_state.deckung_data[prop]).strip()
+        st.session_state.deckung_data[prop] = st.text_input(prompt, value=st.session_state.deckung_data[prop]).strip()
 
 
 
