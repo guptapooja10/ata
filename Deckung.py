@@ -66,6 +66,7 @@ deckung_properties = {
     'mech. Bearbeitung': float,
     'Zwischentransporte': float,
     'transporte': float,
+    'Grenzkosten': float,
     'Erlös': float,
     'DB': float,
     'Deckungsbeitrag': float,
@@ -86,6 +87,7 @@ units = {
     'mech. Bearbeitung': '€',
     'Zwischentransporte': '€',
     'transporte': '€',
+    'Grenzkosten': '€',
     'Erlös': '€',
     'DB': '%',
     'Deckungsbeitrag': '€',
@@ -284,7 +286,7 @@ with st.expander("Gesamtstuden"):
 # Grenzkosten expander
 with st.expander("Grenzkosten"):
     for prop in ['Prüfen , Doku', 'Strahlen / Streichen', 'techn. Bearb.', 'mech. Vorbearb.', 'mech. Bearbeitung',
-                 'Zwischentransporte', 'transporte']:
+                 'Zwischentransporte', 'transporte', 'Grenzkosten']:
         prompt = f"{prop}"
         if prop in units:
             prompt += f" ({units[prop]})"
@@ -294,7 +296,7 @@ with st.expander("Grenzkosten"):
         def calculate_totals(ges_data):
             numeric_fields = ['total_material_cost', 'Fertigung', 'Prüfen , Doku', 'Strahlen / Streichen',
                               'techn. Bearb.', 'mech. Vorbearb.', 'mech. Bearbeitung',
-                              'Zwischentransporte', 'transporte']
+                              'Zwischentransporte', 'transporte', 'Grenzkosten']
             for field in numeric_fields:
                 ges_data[field] = float(ges_data[field]) if ges_data[field] else 0.0
 
