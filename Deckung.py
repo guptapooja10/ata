@@ -120,12 +120,12 @@ if 'Material' not in st.session_state:
         columns=["Calculated Weight(Kg)", "Delivery Weight(Kg)", "Price(€)", "Price per Kg(€/Kg)"]
     ).to_dict(orient='index')
 
-if 'Grenzkoten' not in st.session_state:
-    st.session_state['Grenzkosten'] = pd.DataFrame(
-        index=["Prüfen , Doku", "Strahlen / Streichen", "techn. Bearb.", "mech. Vorbearb.", "mech. Bearbeitung",
-               "Zwischentransporte", "transporte", "Grenzkosten"],
-        columns=["Total_Grenzkosten(€)"]
-    ).to_dict(orient='index')
+# if 'Grenzkoten' not in st.session_state:
+#     st.session_state['Grenzkosten'] = pd.DataFrame(
+#         index=["Prüfen , Doku", "Strahlen / Streichen", "techn. Bearb.", "mech. Vorbearb.", "mech. Bearbeitung",
+#                "Zwischentransporte", "transporte", "Grenzkosten"],
+#         columns=["Total_Grenzkosten(€)"]
+#     ).to_dict(orient='index')
 
 # Initialize session state for Erlös, Deckungsbeitrag, and DB if not already initialized
 if "Erlös" not in st.session_state:
@@ -292,22 +292,30 @@ with st.expander("Gesamtstuden"):
 
 # Create an expander for 'Grenzkosten'
 with st.expander("Grenzkosten"):
-    # Create a button to trigger the calculation
-    if st.button("Calculate"):
-        # Get the DataFrame from session_state
-        df1 = pd.DataFrame.from_dict(st.session_state['Grenzkosten'], orient='index')
+    for prop in ['Prüfen , Doku', 'Strahlen / Streichen', 'techn. Bearb.', 'mech. Vorbearb.', 'mech. Bearbeitung',
+                 'Zwischentransporte', 'transporte', 'Grenzkosten']:
+        prompt = f"{prop}"
+        if prop in units:
+            prompt += f" ({units[prop]})"
+        st.session_state.deckung_data[prop] = st.text_input(prompt, value=st.session_state.deckung_data[prop]).strip()
 
-        # Input values for each category
-        for index in df1.index:
-            if index != 'Grenzkosten':
-                user_input = st.text_input(f"Enter value for {index}", df1.at[index, 'Total_Grenzkosten(€)'])
-                df1.at[index, 'Total_Grenzkosten(€)'] = float(user_input) if user_input else 0.0
 
-        # Update the 'Grenzkosten' index with the total sum
-        st.session_state['Grenzkosten'] = df1.to_dict(orient='index')
+    def grenz_calculate(data):
+        numeric_fields = ['Prüfen , Doku', 'Strahlen / Streichen', 'techn. Bearb.', 'mech. Vorbearb.',
+                          'mech. Bearbeitung',
+                          'Zwischentransporte', 'transporte', 'Grenzkosten']
+        for field in numeric_fields:
+            data[field] = float(data[field]) if data[field] else 0.0
 
-    # Display the DataFrame
-    st.write(pd.DataFrame.from_dict(st.session_state['Grenzkosten'], orient='index'))
+        data['Grenzkosten'] = data['Prüfen , Doku'] + data['Strahlen / Streichen']
+        return data
+
+
+    # Calculate Grenzkosten directly without a button
+    grenz_data = grenz_calculate(st.session_state.deckung_data)
+
+    # Display the calculated Grenzkosten
+    st.write("Calculated Grenzkosten:", grenz_data['Grenzkosten'])
 
 # Combine data for downloads
 combined_data = {
