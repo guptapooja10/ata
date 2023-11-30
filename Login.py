@@ -14,7 +14,7 @@ db = firestore.Client(credentials=creds)
 firebase_cred = credentials.Certificate(key_dict)
 firebase_admin.initialize_app(firebase_cred)
 
-
+print("Service Account JSON Key:", key_dict)
 # Registration
 def register_user(email, password):
     try:
