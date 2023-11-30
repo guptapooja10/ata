@@ -292,6 +292,8 @@ with st.expander("Grenzkosten"):
             prompt += f" ({units[prop]})"
         st.session_state.deckung_data[prop] = st.text_input(prompt, value=st.session_state.deckung_data[prop]).strip()
 
+
+
 # Combine data for downloads
 combined_data = {
     **st.session_state.deckung_data,  # Project and Product Details
