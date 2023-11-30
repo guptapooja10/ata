@@ -290,17 +290,18 @@ with st.expander("Gesamtstuden"):
             st.text_input(prompt, key=f"{prop}_input", value=st.session_state.deckung_data[prop]).strip()
         )
 
-# Grenzkosten
+# Create an expander for 'Grenzkosten'
 with st.expander("Grenzkosten"):
     # Create a button to trigger the calculation
     if st.button("Calculate"):
         # Get the DataFrame from session_state
         df1 = pd.DataFrame.from_dict(st.session_state['Grenzkosten'], orient='index')
 
-        # Calculate the sum for each index other than 'Grenzkosten'
-        for index in df.index:
+        # Input values for each category
+        for index in df1.index:
             if index != 'Grenzkosten':
-                df1.at[index, 'Total_Grenzkosten(€)'] = df1.loc[df1.index != 'Grenzkosten', 'Total_Grenzkosten(€)'].sum()
+                user_input = st.text_input(f"Enter value for {index}", df1.at[index, 'Total_Grenzkosten(€)'])
+                df1.at[index, 'Total_Grenzkosten(€)'] = float(user_input) if user_input else 0.0
 
         # Update the 'Grenzkosten' index with the total sum
         st.session_state['Grenzkosten'] = df1.to_dict(orient='index')
