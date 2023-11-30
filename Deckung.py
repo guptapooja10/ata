@@ -284,6 +284,7 @@ with st.expander("Gesamtstuden"):
         )
 
 # Grenzkosten expander
+# Grenzkosten expander
 with st.expander("Grenzkosten"):
     for prop in ['Prüfen , Doku', 'Strahlen / Streichen', 'techn. Bearb.', 'mech. Vorbearb.', 'mech. Bearbeitung',
                  'Zwischentransporte', 'transporte']:
@@ -291,6 +292,7 @@ with st.expander("Grenzkosten"):
         if prop in units:
             prompt += f" ({units[prop]})"
         st.session_state.deckung_data[prop] = st.text_input(prompt, value=st.session_state.deckung_data[prop]).strip()
+
 
     def calculate_grenz(data):
         numeric_fields = ['Prüfen , Doku', 'Strahlen / Streichen', 'techn. Bearb.', 'mech. Vorbearb.',
@@ -302,12 +304,12 @@ with st.expander("Grenzkosten"):
         data['Grenzkosten'] = data['Prüfen , Doku'] + data['Strahlen / Streichen']
         return data
 
-    # Modify the key for the button to make it unique
-    if st.button('Calculate Grenzkosten', key="Calculate_Grenzkosten_Button"):
-        user = {prop: st.session_state.deckung_data[prop] for prop in deckung_properties if
-                prop not in ['Kunde', 'Gegenstand', 'Zeichnungs- Nr.', 'Ausführen Nr.']}
-        user_input = calculate_grenz(user)
 
+    # Calculate Grenzkosten directly without a button
+    grenz_data = calculate_grenz(st.session_state.deckung_data)
+
+    # Display the calculated Grenzkosten
+    st.write("Calculated Grenzkosten:", grenz_data['Grenzkosten'])
 
 # Combine data for downloads
 combined_data = {
