@@ -303,7 +303,7 @@ with st.expander("Grenzkosten"):
             data['Grenzkosten'] = data['Prüfen , Doku'] + data['Strahlen / Streichen']
             return data
 
-        if st.button('Calculate Grenzkosten', key = "Calculate Grenzkosten"):
+        if st.button('Calculate Grenzkosten', key = "Calculate_Grenzkosten"):
             user = {prop: st.session_state.deckung_data[prop] for prop in deckung_properties if
                        prop not in ['Kunde', 'Gegenstand', 'Zeichnungs- Nr.', 'Ausführen Nr.']}
             user_input = calculate_grenz(user)
