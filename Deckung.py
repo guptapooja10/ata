@@ -120,6 +120,13 @@ if 'Material' not in st.session_state:
         columns=["Calculated Weight(Kg)", "Delivery Weight(Kg)", "Price(€)", "Price per Kg(€/Kg)"]
     ).to_dict(orient='index')
 
+if 'Grenzkoten' not in st.session_state:
+    st.session_state['Grenzkosten'] = pd.DataFrame(
+        index=["Prüfen , Doku", "Strahlen / Streichen", "techn. Bearb.", "mech. Vorbearb.", "mech. Bearbeitung",
+               "Zwischentransporte", "transporte", "Grenzkosten"],
+        columns=["Total_Grenzkosten(€)"]
+    ).to_dict(orient='index')
+
 # Initialize session state for Erlös, Deckungsbeitrag, and DB if not already initialized
 if "Erlös" not in st.session_state:
     st.session_state.erlos = 0.0
@@ -283,16 +290,23 @@ with st.expander("Gesamtstuden"):
             st.text_input(prompt, key=f"{prop}_input", value=st.session_state.deckung_data[prop]).strip()
         )
 
-# Grenzkosten expander
+# Grenzkosten
 with st.expander("Grenzkosten"):
-    for prop in ['Prüfen , Doku', 'Strahlen / Streichen', 'techn. Bearb.', 'mech. Vorbearb.', 'mech. Bearbeitung',
-                 'Zwischentransporte', 'transporte', 'Grenzkosten']:
-        prompt = f"{prop}"
-        if prop in units:
-            prompt += f" ({units[prop]})"
-        st.session_state.deckung_data[prop] = st.text_input(prompt, value=st.session_state.deckung_data[prop]).strip()
+    # Create a button to trigger the calculation
+    if st.button("Calculate"):
+        # Get the DataFrame from session_state
+        df1 = pd.DataFrame.from_dict(st.session_state['Grenzkosten'], orient='index')
 
+        # Calculate the sum for each index other than 'Grenzkosten'
+        for index in df.index:
+            if index != 'Grenzkosten':
+                df1.at[index, 'Total_Grenzkosten(€)'] = df1.loc[df1.index != 'Grenzkosten', 'Total_Grenzkosten(€)'].sum()
 
+        # Update the 'Grenzkosten' index with the total sum
+        st.session_state['Grenzkosten'] = df1.to_dict(orient='index')
+
+    # Display the DataFrame
+    st.write(pd.DataFrame.from_dict(st.session_state['Grenzkosten'], orient='index'))
 
 # Combine data for downloads
 combined_data = {
