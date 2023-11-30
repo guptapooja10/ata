@@ -299,7 +299,7 @@ with st.expander("Grenzkosten"):
             prompt += f" ({units[prop]})"
         st.session_state.deckung_data[prop] = st.text_input(prompt, value=st.session_state.deckung_data[prop]).strip()
 
-
+    # Total calculation
     def grenz_calculate(data):
         numeric_fields = ['Prüfen , Doku', 'Strahlen / Streichen', 'techn. Bearb.', 'mech. Vorbearb.',
                           'mech. Bearbeitung',
