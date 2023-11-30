@@ -17,7 +17,7 @@ firebase_admin.initialize_app(firebase_cred)
 print("Service Account JSON Key:", key_dict)
 
 
-# Registration
+# New Registration
 def register_user(email, password):
     try:
         # Create user in Firebase Authentication
