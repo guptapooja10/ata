@@ -285,26 +285,35 @@ with st.expander("Gesamtstuden"):
 
 # Grenzkosten expander
 with st.expander("Grenzkosten"):
-    grenzkosten_columns = ['Prüfen , Doku', 'Strahlen / Streichen', 'techn. Bearb.', 'mech. Vorbearb.', 'mech. Bearbeitung',
-                            'Zwischentransporte', 'transporte', 'Grenzkosten']
+    grenzkosten_columns = ['Prüfen , Doku', 'Strahlen / Streichen', 'techn. Bearb.', 'mech. Vorbearb.',
+                           'mech. Bearbeitung',
+                           'Zwischentransporte', 'transporte', 'Grenzkosten']
 
     # Initialize Grenzkosten DataFrame with default values or values from session state
     grenzkosten_df = pd.DataFrame(index=grenzkosten_columns, columns=["Total"]).fillna(0.0)
 
-    # Display the Grenzkosten DataFrame using Streamlit's editable_table
-    edited_grenzkosten_df = st.beta_expander("Edit Grenzkosten").beta_editable_table(grenzkosten_df)
+    # Display the Grenzkosten DataFrame using Streamlit's dataframe function
+    st.dataframe(grenzkosten_df)
 
-    # Store the edited Grenzkosten DataFrame in session state
-    st.session_state['Grenzkosten'] = edited_grenzkosten_df
+    if st.button('Calculate Grenzkosten Totals', key="Calculate_Grenzkosten_Totals"):
+        for prop in grenzkosten_columns:
+            prompt = f"{prop}"
+            if prop in units:
+                prompt += f" ({units[prop]})"
+            grenzkosten_df.at[prop, "Total"] = st.number_input(prompt, key=f"{prop}_input",
+                                                               value=grenzkosten_df.at[prop, "Total"], step=0.1)
 
-    # Calculate totals for Grenzkosten
-    grenzkosten_total = edited_grenzkosten_df["Total"].sum()
+        # Store the Grenzkosten DataFrame in session state
+        st.session_state['Grenzkosten'] = grenzkosten_df
 
-    # Update the session state with the Grenzkosten total
-    st.session_state.deckung_data['Grenzkosten'] = grenzkosten_total
+        # Calculate totals for Grenzkosten
+        grenzkosten_total = grenzkosten_df["Total"].sum()
 
-    # Display the calculated Grenzkosten total
-    st.write("Grenzkosten Total:", grenzkosten_total)
+        # Update the session state with the Grenzkosten total
+        st.session_state.deckung_data['Grenzkosten'] = grenzkosten_total
+
+        # Display the calculated Grenzkosten total
+        st.write("Grenzkosten Total:", grenzkosten_total)
 
 # Combine data for downloads
 combined_data = {
