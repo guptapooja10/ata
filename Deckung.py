@@ -301,7 +301,8 @@ with st.expander("Grenzkosten"):
         for field in numeric_fields:
             data[field] = float(data[field]) if data[field] else 0.0
 
-        data['Grenzkosten'] = data['Prüfen , Doku'] + data['Strahlen / Streichen']
+        data['Grenzkosten'] = data['Prüfen , Doku'] + data['Strahlen / Streichen'] + data['techn. Bearb.'] + data[
+            'mech. Vorbearb.'] + data['mech. Bearbeitung'] + data['Zwischentransporte'] | data['transporte']
         return data
 
 
