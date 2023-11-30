@@ -15,6 +15,7 @@ firebase_cred = credentials.Certificate(key_dict)
 firebase_admin.initialize_app(firebase_cred)
 
 
+# Registration
 def register_user(email, password):
     try:
         # Create user in Firebase Authentication
@@ -31,6 +32,7 @@ def register_user(email, password):
         return None
 
 
+# Login
 def login_user(email, password):
     try:
         # Authenticate user using Firebase Authentication
