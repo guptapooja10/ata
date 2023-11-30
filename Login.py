@@ -2,7 +2,8 @@ import streamlit as st
 from google.cloud import firestore
 from google.oauth2 import service_account
 from PIL import Image
-
+import firebase_admin
+from firebase_admin import credentials, auth
 
 # Navigation bar
 def navigation_bar():
