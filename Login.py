@@ -25,34 +25,3 @@ navigation_bar()
 
 image = Image.open('logo_ata.png')
 st.image(image, caption='Ata Logo', use_column_width=True)
-
-# Initialize Firestore client
-key_dict = st.secrets["textkey"]
-creds = service_account.Credentials.from_service_account_info(
-    key_dict, client_email=key_dict["client_email"], token_uri=key_dict["token_uri"]
-)
-db = firestore.Client(credentials=creds)
-
-
-# Registering new users
-def register_users(user_id, name, email, password):
-    user_ref = db.collection('Users').document(user_id)
-    user_ref.set({
-        'name': name,
-        'email': email,
-        'password': password
-    })
-
-
-action = st.radio('Select Action:', ['Register', 'Login'])
-
-if action == 'Register':
-    st.subheader('Register')
-    user_id = st.text_input('User ID:')
-    name = st.text_input('Name:')
-    email = st.text_input('E-Mail:')
-    password = st.text_input('Password:', type='password')
-
-    if st.button('Register'):
-        register_users(user_id, name, email, password)
-        st.success("Registration successful!")
