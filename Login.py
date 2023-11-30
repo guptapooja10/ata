@@ -27,7 +27,9 @@ st.image(image, caption='Ata Logo', use_column_width=True)
 
 # Initialize Firestore client
 key_dict = st.secrets["textkey"]
-creds = service_account.Credentials.from_service_account_info(key_dict)
+creds = service_account.Credentials.from_service_account_info(
+    key_dict, client_email=key_dict["client_email"], token_uri=key_dict["token_uri"]
+)
 db = firestore.Client(credentials=creds)
 
 
@@ -48,7 +50,7 @@ if action == 'Register':
     user_id = st.text_input('User ID:')
     name = st.text_input('Name:')
     email = st.text_input('E-Mail:')
-    password = st.text_input('Password:', type = 'password')
+    password = st.text_input('Password:', type='password')
 
     if st.button('Register'):
         register_users(user_id, name, email, password)
