@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-import pandas_bokeh
+# import pandas_bokeh
 import io
 from PIL import Image
 from google.cloud import firestore
@@ -123,11 +123,11 @@ if 'Material' not in st.session_state:
         columns=["Calculated Weight(Kg)", "Delivery Weight(Kg)", "Price(€)", "Price per Kg(€/Kg)"]
     ).to_dict(orient='index')
 
-# if 'Gesamtstunden' not in st.session_state:
-#     st.session_state['Gesamtstunden'] = pd.DataFrame(
-#         index=["Brennen", "Schlossern", "Schweißen", "sonstiges", "Gesamtstunden", "Stunden/Tonne", "Fertigung EUR"],
-#         columns=["Eur/hour", "Stunden", "Total_Stunden/Tonne"]
-#     ).to_dict(orient='index')
+if 'Gesamtstunden' not in st.session_state:
+     st.session_state['Gesamtstunden'] = pd.DataFrame(
+         index=["Brennen", "Schlossern", "Schweißen", "sonstiges", "Gesamtstunden", "Stunden/Tonne", "Fertigung EUR"],
+         columns=["Eur/hour", "Stunden", "Total_Stunden/Tonne"]
+     ).to_dict(orient='index')
 
 # Initialize session state for Erlös, Deckungsbeitrag, and DB if not already initialized
 if "Erlös" not in st.session_state:
@@ -141,7 +141,7 @@ if "DB (%)" not in st.session_state:
 
 # Now 'df' is defined from the session state
 df = pd.DataFrame.from_dict(st.session_state['Material']).transpose()
-# df1 = pd.DataFrame.from_dict(st.session_state['Gesamtstunden']).transpose()
+df1 = pd.DataFrame.from_dict(st.session_state['Gesamtstunden']).transpose()
 
 if 'total_material_cost' not in st.session_state:
     st.session_state['total_material_cost'] = 0.0
@@ -283,39 +283,20 @@ if vk_0_data:
     st.session_state.deckung_data['Schlossern_VK_0'] = vk_0_data.get('Schlossern_VK_0', "")
     st.session_state.deckung_data['Schweißen_VK_0'] = vk_0_data.get('Schweißen_VK_0', "")
 
-# Function to create an editable DataTable
-def create_editable_datatable(dataframe):
-    return st.bokeh_chart(dataframe)
 
-# Enable pandas_bokeh in Streamlit
-pandas_bokeh.output_notebook()
-
-
-
-if 'Gesamtstunden' not in st.session_state:
-    st.session_state['Gesamtstunden'] = pd.DataFrame(
-        index=["Brennen", "Schlossern", "Schweißen", "sonstiges", "Gesamtstunden", "Stunden/Tonne", "Fertigung EUR"],
-        columns=["Eur/hour", "Stunden", "Total_Stunden/Tonne"]
-    ).to_dict(orient='index')
-
-# Update 'Stunden' column in Gesamtstunden DataFrame with VK-0 data
-df_gesamtstunden = pd.DataFrame.from_dict(st.session_state['Gesamtstunden']).transpose()
-df_gesamtstunden['Stunden'] = [st.session_state.deckung_data.get('Brennen_VK_0', 0),
-                               st.session_state.deckung_data.get('Schlossern_VK_0', 0),
-                               st.session_state.deckung_data.get('Schweißen_VK_0', 0),
-                               0, 0, 0, 0]
-# Gesamtstunden expander
 with st.expander("Gesamtstunden"):
-    # Display the DataFrame using editable DataTable
-    create_editable_datatable(df_gesamtstunden)
+    # Display the DataFrame using Streamlit's dataframe function
+    st.dataframe(df1)
 
     if st.button('Calculate Gesamtstunden', key="Calculate_Gesamtstunden"):
+        df1 = pd.DataFrame.from_dict(st.session_state['Gesamtstunden']).transpose()
+
         # Convert the DataFrame columns to numeric values where possible
-        for col in df_gesamtstunden.columns:
-            df_gesamtstunden[col] = pd.to_numeric(df_gesamtstunden[col], errors='ignore')
+        for col in df1.columns:
+            df1[col] = pd.to_numeric(df1[col], errors='ignore')
 
         # Update the session state with the edited DataFrame
-        st.session_state['Gesamtstunden'] = df_gesamtstunden.to_dict(orient="index")
+        st.session_state['Gesamtstunden'] = df1.to_dict(orient="index")
 
 
 # Create an expander for 'Grenzkosten'
