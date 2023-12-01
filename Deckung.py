@@ -308,7 +308,7 @@ with st.expander("Gesamtstunden"):
         st.session_state['Gesamtstunden'] = edited_df.to_dict(orient="index")
 
         # Reassign the updated DataFrame to the DataTable
-        df1 = edited_df
+    df1 = edited_df
 
 
 # Create an expander for 'Grenzkosten'
