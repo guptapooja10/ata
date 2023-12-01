@@ -306,7 +306,7 @@ with st.expander("Gesamtstunden"):
         # Update the session state with the edited DataFrame
         st.session_state['Gesamtstunden'] = edited_df.to_dict(orient="index")
 
-    # st.write(edited_df)
+    st.write(edited_df)
 
 # Create an expander for 'Grenzkosten'
 with st.expander("Grenzkosten"):
