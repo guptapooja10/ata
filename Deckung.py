@@ -215,6 +215,10 @@ with st.expander("Project Details"):
         st.session_state.deckung_data[prop] = st.text_input(prompt, key=f"{prop}_input",
                                                             value=st.session_state.deckung_data[prop]).strip()
 
+
+if 'Gewicht' not in st.session_state:
+    st.session_state['Gewicht'] = 0.0
+
 # Product Details Expander
 with st.expander("Product Details"):
     for prop in ['Gewicht', 'Material Kosten']:
