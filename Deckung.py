@@ -301,14 +301,12 @@ with st.expander("Gesamtstunden"):
         for col in edited_df.columns:
             edited_df[col] = pd.to_numeric(edited_df[col], errors='ignore')
 
-        sum_stunden = edited_df['Stunden'].sum()
-        edited_df.at["Gesamtstunden", "Stunden"] = sum_stunden
+        edited_df.loc["Gesamtstunden", ["Stunden"]] = edited_df["Stunden"].sum()
 
         # Update the session state with the edited DataFrame
         st.session_state['Gesamtstunden'] = edited_df.to_dict(orient="index")
 
-        # Reassign the updated DataFrame to the DataTable
-    df1 = edited_df
+        st.experimental_data_editor(edited_df)
 
 
 # Create an expander for 'Grenzkosten'
