@@ -286,7 +286,7 @@ if vk_0_data:
 
 with st.expander("Gesamtstunden"):
     # Display the DataFrame using Streamlit's dataframe function
-    st.dataframe(df1)
+    edited_df1 = st.experimental_data_editor(df1)
 
     if st.button('Calculate Gesamtstunden', key="Calculate_Gesamtstunden"):
         df1 = pd.DataFrame.from_dict(st.session_state['Gesamtstunden']).transpose()
