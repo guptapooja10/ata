@@ -314,7 +314,6 @@ with st.expander("Gesamtstunden"):
             edited_df[col] = pd.to_numeric(edited_df[col], errors='ignore')
 
         edited_df.loc["Gesamtstunden", ["Stunden"]] = edited_df["Stunden"].sum()
-        edited_df.at["Fertigung EUR", stunden_col] = edited_df.at["Brennen", total_stunden_tonne_col] + edited_df.at["Schlossern", total_stunden_tonne_col] + edited_df.at["Schweißen", total_stunden_tonne_col] + edited_df.at["sonstiges", total_stunden_tonne_col] - edited_df.at["Stunden/Tonne", total_stunden_tonne_col]
         edited_df.at["Brennen", total_stunden_tonne_col] = edited_df.at["Brennen", eur_hour_col] * edited_df.at["Brennen", stunden_col]
         edited_df.at["Schlossern", total_stunden_tonne_col] = edited_df.at["Schlossern", eur_hour_col] * edited_df.at["Schlossern", stunden_col]
         edited_df.at["Schweißen", total_stunden_tonne_col] = edited_df.at["Schweißen", eur_hour_col] * edited_df.at["Schweißen", stunden_col]
@@ -324,6 +323,8 @@ with st.expander("Gesamtstunden"):
         else:
             # Handle the case when gewicht_value is zero
             edited_df.loc["Stunden/Tonne", total_stunden_tonne_col] = 0
+
+        edited_df.at["Fertigung EUR", stunden_col] = edited_df.at["Brennen", total_stunden_tonne_col] + edited_df.at["Schlossern", total_stunden_tonne_col] + edited_df.at["Schweißen", total_stunden_tonne_col] + edited_df.at["sonstiges", total_stunden_tonne_col] - edited_df.at["Stunden/Tonne", total_stunden_tonne_col]
 
         # Update the session state with the edited DataFrame
         st.session_state['Gesamtstunden'] = edited_df.to_dict(orient="index")
