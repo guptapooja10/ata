@@ -231,6 +231,12 @@ with st.expander("Product Details"):
             current_value = float(st.session_state.deckung_data[prop]) if st.session_state.deckung_data[prop] else 0.0
             st.session_state.deckung_data[prop] = st.number_input(prompt, key=f"{prop}_input", value=current_value,
                                                                   step=0.1)
+
+        elif prop == 'Gewicht':
+            # Store 'Gewicht' in session state
+            st.session_state['Gewicht'] = st.number_input(prompt, key=f"{prop}_input",value=st.session_state['Gewicht'], step=0.1)
+
+
         else:
             st.session_state.deckung_data[prop] = st.text_input(prompt,
                                                                 key=f"{prop}_input",
@@ -299,6 +305,7 @@ total_stunden_tonne_col = 'Total_Stunden/Tonne'
 
 # Gesamtstunden expander
 with st.expander("Gesamtstunden"):
+    gewicht_value = st.session_state['Gewicht']
     # Display the DataFrame using editable DataTable
     edited_df = st.data_editor(df1)
 
@@ -313,7 +320,7 @@ with st.expander("Gesamtstunden"):
         edited_df.at["Schlossern", total_stunden_tonne_col] = edited_df.at["Schlossern", eur_hour_col] * edited_df.at["Schlossern", stunden_col]
         edited_df.at["Schweißen", total_stunden_tonne_col] = edited_df.at["Schweißen", eur_hour_col] * edited_df.at["Schweißen", stunden_col]
         edited_df.at["sonstiges", total_stunden_tonne_col] = edited_df.at["sonstiges", eur_hour_col] * edited_df.at["sonstiges", stunden_col]
-
+        edited_df.at["Stunden/Tonne", total_stunden_tonne_col] = edited_df.at["Gesamtstunden", stunden_col] / (edited_df.at["gewicht_value"] * 1000 )
         # Update the session state with the edited DataFrame
         st.session_state['Gesamtstunden'] = edited_df.to_dict(orient="index")
 
