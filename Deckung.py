@@ -122,12 +122,11 @@ if 'Material' not in st.session_state:
         columns=["Calculated Weight(Kg)", "Delivery Weight(Kg)", "Price(€)", "Price per Kg(€/Kg)"]
     ).to_dict(orient='index')
 
-# if 'Grenzkoten' not in st.session_state:
-#     st.session_state['Grenzkosten'] = pd.DataFrame(
-#         index=["Prüfen , Doku", "Strahlen / Streichen", "techn. Bearb.", "mech. Vorbearb.", "mech. Bearbeitung",
-#                "Zwischentransporte", "transporte", "Grenzkosten"],
-#         columns=["Total_Grenzkosten(€)"]
-#     ).to_dict(orient='index')
+if 'Gesamtstunden' not in st.session_state:
+    st.session_state['Gesamtstunden'] = pd.DataFrame(
+        index=["Brennen", "Schlossern", "Schweißen", "sonstiges", "Gesamtstunden", "Stunden/Tonne", "Fertigung EUR"],
+        columns=["Eur/hour", "Stunden", "Total_Stunden/Tonne"]
+    ).to_dict(orient='index')
 
 # Initialize session state for Erlös, Deckungsbeitrag, and DB if not already initialized
 if "Erlös" not in st.session_state:
@@ -141,6 +140,7 @@ if "DB (%)" not in st.session_state:
 
 # Now 'df' is defined from the session state
 df = pd.DataFrame.from_dict(st.session_state['Material']).transpose()
+df1 = pd.DataFrame.from_dict(st.session_state['Gesamtstunden']).transpose()
 
 if 'total_material_cost' not in st.session_state:
     st.session_state['total_material_cost'] = 0.0
@@ -282,15 +282,29 @@ with st.expander("Deckungsbeitrag"):
     st.write("Deckungsbeitrag in UI:", st.session_state.deckungsbeitrag)
 
 # Gesamtstuden expander
-with st.expander("Gesamtstuden"):
-    for prop in ['Brennen_Deckung', 'Schlossern_Deckung', 'Schweißen_Deckung', 'sonstiges (Eur/hour)',
-                 'sonstiges (hour)', 'Brennen_VK_0', 'Schlossern_VK_0', 'Schweißen_VK_0']:
-        prompt = f"{prop}"
-        if prop in units:
-            prompt += f" ({units[prop]})"
-        st.session_state.deckung_data[prop] = try_convert_to_float(
-            st.text_input(prompt, key=f"{prop}_input", value=st.session_state.deckung_data[prop]).strip()
-        )
+with st.expander("Gesamtstunden"):
+    # Display the DataFrame using Streamlit's dataframe function
+    st.dataframe(df1)
+
+    if st.button('Calculate Gesamtstunden', key="Calculate_Gesamtstunden"):
+        df1 = pd.DataFrame.from_dict(st.session_state['Gesamtstunden']).transpose()
+
+        # Convert the DataFrame columns to numeric values where possible
+        for col in df1.columns:
+            df1[col] = pd.to_numeric(df1[col], errors='ignore')
+
+        # Compute the total for each column (excluding "Price per kg") and update the "Total" row values
+        # df1.loc["Total", ["Calculated Weight(Kg)", "Delivery Weight(Kg)", "Price(€)"]] = df.loc[
+        #                                                                                 :"Zuschlag",
+        #                                                                                 ["Calculated Weight(Kg)",
+        #                                                                                  "Delivery Weight(Kg)",
+        #                                                                                  "Price(€)"]].sum()
+        # Update the session state with the edited DataFrame
+        st.session_state['Gesamtstunden'] = df1.to_dict(orient="index")
+
+        # Store the total material cost in session state
+        # st.session_state['total_material_cost'] = df.loc["Total", "Price(€)"]
+
 
 # Create an expander for 'Grenzkosten'
 with st.expander("Grenzkosten"):
@@ -311,7 +325,9 @@ with st.expander("Grenzkosten"):
         for field in numeric_fields:
             data[field] = float(data[field]) if data[field] else 0.0
 
-        data['Grenzkosten'] = data['Material Kosten'] + data['Glühen'] + data['Prüfen , Doku'] + data['Strahlen / Streichen'] + data['techn. Bearb.'] + data['mech. Vorbearb.'] + data['mech. Bearbeitung'] + data['Zwischentransporte'] + data['transporte']
+        data['Grenzkosten'] = data['Material Kosten'] + data['Glühen'] + data['Prüfen , Doku'] + data[
+            'Strahlen / Streichen'] + data['techn. Bearb.'] + data['mech. Vorbearb.'] + data['mech. Bearbeitung'] + \
+                              data['Zwischentransporte'] + data['transporte']
         return data
 
 
