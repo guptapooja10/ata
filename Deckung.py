@@ -59,6 +59,7 @@ deckung_properties = {
     'Schweißen_Deckung': float,
     'sonstiges (Eur/hour)': float,
     'sonstiges (hour)': float,
+    'Glühen': float,
     'Prüfen , Doku': float,
     'Strahlen / Streichen': float,
     'techn. Bearb.': float,
@@ -80,6 +81,7 @@ units = {
     'Schweißen_Deckung': 'min',
     'sonstiges (Eur/hour)': '€/min',
     'sonstiges (hour)': 'min',
+    'Glühen': '€',
     'Prüfen , Doku': '€',
     'Strahlen / Streichen': '€',
     'techn. Bearb.': '€',
@@ -309,9 +311,7 @@ with st.expander("Grenzkosten"):
         for field in numeric_fields:
             data[field] = float(data[field]) if data[field] else 0.0
 
-        data['Grenzkosten'] = data['Glühen'] + data['Prüfen , Doku'] + data['Strahlen / Streichen'] + data[
-            'techn. Bearb.'] + data['mech. Vorbearb.'] + data['mech. Bearbeitung'] + data['Zwischentransporte'] + data[
-                                  'transporte']
+        data['Grenzkosten'] = data['Glühen'] + data['Prüfen , Doku'] + data['Strahlen / Streichen'] + data['techn. Bearb.'] + data['mech. Vorbearb.'] + data['mech. Bearbeitung'] + data['Zwischentransporte'] + data['transporte']
         return data
 
 
