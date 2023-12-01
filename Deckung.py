@@ -216,9 +216,6 @@ with st.expander("Project Details"):
                                                             value=st.session_state.deckung_data[prop]).strip()
 
 
-if 'Gewicht' not in st.session_state:
-    st.session_state['Gewicht'] = 0.0
-
 # Product Details Expander
 with st.expander("Product Details"):
     for prop in ['Gewicht', 'Material Kosten']:
@@ -235,11 +232,6 @@ with st.expander("Product Details"):
             current_value = float(st.session_state.deckung_data[prop]) if st.session_state.deckung_data[prop] else 0.0
             st.session_state.deckung_data[prop] = st.number_input(prompt, key=f"{prop}_input", value=current_value,
                                                                   step=0.1)
-
-        elif prop == 'Gewicht':
-            # Store 'Gewicht' in session state
-            st.session_state['Gewicht'] = st.number_input(prompt, key=f"{prop}_input",value=st.session_state['Gewicht'], step=0.1)
-
 
         else:
             st.session_state.deckung_data[prop] = st.text_input(prompt,
