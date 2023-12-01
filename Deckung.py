@@ -141,7 +141,7 @@ if "DB (%)" not in st.session_state:
 
 # Now 'df' is defined from the session state
 df = pd.DataFrame.from_dict(st.session_state['Material']).transpose()
-df1 = pd.DataFrame.from_dict(st.session_state['Gesamtstunden']).transpose()
+df1 = pd.DataFrame.from_dict(st.session_state['Gesamtstunden'])
 
 if 'total_material_cost' not in st.session_state:
     st.session_state['total_material_cost'] = 0.0
@@ -290,7 +290,7 @@ with st.expander("Gesamtstunden"):
     edited_df1 = st.experimental_data_editor(st.session_state['Gesamtstunden'])
 
     if st.button('Calculate Gesamtstunden', key="Calculate_Gesamtstunden"):
-        df1 = pd.DataFrame.from_dict(edited_df1).transpose()
+        df1 = pd.DataFrame.from_dict(edited_df1)
 
         # Convert the DataFrame columns to numeric values where possible
         for col in df1.columns:
