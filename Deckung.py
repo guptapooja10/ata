@@ -292,22 +292,26 @@ with st.expander("Gesamtstuden"):
 
 # Create an expander for 'Grenzkosten'
 with st.expander("Grenzkosten"):
-    for prop in ['Prüfen , Doku', 'Strahlen / Streichen', 'techn. Bearb.', 'mech. Vorbearb.', 'mech. Bearbeitung',
+    for prop in ['Glühen', 'Prüfen , Doku', 'Strahlen / Streichen', 'techn. Bearb.', 'mech. Vorbearb.',
+                 'mech. Bearbeitung',
                  'Zwischentransporte', 'transporte']:
         prompt = f"{prop}"
         if prop in units:
             prompt += f" ({units[prop]})"
         st.session_state.deckung_data[prop] = st.text_input(prompt, value=st.session_state.deckung_data[prop]).strip()
 
+
     # Total calculation
     def grenz_calculate(data):
-        numeric_fields = ['Prüfen , Doku', 'Strahlen / Streichen', 'techn. Bearb.', 'mech. Vorbearb.',
+        numeric_fields = ['Glühen', 'Prüfen , Doku', 'Strahlen / Streichen', 'techn. Bearb.', 'mech. Vorbearb.',
                           'mech. Bearbeitung',
                           'Zwischentransporte', 'transporte']
         for field in numeric_fields:
             data[field] = float(data[field]) if data[field] else 0.0
 
-        data['Grenzkosten'] = data['Prüfen , Doku'] + data['Strahlen / Streichen'] + data['techn. Bearb.'] + data['mech. Vorbearb.'] + data['mech. Bearbeitung'] + data['Zwischentransporte'] + data['transporte']
+        data['Grenzkosten'] = data['Glühen'] + data['Prüfen , Doku'] + data['Strahlen / Streichen'] + data[
+            'techn. Bearb.'] + data['mech. Vorbearb.'] + data['mech. Bearbeitung'] + data['Zwischentransporte'] + data[
+                                  'transporte']
         return data
 
 
