@@ -123,11 +123,11 @@ if 'Material' not in st.session_state:
         columns=["Calculated Weight(Kg)", "Delivery Weight(Kg)", "Price(€)", "Price per Kg(€/Kg)"]
     ).to_dict(orient='index')
 
-if 'Gesamtstunden' not in st.session_state:
-    st.session_state['Gesamtstunden'] = pd.DataFrame(
-        index=["Brennen", "Schlossern", "Schweißen", "sonstiges", "Gesamtstunden", "Stunden/Tonne", "Fertigung EUR"],
-        columns=["Eur/hour", "Stunden", "Total_Stunden/Tonne"]
-    ).to_dict(orient='index')
+# if 'Gesamtstunden' not in st.session_state:
+#     st.session_state['Gesamtstunden'] = pd.DataFrame(
+#         index=["Brennen", "Schlossern", "Schweißen", "sonstiges", "Gesamtstunden", "Stunden/Tonne", "Fertigung EUR"],
+#         columns=["Eur/hour", "Stunden", "Total_Stunden/Tonne"]
+#     ).to_dict(orient='index')
 
 # Initialize session state for Erlös, Deckungsbeitrag, and DB if not already initialized
 if "Erlös" not in st.session_state:
@@ -141,7 +141,7 @@ if "DB (%)" not in st.session_state:
 
 # Now 'df' is defined from the session state
 df = pd.DataFrame.from_dict(st.session_state['Material']).transpose()
-df1 = pd.DataFrame.from_dict(st.session_state['Gesamtstunden']).transpose()
+# df1 = pd.DataFrame.from_dict(st.session_state['Gesamtstunden']).transpose()
 
 if 'total_material_cost' not in st.session_state:
     st.session_state['total_material_cost'] = 0.0
@@ -285,8 +285,10 @@ if vk_0_data:
 
 # Function to create an editable DataTable
 def create_editable_datatable(dataframe):
-    # Use st.table with editable argument
-    return st.table(dataframe, editable=True)
+    return st.bokeh_chart(dataframe)
+
+# Enable pandas_bokeh in Streamlit
+pandas_bokeh.output_notebook()
 
 
 
@@ -305,15 +307,15 @@ df_gesamtstunden['Stunden'] = [st.session_state.deckung_data.get('Brennen_VK_0',
 # Gesamtstunden expander
 with st.expander("Gesamtstunden"):
     # Display the DataFrame using editable DataTable
-    edited_df = create_editable_datatable(df_gesamtstunden)
+    create_editable_datatable(df_gesamtstunden)
 
     if st.button('Calculate Gesamtstunden', key="Calculate_Gesamtstunden"):
         # Convert the DataFrame columns to numeric values where possible
-        for col in edited_df.columns:
-            edited_df[col] = pd.to_numeric(edited_df[col], errors='ignore')
+        for col in df_gesamtstunden.columns:
+            df_gesamtstunden[col] = pd.to_numeric(df_gesamtstunden[col], errors='ignore')
 
         # Update the session state with the edited DataFrame
-        st.session_state['Gesamtstunden'] = edited_df.to_dict(orient="index")
+        st.session_state['Gesamtstunden'] = df_gesamtstunden.to_dict(orient="index")
 
 
 # Create an expander for 'Grenzkosten'
