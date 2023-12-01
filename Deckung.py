@@ -301,7 +301,9 @@ total_stunden_tonne_col = 'Total_Stunden/Tonne'
 
 # Gesamtstunden expander
 with st.expander("Gesamtstunden"):
-    gewicht_value = st.session_state.get('Gewicht', 0)
+    gewicht_value_str = st.text_input("Enter the Gewicht value")
+    gewicht_value = float(gewicht_value_str) if gewicht_value_str else 0.0
+
     st.write("Gewicht", gewicht_value)
     # Display the DataFrame using editable DataTable
     edited_df = st.data_editor(df1)
