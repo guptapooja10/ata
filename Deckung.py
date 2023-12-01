@@ -284,12 +284,13 @@ if vk_0_data:
     st.session_state.deckung_data['Schweißen_VK_0'] = vk_0_data.get('Schweißen_VK_0', "")
 
 
+# Gesamtstunden
 with st.expander("Gesamtstunden"):
-    # Display the DataFrame using Streamlit's dataframe function
-    edited_df1 = st.experimental_data_editor(df1)
+    # Display the DataFrame using Streamlit's experimental_data_editor
+    edited_df1 = st.experimental_data_editor(st.session_state['Gesamtstunden'])
 
     if st.button('Calculate Gesamtstunden', key="Calculate_Gesamtstunden"):
-        df1 = pd.DataFrame.from_dict(st.session_state['Gesamtstunden']).transpose()
+        df1 = pd.DataFrame.from_dict(edited_df1).transpose()
 
         # Convert the DataFrame columns to numeric values where possible
         for col in df1.columns:
@@ -297,7 +298,6 @@ with st.expander("Gesamtstunden"):
 
         # Update the session state with the edited DataFrame
         st.session_state['Gesamtstunden'] = df1.to_dict(orient="index")
-
 
 # Create an expander for 'Grenzkosten'
 with st.expander("Grenzkosten"):
