@@ -294,7 +294,7 @@ df1['Stunden'] = [
 # Gesamtstunden expander
 with st.expander("Gesamtstunden"):
     # Display the DataFrame using editable DataTable
-    edited_df = st.experimental_data_editor(df1)
+    edited_df = st.data_editor(df1)
 
     if st.button('Calculate Gesamtstunden', key="Calculate_Gesamtstunden"):
         # Convert the DataFrame columns to numeric values where possible
@@ -306,7 +306,7 @@ with st.expander("Gesamtstunden"):
         # Update the session state with the edited DataFrame
         st.session_state['Gesamtstunden'] = edited_df.to_dict(orient="index")
 
-        st.experimental_data_editor(edited_df)
+        st.data_editor(edited_df)
 
 
 # Create an expander for 'Grenzkosten'
