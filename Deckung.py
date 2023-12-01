@@ -309,7 +309,8 @@ total_stunden_tonne_col = 'Total_Stunden/Tonne'
 
 # Gesamtstunden expander
 with st.expander("Gesamtstunden"):
-    gewicht_value = st.session_state['Gewicht']
+    gewicht_value = st.session_state.get('Gewicht', 0)
+    st.write("Gewicht", gewicht_value)
     # Display the DataFrame using editable DataTable
     edited_df = st.data_editor(df1)
 
@@ -324,10 +325,11 @@ with st.expander("Gesamtstunden"):
         edited_df.at["Schlossern", total_stunden_tonne_col] = edited_df.at["Schlossern", eur_hour_col] * edited_df.at["Schlossern", stunden_col]
         edited_df.at["Schweißen", total_stunden_tonne_col] = edited_df.at["Schweißen", eur_hour_col] * edited_df.at["Schweißen", stunden_col]
         edited_df.at["sonstiges", total_stunden_tonne_col] = edited_df.at["sonstiges", eur_hour_col] * edited_df.at["sonstiges", stunden_col]
-        edited_df.loc["Stunden/Tonne", total_stunden_tonne_col] = edited_df.loc["Gesamtstunden", stunden_col] / (gewicht_value * 1000)
-
-        # Debugging
-        st.write("Edited DataFrame after calculations:", edited_df)
+        if gewicht_value != 0:
+            edited_df.loc["Stunden/Tonne", total_stunden_tonne_col] = edited_df.loc["Gesamtstunden", stunden_col] / (gewicht_value * 1000)
+        else:
+            # Handle the case when gewicht_value is zero
+            edited_df.loc["Stunden/Tonne", total_stunden_tonne_col] = 0
 
         # Update the session state with the edited DataFrame
         st.session_state['Gesamtstunden'] = edited_df.to_dict(orient="index")
