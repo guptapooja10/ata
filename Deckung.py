@@ -314,7 +314,7 @@ with st.expander("Gesamtstunden"):
             edited_df[col] = pd.to_numeric(edited_df[col], errors='ignore')
 
         edited_df.loc["Gesamtstunden", ["Stunden"]] = edited_df["Stunden"].sum()
-        edited_df.loc["Fertigung EUR", ["Stunden"]] = edited_df["Total_Stunden/Tonne"].sum() - edited_df.at["Stunden/Tonne", total_stunden_tonne_col]
+        edited_df.at["Fertigung EUR", stunden_col] = edited_df["Total_Stunden/Tonne"].sum() - edited_df.at["Stunden/Tonne", total_stunden_tonne_col]
         edited_df.at["Brennen", total_stunden_tonne_col] = edited_df.at["Brennen", eur_hour_col] * edited_df.at["Brennen", stunden_col]
         edited_df.at["Schlossern", total_stunden_tonne_col] = edited_df.at["Schlossern", eur_hour_col] * edited_df.at["Schlossern", stunden_col]
         edited_df.at["Schlossern", total_stunden_tonne_col] = edited_df.at["Schlossern", eur_hour_col] * edited_df.at["Schlossern", stunden_col]
