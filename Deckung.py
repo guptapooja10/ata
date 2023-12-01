@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import pandas_bokeh
 import io
 from PIL import Image
 from google.cloud import firestore
