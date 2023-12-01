@@ -302,8 +302,7 @@ with st.expander("Gesamtstunden"):
             edited_df[col] = pd.to_numeric(edited_df[col], errors='ignore')
 
         edited_df.loc["Gesamtstunden", ["Stunden"]] = edited_df["Stunden"].sum()
-        edited_df["Total_Stunden/Tonne"] = edited_df["Brennen"] * edited_df["Stunden"]
-
+        edited_df.loc["Brennen", ["Total_Stunden/Tonne"]] = edited_df["Brennen", "Eur/hour"] * edited_df["Brennen", "Stunden"]
         # Update the session state with the edited DataFrame
         st.session_state['Gesamtstunden'] = edited_df.to_dict(orient="index")
 
