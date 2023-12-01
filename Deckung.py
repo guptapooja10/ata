@@ -291,6 +291,12 @@ df1['Stunden'] = [
     0, 0, 0, 0
 ]
 
+brennen_col = 'Brennen'
+eur_hour_col = 'Eur/hour'
+stunden_col = 'Stunden'
+total_stunden_tonne_col = 'Total_Stunden/Tonne'
+
+
 # Gesamtstunden expander
 with st.expander("Gesamtstunden"):
     # Display the DataFrame using editable DataTable
@@ -302,7 +308,8 @@ with st.expander("Gesamtstunden"):
             edited_df[col] = pd.to_numeric(edited_df[col], errors='ignore')
 
         edited_df.loc["Gesamtstunden", ["Stunden"]] = edited_df["Stunden"].sum()
-        edited_df.loc["Brennen", ["Total_Stunden/Tonne"]] = edited_df["Brennen", "Eur/hour"] * edited_df["Brennen", "Stunden"]
+        edited_df.at["Gesamtstunden", total_stunden_tonne_col] = edited_df.at["Brennen", eur_hour_col] * edited_df.at["Brennen", stunden_col]
+
         # Update the session state with the edited DataFrame
         st.session_state['Gesamtstunden'] = edited_df.to_dict(orient="index")
 
