@@ -325,6 +325,10 @@ with st.expander("Gesamtstunden"):
         edited_df.at["Schweißen", total_stunden_tonne_col] = edited_df.at["Schweißen", eur_hour_col] * edited_df.at["Schweißen", stunden_col]
         edited_df.at["sonstiges", total_stunden_tonne_col] = edited_df.at["sonstiges", eur_hour_col] * edited_df.at["sonstiges", stunden_col]
         edited_df.loc["Stunden/Tonne", total_stunden_tonne_col] = edited_df.loc["Gesamtstunden", stunden_col] / (gewicht_value * 1000)
+
+        # Debugging
+        st.write("Edited DataFrame after calculations:", edited_df)
+
         # Update the session state with the edited DataFrame
         st.session_state['Gesamtstunden'] = edited_df.to_dict(orient="index")
 
