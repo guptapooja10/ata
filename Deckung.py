@@ -284,20 +284,25 @@ if vk_0_data:
     st.session_state.deckung_data['Schweißen_VK_0'] = vk_0_data.get('Schweißen_VK_0', "")
 
 
-# Gesamtstunden
+df1['Stunden'] = [
+    st.session_state.deckung_data.get('Brennen_VK_0', 0),
+    st.session_state.deckung_data.get('Schlossern_VK_0', 0),
+    st.session_state.deckung_data.get('Schweißen_VK_0', 0),
+    0, 0, 0, 0
+]
+
+# Gesamtstunden expander
 with st.expander("Gesamtstunden"):
-    # Display the DataFrame using Streamlit's experimental_data_editor
-    edited_df1 = st.experimental_data_editor(st.session_state['Gesamtstunden'])
+    # Display the DataFrame using editable DataTable
+    edited_df = st.experimental_data_editor(df1)
 
     if st.button('Calculate Gesamtstunden', key="Calculate_Gesamtstunden"):
-        df1 = pd.DataFrame.from_dict(edited_df1).transpose()
-
         # Convert the DataFrame columns to numeric values where possible
-        for col in df1.columns:
-            df1[col] = pd.to_numeric(df1[col], errors='ignore')
+        for col in edited_df.columns:
+            edited_df[col] = pd.to_numeric(edited_df[col], errors='ignore')
 
         # Update the session state with the edited DataFrame
-        st.session_state['Gesamtstunden'] = df1.to_dict(orient="index")
+        st.session_state['Gesamtstunden'] = edited_df.to_dict(orient="index")
 
 # Create an expander for 'Grenzkosten'
 with st.expander("Grenzkosten"):
