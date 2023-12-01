@@ -290,7 +290,7 @@ with st.expander("Gesamtstunden"):
     edited_df1 = st.experimental_data_editor(st.session_state['Gesamtstunden'])
 
     if st.button('Calculate Gesamtstunden', key="Calculate_Gesamtstunden"):
-        df1 = pd.DataFrame.from_dict(edited_df1)
+        df1 = pd.DataFrame.from_dict(edited_df1).transpose()
 
         # Convert the DataFrame columns to numeric values where possible
         for col in df1.columns:
