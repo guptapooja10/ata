@@ -286,6 +286,10 @@ with st.expander("Gesamtstunden"):
     # Display the DataFrame using Streamlit's dataframe function
     st.dataframe(df1)
 
+    for key in df1.index:
+        st.session_state['Gesamtstunden'][key]["Eur/hour"] = st.text_input(f"Enter Eur/hour for {key}:",
+                                                                           value=df1["Eur/hour"][key])
+
     if st.button('Calculate Gesamtstunden', key="Calculate_Gesamtstunden"):
         df1 = pd.DataFrame.from_dict(st.session_state['Gesamtstunden']).transpose()
 
@@ -293,17 +297,9 @@ with st.expander("Gesamtstunden"):
         for col in df1.columns:
             df1[col] = pd.to_numeric(df1[col], errors='ignore')
 
-        # Compute the total for each column (excluding "Price per kg") and update the "Total" row values
-        # df1.loc["Total", ["Calculated Weight(Kg)", "Delivery Weight(Kg)", "Price(€)"]] = df.loc[
-        #                                                                                 :"Zuschlag",
-        #                                                                                 ["Calculated Weight(Kg)",
-        #                                                                                  "Delivery Weight(Kg)",
-        #                                                                                  "Price(€)"]].sum()
         # Update the session state with the edited DataFrame
         st.session_state['Gesamtstunden'] = df1.to_dict(orient="index")
 
-        # Store the total material cost in session state
-        # st.session_state['total_material_cost'] = df.loc["Total", "Price(€)"]
 
 
 # Create an expander for 'Grenzkosten'
