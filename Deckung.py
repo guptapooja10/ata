@@ -309,6 +309,10 @@ with st.expander("Gesamtstunden"):
 
         edited_df.loc["Gesamtstunden", ["Stunden"]] = edited_df["Stunden"].sum()
         edited_df.at["Brennen", total_stunden_tonne_col] = edited_df.at["Brennen", eur_hour_col] * edited_df.at["Brennen", stunden_col]
+        edited_df.at["Schlossern", total_stunden_tonne_col] = edited_df.at["Schlossern", eur_hour_col] * edited_df.at["Schlossern", stunden_col]
+        edited_df.at["Schlossern", total_stunden_tonne_col] = edited_df.at["Schlossern", eur_hour_col] * edited_df.at["Schlossern", stunden_col]
+        edited_df.at["Schweißen", total_stunden_tonne_col] = edited_df.at["Schweißen", eur_hour_col] * edited_df.at["Schweißen", stunden_col]
+        edited_df.at["sonstiges", total_stunden_tonne_col] = edited_df.at["sonstiges", eur_hour_col] * edited_df.at["sonstiges", stunden_col]
 
         # Update the session state with the edited DataFrame
         st.session_state['Gesamtstunden'] = edited_df.to_dict(orient="index")
