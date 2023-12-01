@@ -200,14 +200,6 @@ if st.session_state.current_collection != selected_collection:
         except Exception as e:
             st.error(f"An error occurred while fetching data: {e}")
 
-# Fetch values from Firestore for VK-0 document
-vk_0_data = get_data_from_firestore(selected_collection, 'VK-0')
-if vk_0_data:
-    # Update session state with VK-0 data
-    st.session_state.deckung_data['Brennen_VK_0'] = vk_0_data.get('Brennen_VK_0', "")
-    st.session_state.deckung_data['Schlossern_VK_0'] = vk_0_data.get('Schlossern_VK_0', "")
-    st.session_state.deckung_data['Schweißen_VK_0'] = vk_0_data.get('Schweißen_VK_0', "")
-
 # st.write("Current Selection:", selected_collection)
 # st.write("Session State Collection:", st.session_state.current_collection)
 
@@ -281,25 +273,46 @@ with st.expander("Deckungsbeitrag"):
     st.session_state.deckungsbeitrag = st.number_input("Deckungsbeitrag", value=st.session_state.deckungsbeitrag)
     st.write("Deckungsbeitrag in UI:", st.session_state.deckungsbeitrag)
 
-# Gesamtstuden expander
-with st.expander("Gesamtstunden"):
-    # Display the DataFrame using Streamlit's dataframe function
-    st.dataframe(df1)
 
-    for key in df1.index:
-        st.session_state['Gesamtstunden'][key]["Eur/hour"] = st.text_input(f"Enter Eur/hour for {key}:",
-                                                                           value=df1["Eur/hour"][key])
+# Fetch values from Firestore for VK-0 document
+vk_0_data = get_data_from_firestore(selected_collection, 'VK-0')
+if vk_0_data:
+    # Update session state with VK-0 data
+    st.session_state.deckung_data['Brennen_VK_0'] = vk_0_data.get('Brennen_VK_0', "")
+    st.session_state.deckung_data['Schlossern_VK_0'] = vk_0_data.get('Schlossern_VK_0', "")
+    st.session_state.deckung_data['Schweißen_VK_0'] = vk_0_data.get('Schweißen_VK_0', "")
+
+# Function to create an editable DataTable
+def create_editable_datatable(dataframe):
+    # Use st.table with editable argument
+    return st.table(dataframe, editable=True)
+
+
+
+if 'Gesamtstunden' not in st.session_state:
+    st.session_state['Gesamtstunden'] = pd.DataFrame(
+        index=["Brennen", "Schlossern", "Schweißen", "sonstiges", "Gesamtstunden", "Stunden/Tonne", "Fertigung EUR"],
+        columns=["Eur/hour", "Stunden", "Total_Stunden/Tonne"]
+    ).to_dict(orient='index')
+
+# Update 'Stunden' column in Gesamtstunden DataFrame with VK-0 data
+df_gesamtstunden = pd.DataFrame.from_dict(st.session_state['Gesamtstunden']).transpose()
+df_gesamtstunden['Stunden'] = [st.session_state.deckung_data.get('Brennen_VK_0', 0),
+                               st.session_state.deckung_data.get('Schlossern_VK_0', 0),
+                               st.session_state.deckung_data.get('Schweißen_VK_0', 0),
+                               0, 0, 0, 0]
+# Gesamtstunden expander
+with st.expander("Gesamtstunden"):
+    # Display the DataFrame using editable DataTable
+    edited_df = create_editable_datatable(df_gesamtstunden)
 
     if st.button('Calculate Gesamtstunden', key="Calculate_Gesamtstunden"):
-        df1 = pd.DataFrame.from_dict(st.session_state['Gesamtstunden']).transpose()
-
         # Convert the DataFrame columns to numeric values where possible
-        for col in df1.columns:
-            df1[col] = pd.to_numeric(df1[col], errors='ignore')
+        for col in edited_df.columns:
+            edited_df[col] = pd.to_numeric(edited_df[col], errors='ignore')
 
         # Update the session state with the edited DataFrame
-        st.session_state['Gesamtstunden'] = df1.to_dict(orient="index")
-
+        st.session_state['Gesamtstunden'] = edited_df.to_dict(orient="index")
 
 
 # Create an expander for 'Grenzkosten'
@@ -321,9 +334,7 @@ with st.expander("Grenzkosten"):
         for field in numeric_fields:
             data[field] = float(data[field]) if data[field] else 0.0
 
-        data['Grenzkosten'] = data['Material Kosten'] + data['Glühen'] + data['Prüfen , Doku'] + data[
-            'Strahlen / Streichen'] + data['techn. Bearb.'] + data['mech. Vorbearb.'] + data['mech. Bearbeitung'] + \
-                              data['Zwischentransporte'] + data['transporte']
+        data['Grenzkosten'] = data['Material Kosten'] + data['Glühen'] + data['Prüfen , Doku'] + data['Strahlen / Streichen'] + data['techn. Bearb.'] + data['mech. Vorbearb.'] + data['mech. Bearbeitung'] + data['Zwischentransporte'] + data['transporte']
         return data
 
 
