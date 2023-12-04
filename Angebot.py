@@ -56,7 +56,7 @@ with col3:
     st.text(ata_address)
 
 customer_names = get_customers()
-selected_customer = st.selectbox("Customer", customer_names, index=0, key='selected_customer')
+selected_customer = st.sidebar.selectbox("Customer", customer_names, index=0, key='selected_customer')
 
 if 'last_selected_customer' not in st.session_state:
     st.session_state['last_selected_customer'] = selected_customer
