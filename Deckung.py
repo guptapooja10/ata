@@ -326,6 +326,7 @@ with st.expander("Gesamtstunden"):
 
         edited_df.at["Fertigung EUR", stunden_col] = edited_df.at["Brennen", total_stunden_tonne_col] + edited_df.at["Schlossern", total_stunden_tonne_col] + edited_df.at["Schweißen", total_stunden_tonne_col] + edited_df.at["sonstiges", total_stunden_tonne_col] - edited_df.at["Stunden/Tonne", total_stunden_tonne_col]
 
+
         # Update the session state with the edited DataFrame
         st.session_state['Gesamtstunden'] = edited_df.to_dict(orient="index")
 
@@ -348,8 +349,10 @@ with st.expander("Grenzkosten"):
         numeric_fields = ['Glühen', 'Prüfen , Doku', 'Strahlen / Streichen', 'techn. Bearb.', 'mech. Vorbearb.',
                           'mech. Bearbeitung',
                           'Zwischentransporte', 'transporte', 'Material Kosten']
+
         for field in numeric_fields:
             data[field] = float(data[field]) if data[field] else 0.0
+
 
         data['Grenzkosten'] = data['Material Kosten'] + data['Glühen'] + data['Prüfen , Doku'] + data['Strahlen / Streichen'] + data['techn. Bearb.'] + data['mech. Vorbearb.'] + data['mech. Bearbeitung'] + data['Zwischentransporte'] + data['transporte']
         return data
@@ -357,6 +360,12 @@ with st.expander("Grenzkosten"):
 
     # Calculate Grenzkosten directly without a button
     grenz_data = grenz_calculate(st.session_state.deckung_data)
+
+    # Access the value of 'Fertigung EUR' from 'Gesamtstunden'
+    fertigung_eur_value = st.session_state['Gesamtstunden']['Fertigung EUR']['Stunden']
+
+    # Add the value to the calculation of 'Grenzkosten'
+    grenz_data['Grenzkosten'] += fertigung_eur_value
 
     # Display the calculated Grenzkosten
     st.write("Calculated Grenzkosten:", grenz_data['Grenzkosten'])
