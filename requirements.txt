@@ -134,7 +134,6 @@ python-docx==0.8.11
 python-json-logger==2.0.7
 pytz==2022.7.1
 pytz-deprecation-shim==0.1.0.post0
-pywinpty==2.0.10
 PyYAML==6.0
 pyzbar==0.1.9
 pyzmq==25.0.2
@@ -162,7 +161,6 @@ tenacity==8.2.2
 terminado==0.17.1
 threadpoolctl==3.1.0
 tinycss2==1.2.1
-toml==0.10.2
 toolz==0.12.0
 tornado==6.2
 traitlets==5.9.0
