@@ -361,12 +361,6 @@ with st.expander("Grenzkosten"):
     # Calculate Grenzkosten directly without a button
     grenz_data = grenz_calculate(st.session_state.deckung_data)
 
-    # Access the value of 'Fertigung EUR' from 'Gesamtstunden'
-    fertigung_eur_value = st.session_state['Gesamtstunden']['Fertigung EUR']['Stunden']
-
-    # Add the value to the calculation of 'Grenzkosten'
-    grenz_data['Grenzkosten'] += fertigung_eur_value
-
     # Display the calculated Grenzkosten
     st.write("Calculated Grenzkosten:", grenz_data['Grenzkosten'])
 
