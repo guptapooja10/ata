@@ -11,8 +11,8 @@ creds = service_account.Credentials.from_service_account_info(key_dict)
 db = firestore.Client(credentials=creds)
 
 # Initialize Firebase Admin SDK
-firebase_cred = credentials.Certificate(key_dict)
-firebase_admin.initialize_app(firebase_cred)
+# firebase_cred = credentials.Certificate(key_dict)
+# firebase_admin.initialize_app(firebase_cred)
 
 
 def register_user(email, password):
