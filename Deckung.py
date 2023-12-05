@@ -320,10 +320,7 @@ with st.expander("Gesamtstunden"):
         # Calculate Stunden/Tonne
         stunden_tonne = 0 if gewicht_value == 0 else total_stunden / (gewicht_value * 1000)
 
-        # Calculate Fertigung EUR
-        fertigung_eur = (
-                edited_df.at["Brennen", total_stunden_tonne_col] + edited_df.at["Schlossern", total_stunden_tonne_col] + edited_df.at["Schweißen", total_stunden_tonne_col] + edited_df.at["sonstiges", total_stunden_tonne_col]- edited_df.at["Stunden/Tonne", total_stunden_tonne_col]
-        )
+
 
         # Update DataFrame with calculated values
         edited_df.loc["Gesamtstunden", ["Stunden"]] = total_stunden
@@ -340,6 +337,10 @@ with st.expander("Gesamtstunden"):
                 edited_df.at["sonstiges", eur_hour_col] * edited_df.at["sonstiges", stunden_col]
         )
         edited_df.loc["Stunden/Tonne", total_stunden_tonne_col] = stunden_tonne
+        # Calculate Fertigung EUR
+        fertigung_eur = (
+                edited_df.at["Brennen", total_stunden_tonne_col] + edited_df.at["Schlossern", total_stunden_tonne_col] + edited_df.at["Schweißen", total_stunden_tonne_col] + edited_df.at["sonstiges", total_stunden_tonne_col] - edited_df.at["Stunden/Tonne", total_stunden_tonne_col]
+        )
         edited_df.at["Fertigung EUR", stunden_col] = fertigung_eur
 
         # Update the session state with the edited DataFrame
