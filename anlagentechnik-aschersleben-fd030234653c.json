@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "anlagentechnik-aschersleben",
+  "private_key_id": "fd030234653c899114a7deb223ef040f8cb0702e",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDeNwDZw/6Bl23l\nwexORWmbVPJH5uSlUAc59WlNX3Ne0Sd75AX8TqhDELwcG0PO+9PV6guvPRJQZWPZ\nBDx/gUlakt8/9DkmAAcstWkziWT5BtRbc6Kotj91WhSwRIY+XGP/sRyVaVBOB27a\n+tKoiJwUUBnyRyEDQsL/19q15shjV44lxjoChaLOngdEoqA0kPxjzEd+8X3c0Qkj\n1T9XTxFHFTJmgAb1tkkSWW5g/cLYjPZkcfkKLChIQKWgn1fI7YEOILlb9pIZU4wD\nxqLKGSFcqFC5T1pbiqNnCJwh/KsNs+5XkHatx3A9408RjJ7+ZngOULwVmHmsum7P\n9sMLKN4nAgMBAAECggEAZ/MgBT6vtGyjnrqwMc87v0umCOekZwbAUqcQSv8PR7gc\nudJp0GT1RmYyMQ26Ez3vkx5ot+GgSxaa9j6KlHTk3Sdeoxq6jyGtOYdlfpPTtcCx\nn1RBL54NonZwviJYEB0FNGvkPKqmw9GrVGnIGMnLBZ+Q+6q1cUKOWMNfjv82F23S\nu/9yUzYMtO7Vu9hc04Kv+YYRaravEQ5dwFa2bzEWqgvXi+veXK1h9p669yqWWG2/\nzV2DglHXzJQP7bbF325xIQMFy0m9ktiQP2Tl/BUTxFzULJgnjiWBLwlSulrka2+Z\n0Gx8ivzwod83aOQP0VWgVxNo41InCHF47GN4zx5/3QKBgQD+Cz3x/B63sYfqeE84\nIEKiTlQ+fl14Pr8ZvnImkfKjiEVsDI8oyVGNUX6g8LVpHUcETUadAlUquvXb4zqU\nLKfHqLU6f8MUi1vTDahYLJZjqY9liuI4VsYCfw/Hnoy5h9686HXm6SYGfwtUbLoJ\ncKtlLVuWPzJmD6iJBxyKimF9uwKBgQDf7QWGbxqEkD7NXk4qUTWCgpt0HAdwELuq\nV2JHw1+cgp01arE9fwJwyt+bffSxVapsVHVF/toXcmnidFfjHmFZyh+fOTG3l76n\n1uQdo/6E44Db57NUIFtnQ3ZVUM7q75GNq+Q/SKHvF+Wd8i4iqIK9sxh2LIx1yId0\nXQJGixjkhQKBgQC3PxKyv0LFDBjXJ2s1OAf4nXmlDm+Lse8UucwLSFF2ZnB1DOYi\n7HyX7EXj/11L8iNs1fTugmU+ileYAeMaSM/JdEctaEUmR5O3vG1HFPpx7zgRbcna\nC7WOzWprelFV7szbBO8u3dRg8TkR78+NyajINZyP1wwalIbkOK38vO6vywKBgQCp\n3nB2jwoaziIWQRgi2gAxxUqQRkMOLGNw0WFo9zkszZjc0Ncrw5HiZsRCfMaHUGk8\nTMW6F57ycoUImSGi1YUcTEy4yPaCQ8cKI+Zg5etKfBtgtuA/TVyJdY/rIKYXay2L\nv34i08KkUgiKTRHakOK9bYN9AkZ7g2feSkBTq2ly0QKBgGfKdE5XhSUKH265ir4O\nEuOoHcoZFmWfL0t9cWH5kEzLdXimdkfG/llehqKpytESIDvDNOzWqaPk4gPV1fXj\npW+iZVN9dplUH1bQ2L6UXVwfQpk1TNDReCyjtb1yFo2tGN3i1fS3wq5X3fj5cDky\nrXEt3mgw1W2vw8N0fmaGNdtc\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-sfoug@anlagentechnik-aschersleben.iam.gserviceaccount.com",
+  "client_id": "105420263391393778950",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-sfoug%40anlagentechnik-aschersleben.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
