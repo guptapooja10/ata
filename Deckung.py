@@ -388,11 +388,11 @@ if st.button("Download as Excel", key="Deckung_Excel"):
         'Anfr. Nr.': st.session_state.deckung_data['Zeichnungs- Nr.'],
         'Gewicht': st.session_state.deckung_data['Gewicht'],
         'Material': st.session_state.deckung_data['Material Kosten'],
-        'Brennen_Deckung': st.session_state.deckung_data['Brennen_Deckung'],
-        'Schlossern_Deckung': st.session_state.deckung_data['Schlossern_Deckung'],
-        'Schweißen_Deckung': st.session_state.deckung_data['Schweißen_Deckung'],
-        'sonstiges': hourly_rate * hours,
-        # # 'Gesamtstunden': (
+        # 'Brennen_Deckung': st.session_state.deckung_data['Brennen_Deckung'],
+        # 'Schlossern_Deckung': st.session_state.deckung_data['Schlossern_Deckung'],
+        # 'Schweißen_Deckung': st.session_state.deckung_data['Schweißen_Deckung'],
+        # 'sonstiges': hourly_rate * hours,
+        # # # 'Gesamtstunden': (
         # #         st.session_state.deckung_data['Brennen_Deckung'] +
         # #         st.session_state.deckung_data['Schlossern_Deckung'] +
         # #         st.session_state.deckung_data['Schweißen_Deckung'] +
