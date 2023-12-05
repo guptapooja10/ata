@@ -1,4 +1,5 @@
 import streamlit as st
+import webbrowser
 from firebase_init import initialize_firebase_app
 from firebase_admin import auth
 
@@ -15,6 +16,11 @@ def login_app():
         password = st.text_input('Password', type='password')
 
         st.button('Login')
+        successful_login = True
+
+        if successful_login:
+            # Open the external URL in a new tab
+            webbrowser.open_new_tab("https://ata-app-navigator.streamlit.app/")
 
     else:
         email = st.text_input('E-Mail Address')
