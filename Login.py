@@ -6,9 +6,12 @@ cred = credentials.Certificate('anlagentechnik-aschersleben-fd030234653c.json')
 firebase_admin.initialize_app(cred)
 
 # Check if Firebase app is not already initialized
-if not firebase_admin._apps:
+# Initialize Firebase app if not already initialized
+try:
     cred = credentials.Certificate('anlagentechnik-aschersleben-fd030234653c.json')
     firebase_admin.initialize_app(cred)
+except ValueError:
+    pass  # App is already initialized
 
 
 def login_app():
