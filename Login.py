@@ -10,6 +10,7 @@ if not firebase_admin._apps:
     cred = credentials.Certificate('anlagentechnik-aschersleben-fd030234653c.json')
     firebase_admin.initialize_app(cred)
 
+
 def login_app():
     st.title('Welcome to :violet[ATA]')
 
