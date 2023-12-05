@@ -308,6 +308,10 @@ with st.expander("Gesamtstunden"):
     # Display the DataFrame using editable DataTable
     edited_df = st.data_editor(df1)
 
+    # Update deckung_properties with columns from Gesamtstunden DataFrame
+    gesamtstunden_columns = edited_df.columns.tolist()
+    deckung_properties.update({col: float for col in gesamtstunden_columns})
+
     if st.button('Calculate Gesamtstunden', key="Calculate_Gesamtstunden"):
         # Convert the DataFrame columns to numeric values where possible
         for col in edited_df.columns:
@@ -368,6 +372,7 @@ with st.expander("Grenzkosten"):
 combined_data = {
     **st.session_state.deckung_data,  # Project and Product Details
     **st.session_state['Material'],  # Material Cost Details
+    **st.session_state['Gesamtstunden'],
     'Erlös': st.session_state.erlos,
     'DB (%)': st.session_state.db_percentage,
     'Deckungsbeitrag': st.session_state.deckungsbeitrag,
