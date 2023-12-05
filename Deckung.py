@@ -322,11 +322,7 @@ with st.expander("Gesamtstunden"):
 
         # Calculate Fertigung EUR
         fertigung_eur = (
-                edited_df.at["Brennen", total_stunden_tonne_col]
-                + edited_df.at["Schlossern", total_stunden_tonne_col]
-                + edited_df.at["Schweißen", total_stunden_tonne_col]
-                + edited_df.at["sonstiges", total_stunden_tonne_col]
-                - edited_df.at["Stunden/Tonne", total_stunden_tonne_col]
+                edited_df.at["Brennen", total_stunden_tonne_col] + edited_df.at["Schlossern", total_stunden_tonne_col] + edited_df.at["Schweißen", total_stunden_tonne_col] + edited_df.at["sonstiges", total_stunden_tonne_col]- edited_df.at["Stunden/Tonne", total_stunden_tonne_col]
         )
 
         # Update DataFrame with calculated values
