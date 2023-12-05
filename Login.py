@@ -15,12 +15,9 @@ def login_app():
         email = st.text_input('E-Mail Address')
         password = st.text_input('Password', type='password')
 
-        st.button('Login')
-        successful_login = True
+        if st.button('Login'):
+            st.write('Which app do you want to use?')
 
-        if successful_login:
-            # Open the external URL in a new tab
-            webbrowser.open_new_tab("https://ata-app-navigator.streamlit.app/")
 
     else:
         email = st.text_input('E-Mail Address')
