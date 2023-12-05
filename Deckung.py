@@ -55,11 +55,11 @@ deckung_properties = {
     'Ausführen Nr.': str,
     'Gewicht': float,
     'Material Kosten': float,
-    'Brennen_Deckung': float,
-    'Schlossern_Deckung': float,
-    'Schweißen_Deckung': float,
-    'sonstiges (Eur/hour)': float,
-    'sonstiges (hour)': float,
+    # 'Brennen_Deckung': float,
+    # 'Schlossern_Deckung': float,
+    # 'Schweißen_Deckung': float,
+    # 'sonstiges (Eur/hour)': float,
+    # 'sonstiges (hour)': float,
     'Glühen': float,
     'Prüfen , Doku': float,
     'Strahlen / Streichen': float,
@@ -77,11 +77,11 @@ deckung_properties = {
 units = {
     'Gewicht': 'kg',
     'Material Kosten': '€',
-    'Brennen_Deckung': 'min',
-    'Schlossern_Deckung': 'min',
-    'Schweißen_Deckung': 'min',
-    'sonstiges (Eur/hour)': '€/min',
-    'sonstiges (hour)': 'min',
+    # 'Brennen_Deckung': 'min',
+    # 'Schlossern_Deckung': 'min',
+    # 'Schweißen_Deckung': 'min',
+    # 'sonstiges (Eur/hour)': '€/min',
+    # 'sonstiges (hour)': 'min',
     'Glühen': '€',
     'Prüfen , Doku': '€',
     'Strahlen / Streichen': '€',
@@ -392,24 +392,24 @@ if st.button("Download as Excel", key="Deckung_Excel"):
         'Schlossern_Deckung': st.session_state.deckung_data['Schlossern_Deckung'],
         'Schweißen_Deckung': st.session_state.deckung_data['Schweißen_Deckung'],
         'sonstiges': hourly_rate * hours,
-        'Gesamtstunden': (
-                st.session_state.deckung_data['Brennen_Deckung'] +
-                st.session_state.deckung_data['Schlossern_Deckung'] +
-                st.session_state.deckung_data['Schweißen_Deckung'] +
-                st.session_state.deckung_data['sonstiges (hour)'] +
-                st.session_state.deckung_data['sonstiges (Eur/hour)']
-        ),
-        'Stunden / Tonne': 0 if st.session_state.deckung_data['Gewicht'] == 0 else st.session_state.deckung_data[
-                                                                                       'Gesamtstunden'] /
-                                                                                   st.session_state.deckung_data[
-                                                                                       'Gewicht'],
-        'Fertigung EUR': (
-                st.session_state.deckung_data['Brennen_Deckung'] +
-                st.session_state.deckung_data['Schlossern_Deckung'] +
-                st.session_state.deckung_data['Schweißen_Deckung'] +
-                st.session_state.deckung_data['sonstiges (hour)'] +
-                st.session_state.deckung_data['sonstiges (Eur/hour)']
-        ),
+        # # 'Gesamtstunden': (
+        # #         st.session_state.deckung_data['Brennen_Deckung'] +
+        # #         st.session_state.deckung_data['Schlossern_Deckung'] +
+        # #         st.session_state.deckung_data['Schweißen_Deckung'] +
+        # #         st.session_state.deckung_data['sonstiges (hour)'] +
+        # #         st.session_state.deckung_data['sonstiges (Eur/hour)']
+        # ),
+        # 'Stunden / Tonne': 0 if st.session_state.deckung_data['Gewicht'] == 0 else st.session_state.deckung_data[
+        #                                                                                'Gesamtstunden'] /
+        #                                                                            st.session_state.deckung_data[
+        #                                                                                'Gewicht'],
+        # 'Fertigung EUR': (
+        #         st.session_state.deckung_data['Brennen_Deckung'] +
+        #         st.session_state.deckung_data['Schlossern_Deckung'] +
+        #         st.session_state.deckung_data['Schweißen_Deckung'] +
+        #         st.session_state.deckung_data['sonstiges (hour)'] +
+        #         st.session_state.deckung_data['sonstiges (Eur/hour)']
+        # ),
         'Glühen': 0,
         'Prüfen , Doku': st.session_state.deckung_data['Prüfen , Doku'],
         'Strahlen / Streichen': st.session_state.deckung_data['Strahlen / Streichen'],
