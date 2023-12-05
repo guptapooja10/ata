@@ -379,8 +379,8 @@ df = pd.DataFrame([combined_data])
 # Add a button to download the data as Excel
 if st.button("Download as Excel", key="Deckung_Excel"):
     # Convert relevant values to numeric types
-    hourly_rate = pd.to_numeric(st.session_state.deckung_data['sonstiges (Eur/hour)'], errors='coerce')
-    hours = pd.to_numeric(st.session_state.deckung_data['sonstiges (hour)'], errors='coerce')
+    # hourly_rate = pd.to_numeric(st.session_state.deckung_data['sonstiges (Eur/hour)'], errors='coerce')
+    # hours = pd.to_numeric(st.session_state.deckung_data['sonstiges (hour)'], errors='coerce')
     # Create a dictionary with the data
     data_dict = {
         'Kunde': st.session_state.deckung_data['Kunde'],
