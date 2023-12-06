@@ -55,9 +55,6 @@ deckung_properties = {
     'Ausführen Nr.': str,
     'Gewicht': float,
     'Material Kosten': float,
-    'total_stunden': float,
-    'stunden_tonne': float,
-    'fertigung_eur': float,
     'Glühen': float,
     'Prüfen , Doku': float,
     'Strahlen / Streichen': float,
@@ -76,10 +73,6 @@ deckung_properties = {
 units = {
     'Gewicht': 'kg',
     'Material Kosten': '€',
-    'total_stunden': 'min',
-    'stunden_tonne': '€/min',
-    'fertigung_eur': '€',
-    'Glühen': '€',
     'Prüfen , Doku': '€',
     'Strahlen / Streichen': '€',
     'techn. Bearb.': '€',
@@ -122,7 +115,7 @@ if 'Material' not in st.session_state:
 
 if 'Gesamtstunden' not in st.session_state:
      st.session_state['Gesamtstunden'] = pd.DataFrame(
-         index=["Brennen", "Schlossern", "Schweißen", "sonstiges", "Gesamtstunden", "Stunden/Tonne", "Fertigung EUR"],
+         index=["Brennen", "Schlossern", "Schweißen", "sonstiges", "Gesamt", "Stunden/Tonne", "Fertigung EUR"],
          columns=["Eur/hour", "Stunden", "Total_Stunden/Tonne"]
      ).to_dict(orient='index')
 
@@ -326,7 +319,7 @@ with st.expander("Gesamtstunden"):
 
 
         # Update DataFrame with calculated values
-        edited_df.loc["Gesamtstunden", ["Stunden"]] = total_stunden
+        edited_df.loc["Gesamt", ["Stunden"]] = total_stunden
         edited_df.at["Brennen", total_stunden_tonne_col] = (
                 edited_df.at["Brennen", eur_hour_col] * edited_df.at["Brennen", stunden_col]
         )
@@ -346,11 +339,10 @@ with st.expander("Gesamtstunden"):
         )
         edited_df.at["Fertigung EUR", stunden_col] = fertigung_eur
 
+        st.data_editor(edited_df)
+
         # Update the session state with the edited DataFrame
         st.session_state['Gesamtstunden'] = edited_df.to_dict(orient="index")
-
-
-        st.data_editor(edited_df)
 
 
 # Create an expander for 'Grenzkosten'
