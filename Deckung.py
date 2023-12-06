@@ -260,7 +260,7 @@ with st.expander("Material Cost Details"):
 
         # Update the "Material Kosten" in "Product Details" if it's already been rendered
         if 'Material Kosten' in st.session_state.deckung_data:
-            st.session_state.deckung_data['Material Kosten'] = st.session_state['total_material_cost']
+            st.session_state.deckung_data['Material Kosten'] = st.session_state['total_material_cost']  # this is where the Material Kosten is being used
 
 with st.expander("Deckungsbeitrag"):
     # Input fields
@@ -298,11 +298,16 @@ total_stunden_tonne_col = 'Total_Stunden/Tonne'
 
 # Gesamtstunden expander
 with st.expander("Gesamtstunden"):
-    gewicht_value_str = st.text_input("Enter the Gewicht value")
-    gewicht_value = float(gewicht_value_str) if gewicht_value_str else 0.0
 
-    st.write("Gewicht", gewicht_value)
-    # Display the DataFrame using editable DataTable
+    # if 'Gewicht' in st.session_state.deckung_data:
+    #     st.session_state.deckung_data['Gewicht'] = st.session_state['gewicht_value']
+    gewicht_value = st.session_state.deckung_data.get('Gewicht', 0.0)
+    st.write(f"The value of Gewicht is: {gewicht_value}")
+    # gewicht_value_str = st.text_input("Enter the Gewicht value")
+    # gewicht_value = float(gewicht_value_str) if gewicht_value_str else 0.0
+    # #
+    # st.write("Gewicht", gewicht_value)
+    # # Display the DataFrame using editable DataTable
     edited_df = st.data_editor(df1)
 
     # Update deckung_properties with columns from Gesamtstunden DataFrame
