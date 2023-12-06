@@ -1,5 +1,4 @@
 import streamlit as st
-import webbrowser
 from firebase_init import initialize_firebase_app
 from firebase_admin import auth
 
@@ -17,7 +16,6 @@ def login_app():
 
         if st.button('Login'):
             st.write('Which app do you want to use?')
-
 
     else:
         email = st.text_input('E-Mail Address')
