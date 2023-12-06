@@ -136,8 +136,8 @@ if "Deckungsbeitrag" not in st.session_state:
 if "DB (%)" not in st.session_state:
     st.session_state.db_percentage = 0.0
 
-if 'Gesamtstunden' not in st.session_state:
-    st.session_state['Gesamtstunden'] = {}
+# if 'Gesamtstunden' not in st.session_state:
+#     st.session_state['Gesamtstunden'] = {}
 
 # Now 'df' is defined from the session state
 df = pd.DataFrame.from_dict(st.session_state['Material']).transpose()
