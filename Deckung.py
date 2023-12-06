@@ -136,6 +136,9 @@ if "Deckungsbeitrag" not in st.session_state:
 if "DB (%)" not in st.session_state:
     st.session_state.db_percentage = 0.0
 
+if 'Gesamtstunden' not in st.session_state:
+    st.session_state['Gesamtstunden'] = {}
+
 # Now 'df' is defined from the session state
 df = pd.DataFrame.from_dict(st.session_state['Material']).transpose()
 df1 = pd.DataFrame.from_dict(st.session_state['Gesamtstunden']).transpose()
@@ -299,14 +302,9 @@ total_stunden_tonne_col = 'Total_Stunden/Tonne'
 # Gesamtstunden expander
 with st.expander("Gesamtstunden"):
 
-    # if 'Gewicht' in st.session_state.deckung_data:
-    #     st.session_state.deckung_data['Gewicht'] = st.session_state['gewicht_value']
     gewicht_value = st.session_state.deckung_data.get('Gewicht', 0.0)
     st.write(f"The value of Gewicht is: {gewicht_value}")
-    # gewicht_value_str = st.text_input("Enter the Gewicht value")
-    # gewicht_value = float(gewicht_value_str) if gewicht_value_str else 0.0
-    # #
-    # st.write("Gewicht", gewicht_value)
+
     # # Display the DataFrame using editable DataTable
     edited_df = st.data_editor(df1)
 
