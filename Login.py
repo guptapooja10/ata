@@ -5,7 +5,6 @@ from firebase_admin import auth
 # Initialize Firebase app if not already initialized
 initialize_firebase_app()
 
-
 def login_app():
     st.title('Welcome to :violet[ATA]')
 
@@ -16,6 +15,8 @@ def login_app():
 
         if st.button('Login'):
             st.write('Which app do you want to use?')
+            # Display a clickable link to the Project Instantiation app
+            st.markdown('[Go to Project Instantiation App](https://ata-app-navigator.streamlit.app/)')
 
     else:
         email = st.text_input('E-Mail Address')
@@ -27,7 +28,6 @@ def login_app():
             st.success('Account created successfully!')
             st.markdown('You can now log in using your E-Mail and Password')
             st.balloons()
-
 
 if __name__ == "__main__":
     login_app()
