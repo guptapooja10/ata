@@ -362,7 +362,7 @@ with st.expander("Grenzkosten"):
     def grenz_calculate(data):
         numeric_fields = ['Glühen', 'Prüfen , Doku', 'Strahlen / Streichen', 'techn. Bearb.', 'mech. Vorbearb.',
                           'mech. Bearbeitung',
-                          'Zwischentransporte', 'transporte', 'Material Kosten', 'fert']
+                          'Zwischentransporte', 'transporte', 'Material Kosten']
 
         for field in numeric_fields:
             data[field] = float(data[field]) if data[field] else 0.0
