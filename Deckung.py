@@ -338,6 +338,8 @@ with st.expander("Gesamtstunden"):
                 edited_df.at["Brennen", total_stunden_tonne_col] + edited_df.at["Schlossern", total_stunden_tonne_col] + edited_df.at["Schweißen", total_stunden_tonne_col] + edited_df.at["sonstiges", total_stunden_tonne_col] - edited_df.at["Stunden/Tonne", total_stunden_tonne_col]
         )
         edited_df.at["Fertigung EUR", stunden_col] = fertigung_eur
+        # Store 'Fertigung EUR' in session state
+        st.session_state['fertigung_eur'] = fertigung_eur
 
         st.data_editor(edited_df)
 
@@ -355,8 +357,7 @@ with st.expander("Grenzkosten"):
             prompt += f" ({units[prop]})"
         st.session_state.deckung_data[prop] = st.text_input(prompt, value=st.session_state.deckung_data[prop]).strip()
 
-    fert = st.session_state.deckung_data.get('Fertigung EUR', 0.0)
-    st.write(f"The value of Fertigung EUR is: {fert}")
+
     # Total calculation
     def grenz_calculate(data):
         numeric_fields = ['Glühen', 'Prüfen , Doku', 'Strahlen / Streichen', 'techn. Bearb.', 'mech. Vorbearb.',
@@ -366,8 +367,9 @@ with st.expander("Grenzkosten"):
         for field in numeric_fields:
             data[field] = float(data[field]) if data[field] else 0.0
 
-
-        data['Grenzkosten'] = data['fert'] + data['Material Kosten'] + data['Glühen'] + data['Prüfen , Doku'] + data['Strahlen / Streichen'] + data['techn. Bearb.'] + data['mech. Vorbearb.'] + data['mech. Bearbeitung'] + data['Zwischentransporte'] + data['transporte']
+        # Access 'Fertigung EUR' from session state
+        data['fertigung_eur'] = st.session_state.get('fertigung_eur', 0.0)
+        data['Grenzkosten'] = data['fertigung_eur'] + data['Material Kosten'] + data['Glühen'] + data['Prüfen , Doku'] + data['Strahlen / Streichen'] + data['techn. Bearb.'] + data['mech. Vorbearb.'] + data['mech. Bearbeitung'] + data['Zwischentransporte'] + data['transporte']
         return data
 
 
