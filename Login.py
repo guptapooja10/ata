@@ -16,14 +16,6 @@ def login_app():
 
         if st.button('Login'):
             st.write('Which app do you want to use?')
-            # Add the hyperlink to navigate to the Project instantiation app
-            st.components.v1.html(
-                """
-                <script>
-                    window.location.href = "https://ata-app-navigator.streamlit.app/";
-                </script>
-                """
-            )
 
     else:
         email = st.text_input('E-Mail Address')
