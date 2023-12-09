@@ -344,6 +344,8 @@ with st.expander("Gesamtstunden"):
         # Update the session state with the edited DataFrame
         st.session_state['Gesamtstunden'] = edited_df.to_dict(orient="index")
 
+        st.session_state['Gesamtstunden'] = st.session_state.deckung_data['Gesamtstunden']
+
 
 # Create an expander for 'Grenzkosten'
 with st.expander("Grenzkosten"):
