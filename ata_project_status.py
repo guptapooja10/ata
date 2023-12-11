@@ -155,12 +155,13 @@ def main():
     st.sidebar.write(f"Over Progress Ratio: {progress_ratio * 100:.2f}%")
     st.sidebar.write(f"Total Tasks Delta: {delta}")
 
-    # Display a smaller pie chart for Populated Fields and Delta (Total Fields - Populated Fields) for all documents
-    st.header("Pie Chart: Populated Fields and Delta for All Documents")
-    fig, ax = plt.subplots(figsize=(3, 3))  # Set the size of the pie chart
-    ax.pie([populated_fields_sum, delta], labels=['Populated Fields', 'Delta'], autopct='%1.1f%%', startangle=90)
-    ax.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
-    st.pyplot(fig)
+    # Display a progress bar for the progress ratio
+    st.header("Progress Bar: Over Progress Ratio")
+    st.progress(progress_ratio)
+
+    # Display a progress bar for the delta
+    st.header("Progress Bar: Total Tasks Delta")
+    st.progress(delta)
 
 
 if __name__ == '__main__':
