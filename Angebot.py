@@ -4,6 +4,7 @@ from PIL import Image
 from google.cloud import firestore
 from google.oauth2 import service_account
 from datetime import datetime
+from io import BytesIO
 
 # Initialize Firestore client
 key_dict = st.secrets["textkey"]
@@ -46,6 +47,70 @@ def reset_rows():
     st.session_state['angebot_gueltig_bis'] = None
 
 
+def create_data_for_download():
+    rows_data = []
+    for i in range(1, st.session_state['rows'] + 1):
+        row_data = {
+            'Pos': st.session_state.get(f'input_pos_{i}', ''),
+            'Artikel': st.session_state.get(f'input_artikel_{i}', ''),
+            'Bezeichnung': st.session_state.get(f'input_bezeichnung_{i}', ''),
+            'Menge': st.session_state.get(f'input_menge_{i}', 0),
+            'Einh': st.session_state.get(f'input_einh_{i}', ''),
+            'Einzelpreis': st.session_state.get(f'input_einzelpreis_{i}', 0.0),
+            'Percent': st.session_state.get(f'input_percent_{i}', 0.0),
+            'Gesamtpreis': st.session_state.get(f'input_gesamtpreis_{i}', 0.0),
+            # Add more fields as needed
+        }
+        rows_data.append(row_data)
+        additional_details = {
+            'Zahlung': st.session_state.get('zahlung', ''),
+            'Lieferung': st.session_state.get('lieferung', ''),
+            'Lieferdatum': st.session_state.get('lieferdatum', ''),
+            'Steuer Nr.': st.session_state.get('steuer_nr', ''),
+            'USt-IdNr.': st.session_state.get('ust_id_nr', ''),
+            'Nettosumme': st.session_state.get('nettosumme', 0.0),
+            'MwSt Satz': st.session_state.get('mwst_satz', 0.0),
+            'MwSt Betrag': st.session_state.get('mwst_betrag', 0.0),
+            'Gesamtsumme': st.session_state.get('gesamtsumme', 0.0),
+            'Angebot gültig bis': st.session_state.get('angebot_gueltig_bis', '')
+        }
+        header_details = {
+            'A.T.A. Anlagentechnik Aschersleben': [
+                "A.T.A. Anlagentechnik Aschersleben Ernst-Schiess-Str. 12 06449 Aschersleben"],
+            'Datum': [st.session_state.get('datum', '')],
+            'Kunden Name': [st.session_state.get('selected_customer', '')],
+            'Angebotsnummer': [st.session_state.get('angebotsnummer', '')],
+            'Kundennr.': [customer_details.get('Kundennr.', '') if customer_details else ''],
+            'Ihre Anfrage': [st.session_state.get('ihre_anfrage', '')],
+            'Address': [customer_details.get('Address', '') if customer_details else ''],
+        }
+        header_df = pd.DataFrame.from_dict(header_details, orient='index').transpose()
+        df_rows = pd.DataFrame(rows_data)
+        df_additional_details = pd.DataFrame([additional_details])
+
+        return header_df, df_rows, df_additional_details
+
+
+def to_excel(header_df, df_rows, df_additional_details):
+    output = BytesIO()
+    with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
+
+        header_df.to_excel(writer, sheet_name='Angebot', index=False, startrow=0, startcol=0)
+
+        rows_startrow = len(header_df) + 2  # Adjust the number for spacing as needed
+
+        df_rows.to_excel(writer, sheet_name='Angebot', index=False, startrow=rows_startrow)
+
+        additional_startrow = rows_startrow + len(df_rows) + 2  # Adjust the number for spacing as needed
+
+        df_additional_details.to_excel(writer, sheet_name='Angebot', index=False, startrow=additional_startrow)
+
+        writer.save()
+    processed_data = output.getvalue()
+    return processed_data
+
+
+st.set_page_config(layout="wide")
 st.title("ATA Angebot App")
 
 col1, col2, col3 = st.columns([1, 6, 4])
@@ -161,3 +226,38 @@ with col7:
 
 # Offer validity
 angebot_gueltig_bis = st.date_input("Unser Angebot ist gültig bis :", None, key='angebot_gueltig_bis')
+
+cols = st.columns([3, 3, 3])
+with cols[0]:
+    st.markdown("""
+        **Tel**: +49 (0)3473 914 509  
+        **Fax**: +49 (0)3473 914 510  
+        **E-Mail**: info@ata-anlagentechnik.de  
+        **Web**: [www.ata-anlagentechnik.de](http://www.ata-anlagentechnik.de)  
+    """, unsafe_allow_html=True)
+
+with cols[1]:
+    st.markdown("""
+        **Volksbank Delbrück-Hövelhof eG**  
+        **BLZ**: 472 627 67 **Konto-Nr.**: 781 999 8800  
+        **BIC**: GENODEM1DLB  
+        **IBAN**: DE09 4726 2703 7819 9988 00  
+    """, unsafe_allow_html=True)
+
+with cols[2]:
+    st.markdown("""
+       **Eintragung**: Amtsgericht Stendal<br>
+        HRA 22898  
+        **UST.-ID-NR.**: DE245738656  
+        **Steuerummer**: 117 1121 4609  
+    """, unsafe_allow_html=True)
+
+header_df, df_rows, df_additional_details = create_data_for_download()
+excel_data = to_excel(header_df, df_rows, df_additional_details)
+
+st.download_button(
+    label="Download Excel file",
+    data=excel_data,
+    file_name="angebot_data.xlsx",
+    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+)
