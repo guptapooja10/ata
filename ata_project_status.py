@@ -81,15 +81,15 @@ def get_populated_fields_count(collection_name, document_id):
         return 0
 
 
-def get_kunde_from_details(collection_name, document_id):
-    doc_ref = db.collection(collection_name).document(document_id).collection('Details').document('details_doc')
-    details_document = doc_ref.get()
-
-    if details_document.exists:
-        details_data = details_document.to_dict()
-        return details_data.get('Kunde', 'Not available')
-    else:
-        return 'Details document not found'
+# def get_kunde_from_details(collection_name, document_id):
+#     doc_ref = db.collection(collection_name).document(document_id).collection('Details').document('details_doc')
+#     details_document = doc_ref.get()
+#
+#     if details_document.exists:
+#         details_data = details_document.to_dict()
+#         return details_data.get('Kunde', 'Not available')
+#     else:
+#         return 'Details document not found'
 
 
 # Streamlit app
@@ -109,14 +109,14 @@ def main():
     document_ids = get_all_document_ids(selected_collection)
 
     # Display 'Kunde' field from the "Details" document for each document in the selected collection
-    st.header(f"Kunde Field in Details Document for Documents in {selected_collection} Collection:")
-    document_ids = get_all_document_ids(selected_collection)
-    for doc_id in document_ids:
-        st.write(f"Document ID: {doc_id}")
-
-        kunde_value = get_kunde_from_details(selected_collection, doc_id)
-        st.write(f"Kunde: {kunde_value}")
-        st.write('-' * 50)  # Separator for better readability
+    # st.header(f"Kunde Field in Details Document for Documents in {selected_collection} Collection:")
+    # document_ids = get_all_document_ids(selected_collection)
+    # for doc_id in document_ids:
+    #     st.write(f"Document ID: {doc_id}")
+    #
+    #     kunde_value = get_kunde_from_details(selected_collection, doc_id)
+    #     st.write(f"Kunde: {kunde_value}")
+    #     st.write('-' * 50)  # Separator for better readability
 
     # Display total number of fields for each document in the selected collection
     st.header(f"Total Number of Fields in Documents of {selected_collection} Collection:")
