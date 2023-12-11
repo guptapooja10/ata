@@ -104,19 +104,12 @@ def main():
         total_fields = get_total_fields(selected_collection, doc_id)
         st.write(f"{doc_id}: {total_fields} fields")
 
-        # Display total fields for debugging
-        st.text(f"Total fields in {doc_id}: {total_fields}")
-
         populated_fields_count = get_populated_fields_count(selected_collection, doc_id)
         st.write(f"{doc_id}: {populated_fields_count} populated fields")
-
-        # Display populated fields count for debugging
-        st.text(f"Populated fields count in {doc_id}: {populated_fields_count}")
 
 
 if __name__ == '__main__':
     main()
-
 
 # import streamlit as st
 # from google.cloud import firestore
