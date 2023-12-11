@@ -108,9 +108,11 @@ def main():
     # Get all document IDs for the selected collection
     document_ids = get_all_document_ids(selected_collection)
 
+    # Display 'Kunde' field from the "Details" document for each document in the selected collection
     st.header(f"Kunde Field in Details Document for Documents in {selected_collection} Collection:")
+    document_ids = get_all_document_ids(selected_collection)
     for doc_id in document_ids:
-        # st.write(f"Document ID: {doc_id}")
+        st.write(f"Document ID: {doc_id}")
 
         kunde_value = get_kunde_from_details(selected_collection, doc_id)
         st.write(f"Kunde: {kunde_value}")
