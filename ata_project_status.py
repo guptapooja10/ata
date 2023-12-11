@@ -160,8 +160,8 @@ def main():
     st.progress(progress_ratio)
 
     # Display a progress bar for the delta
-    st.header("Progress Bar: Total Tasks Delta")
-    st.progress(delta)
+    st.header("Progress Bar: Total Completed Tasks")
+    st.progress(populated_fields_sum)
 
 
 if __name__ == '__main__':
