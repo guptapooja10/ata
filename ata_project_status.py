@@ -108,6 +108,14 @@ def main():
     # Get all document IDs for the selected collection
     document_ids = get_all_document_ids(selected_collection)
 
+    st.header(f"Kunde Field in Details Document for Documents in {selected_collection} Collection:")
+    for doc_id in document_ids:
+        # st.write(f"Document ID: {doc_id}")
+
+        kunde_value = get_kunde_from_details(selected_collection, doc_id)
+        st.write(f"Kunde: {kunde_value}")
+        st.write('-' * 50)  # Separator for better readability
+
     # Display total number of fields for each document in the selected collection
     st.header(f"Total Number of Fields in Documents of {selected_collection} Collection:")
     for doc_id in document_ids:
@@ -116,9 +124,7 @@ def main():
         populated_fields_count = get_populated_fields_count(selected_collection, doc_id)
         st.write(f"{doc_id}: {populated_fields_count} populated fields")
 
-        kunde_value = get_kunde_from_details(selected_collection, doc_id)
-        st.write(f"Kunde: {kunde_value}")
-        st.write('-' * 50)  # Separator for better readability
+
 
 
 if __name__ == '__main__':
