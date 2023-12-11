@@ -82,6 +82,7 @@ def get_populated_fields_count(collection_name, document_id):
 
 
 # Streamlit app
+# Streamlit app
 def main():
     st.title('Project Status App')
 
@@ -100,25 +101,17 @@ def main():
     # Display total number of fields for each document in the selected collection
     st.header(f"Total Number of Fields in Documents of {selected_collection} Collection:")
     for doc_id in document_ids:
-        document_ref = db.collection(selected_collection).document(doc_id)
-        document_snapshot = document_ref.get()
+        total_fields = get_total_fields(selected_collection, doc_id)
+        st.write(f"{doc_id}: {total_fields} fields")
 
-        if document_snapshot.exists:
-            document_data = document_snapshot.to_dict()
+        # Display total fields for debugging
+        st.text(f"Total fields in {doc_id}: {total_fields}")
 
-            st.write(f"{doc_id}: {len(document_data)} fields")
+        populated_fields_count = get_populated_fields_count(selected_collection, doc_id)
+        st.write(f"{doc_id}: {populated_fields_count} populated fields")
 
-            # Display field names and values for debugging
-            st.text(f"Fields in {doc_id}: {document_data}")
-
-            populated_fields_count = get_populated_fields_count(selected_collection, doc_id)
-            st.write(f"{doc_id}: {populated_fields_count} populated fields")
-
-            # Display populated fields count for debugging
-            st.text(f"Populated fields count in {doc_id}: {document_data}")
-
-        else:
-            st.write(f"{doc_id}: Document does not exist")
+        # Display populated fields count for debugging
+        st.text(f"Populated fields count in {doc_id}: {populated_fields_count}")
 
 
 if __name__ == '__main__':
