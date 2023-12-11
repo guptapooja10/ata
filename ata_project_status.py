@@ -113,8 +113,6 @@ def get_fields_information(collection_name, document_ids):
     return fields_info
 
 
-# Streamlit app
-# Streamlit app
 def main():
     st.title('Project Status App')
 
@@ -130,30 +128,24 @@ def main():
     # Get all document IDs for the selected collection
     document_ids = get_all_document_ids(selected_collection)
 
-    # Display 'Kunde' field from the "Details" document in the selected collection
-    st.header(f"Kunde Field in Details Document for the Selected Collection: {selected_collection}")
-    kunde_value = get_kunde_from_details(selected_collection)
+    # Allow the user to select a specific Document ID
+    selected_doc_id = st.selectbox('Select Document ID:', document_ids)
+
+    # Display 'Kunde' field from the "Details" document for the selected Document ID
+    st.header(f"Kunde Field in Details Document for Document ID: {selected_doc_id}")
+    kunde_value = get_kunde_from_details(selected_collection, selected_doc_id)
     st.write(f"Kunde: {kunde_value}")
 
-    # Display total and populated fields for each document in the selected collection
-    st.header(f"Fields Information for Documents in {selected_collection} Collection:")
-    fields_info = get_fields_information(selected_collection, document_ids)
+    # Display total and populated fields for the selected Document ID
+    st.header(f"Fields Information for Document ID: {selected_doc_id}")
+    total_fields = get_total_fields(selected_collection, selected_doc_id)
+    populated_fields_count = get_populated_fields_count(selected_collection, selected_doc_id)
 
-    for info in fields_info:
-        st.subheader(f"Document ID: {info['Document ID']}")
-        st.write(f"Total Fields: {info['Total Fields']} fields")
-        st.write(f"Populated Fields: {info['Populated Fields']} fields")
-        st.write('-' * 50)  # Separator for better readability
+    st.write(f"Total Fields: {total_fields} fields")
+    st.write(f"Populated Fields: {populated_fields_count} fields")
 
-    # Calculate total populated fields and delta
-    populated_fields_sum = sum(info['Populated Fields'] for info in fields_info)
-    total_fields_sum = sum(info['Total Fields'] for info in fields_info)
-    delta = total_fields_sum - populated_fields_sum
-
-    # Display progress ratio and total tasks delta in the sidebar
-    progress_ratio = populated_fields_sum / total_fields_sum
-    # st.sidebar.write(f"Over Progress Ratio: {progress_ratio * 100:.2f}%")
-    # st.sidebar.write(f"Total Tasks Delta: {delta}")
+    # Calculate progress ratio for the selected Document ID
+    progress_ratio = populated_fields_count / total_fields
 
     # Display a progress bar for the progress ratio
     st.header("Progress Bar: Over Progress Ratio")
@@ -161,7 +153,7 @@ def main():
 
     # Display a progress bar for the delta
     st.header("Progress Bar: Total Completed Tasks")
-    st.progress(populated_fields_sum)
+    st.progress(populated_fields_count)
 
 
 if __name__ == '__main__':
