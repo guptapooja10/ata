@@ -5,6 +5,9 @@ from PIL import Image
 from google.cloud import firestore
 from google.oauth2 import service_account
 import os
+import matplotlib.pyplot as plt
+import seaborn as sns
+
 
 image = Image.open('logo_ata.png')
 st.image(image, caption='Ata Logo', use_column_width=True)
