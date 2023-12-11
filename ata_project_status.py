@@ -113,25 +113,14 @@ def get_fields_information(collection_name, document_ids):
     return fields_info
 
 
-# Function to create a bar chart using Matplotlib
-# Function to create a bar chart using Matplotlib
-def create_bar_chart(df):
-    fig, ax = plt.subplots(figsize=(10, 6))
-    bar_width = 0.35
-
-    # Bar for Total Fields
-    ax.bar(df['Document ID'], df['Total Fields'], width=bar_width, label='Total Fields')
-
-    # Bar for Populated Fields
-    ax.bar(df['Document ID'], df['Populated Fields'], width=bar_width, label='Populated Fields',
-           bottom=df['Total Fields'])
-
-    ax.set_xlabel('Document ID')
-    ax.set_ylabel('Number of Fields')
-    ax.legend()
-
-    return fig
-
+# Function to create a pie chart using Matplotlib
+def create_pie_chart(df):
+    for index, row in df.iterrows():
+        delta = row['Total Fields'] - row['Populated Fields']
+        fig, ax = plt.subplots()
+        ax.pie([row['Populated Fields'], delta], labels=['Populated Fields', 'Delta'], autopct='%1.1f%%', startangle=90)
+        ax.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+        st.pyplot(fig)
 
 # Streamlit app
 def main():
@@ -166,10 +155,9 @@ def main():
 
     df = pd.DataFrame(fields_info)
 
-    # Display a bar chart for Total and Populated Fields
-    st.header("Bar Chart: Total and Populated Fields for Each Document ID")
-    fig = create_bar_chart(df)
-    st.pyplot(fig)
+    # Display a pie chart for Populated Fields and Delta (Total Fields - Populated Fields) for each document
+    st.header("Pie Chart: Populated Fields and Delta for Each Document ID")
+    create_pie_chart(df)
 
 
 if __name__ == '__main__':
