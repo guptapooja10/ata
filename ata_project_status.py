@@ -113,15 +113,6 @@ def get_fields_information(collection_name, document_ids):
     return fields_info
 
 
-# Function to create a pie chart using Matplotlib
-def create_pie_chart(df):
-    for index, row in df.iterrows():
-        delta = row['Total Fields'] - row['Populated Fields']
-        fig, ax = plt.subplots()
-        ax.pie([row['Populated Fields'], delta], labels=['Populated Fields', 'Delta'], autopct='%1.1f%%', startangle=90)
-        ax.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
-        st.pyplot(fig)
-
 # Streamlit app
 def main():
     st.title('Project Status App')
@@ -158,12 +149,12 @@ def main():
     # Sum up values across all documents
     total_fields_sum = df['Total Fields'].sum()
     populated_fields_sum = df['Populated Fields'].sum()
-    delta_sum = total_fields_sum - populated_fields_sum
+    Remaining = total_fields_sum - populated_fields_sum
 
     # Display a pie chart for Populated Fields and Delta (Total Fields - Populated Fields) for all documents
     st.header("Pie Chart: Populated Fields and Delta for All Documents")
     fig, ax = plt.subplots()
-    ax.pie([populated_fields_sum, delta_sum], labels=['Populated Fields', 'Delta'], autopct='%1.1f%%', startangle=90)
+    ax.pie([populated_fields_sum, Remaining], labels=['Populated Fields', 'Remaining'], autopct='%1.1f%%', startangle=90)
     ax.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
     st.pyplot(fig)
 
