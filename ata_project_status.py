@@ -104,8 +104,8 @@ def get_fields_information(collection_name, document_ids):
         total_fields = get_total_fields(collection_name, doc_id)
         populated_fields_count = get_populated_fields_count(collection_name, doc_id)
         Remaining = total_fields - populated_fields_count
-        st.header("Progress Bar: Total Completed")
-        st.progress(populated_fields_count)
+        # st.header("Progress Bar: Total Completed")
+        # st.progress(populated_fields_count)
 
         fields_info.append({
             "Document ID": doc_id,
