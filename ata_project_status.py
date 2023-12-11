@@ -155,13 +155,13 @@ def main():
     # st.sidebar.write(f"Over Progress Ratio: {progress_ratio * 100:.2f}%")
     # st.sidebar.write(f"Total Tasks Delta: {delta}")
 
-    # Display a progress bar for the progress ratio
-    st.header("Progress: Over Progress Ratio")
-    st.progress(progress_ratio)
+    # Display a progress bar for the progress ratio with percentage
+    st.header("Progress Bar: Over Progress Ratio")
+    st.progress(progress_ratio, format="%f%%")
 
-    # Display a progress bar for the delta
-    st.header("Progress: Total Completed tasks")
-    st.progress(populated_fields_sum)
+    # Display a progress bar for the delta with percentage
+    st.header("Progress Bar: Total Tasks Delta")
+    st.progress(delta, format="%f%%")
 
 
 if __name__ == '__main__':
