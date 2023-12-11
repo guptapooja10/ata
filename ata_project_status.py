@@ -163,8 +163,12 @@ def main():
     ax.pie([populated_fields_sum, delta], labels=['Populated Fields', 'Delta'], autopct='%1.1f%%', startangle=90)
     ax.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
 
-    # Display the pie chart in Streamlit with adjusted size
-    st.pyplot(fig, clear_figure=True, width=300, height=300)  # You can adjust width and height as needed
+    # Display the pie chart in Streamlit
+    st.image(fig, use_column_width=True)
+
+
+if __name__ == '__main__':
+    main()
 
 
 if __name__ == '__main__':
