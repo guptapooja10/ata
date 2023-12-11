@@ -117,13 +117,21 @@ def main():
     else:
         st.write(f"No 'Details' document found in the '{selected_collection}' collection.")
 
-    # Display total number of fields for each document in the selected collection
-    st.header(f"Total Number of Fields in Documents of {selected_collection} Collection:")
+    # Display total and populated fields for each document in the selected collection
+    st.header(f"Fields Information for Documents in {selected_collection} Collection:")
     for doc_id in document_ids:
+        st.subheader(f"Document ID: {doc_id}")
+
+        # Total fields
         total_fields = get_total_fields(selected_collection, doc_id)
-        st.write(f"{doc_id}: {total_fields} fields")
+        st.write(f"Total Fields: {total_fields} fields")
+
+        # Populated fields
         populated_fields_count = get_populated_fields_count(selected_collection, doc_id)
-        st.write(f"{doc_id}: {populated_fields_count} populated fields")
+        st.write(f"Populated Fields: {populated_fields_count} fields")
+
+        st.write('-' * 50)  # Separator for better readability
+
 
 
 
