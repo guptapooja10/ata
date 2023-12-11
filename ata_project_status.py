@@ -115,11 +115,6 @@ def get_fields_information(collection_name, document_ids):
 
 # Streamlit app
 def main():
-    st.title('Project Status App')
-
-    # Display the navigation bar
-    navigation_bar()
-
     # Get all collection IDs
     all_collections = get_all_collections(db)
 
@@ -138,23 +133,34 @@ def main():
     st.header(f"Fields Information for Documents in {selected_collection} Collection:")
     fields_info = get_fields_information(selected_collection, document_ids)
 
+    total_fields_sum = 0
+    populated_fields_sum = 0
+
     for info in fields_info:
         st.subheader(f"Document ID: {info['Document ID']}")
         st.write(f"Total Fields: {info['Total Fields']} fields")
         st.write(f"Populated Fields: {info['Populated Fields']} fields")
         st.write('-' * 50)  # Separator for better readability
 
+        # Accumulate values for progress ratio calculation
+        total_fields_sum += info['Total Fields']
+        populated_fields_sum += info['Populated Fields']
+
+    # Calculate delta and progress ratio
+    delta = total_fields_sum - populated_fields_sum
+    progress_ratio = (populated_fields_sum / total_fields_sum) * 100 if total_fields_sum != 0 else 0
+
+    # Display progress ratio and total tasks delta in the sidebar
+    st.sidebar.write(f"Over Progress Ratio: {progress_ratio:.2f}%")
+    st.sidebar.write(f"Total Tasks Delta: {delta}")
+
+    # Create a DataFrame for plotting
     df = pd.DataFrame(fields_info)
 
-    # Sum up values across all documents
-    total_fields_sum = df['Total Fields'].sum()
-    populated_fields_sum = df['Populated Fields'].sum()
-    Remaining = total_fields_sum - populated_fields_sum
-
-    # Display a pie chart for Populated Fields and Delta (Total Fields - Populated Fields) for all documents
+    # Display a smaller pie chart for Populated Fields and Delta (Total Fields - Populated Fields) for all documents
     st.header("Pie Chart: Populated Fields and Delta for All Documents")
-    fig, ax = plt.subplots()
-    ax.pie([populated_fields_sum, Remaining], labels=['Populated Fields', 'Remaining'], autopct='%1.1f%%', startangle=90)
+    fig, ax = plt.subplots(figsize=(6, 6))  # Set the size of the pie chart
+    ax.pie([populated_fields_sum, delta], labels=['Populated Fields', 'Delta'], autopct='%1.1f%%', startangle=90)
     ax.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
     st.pyplot(fig)
 
