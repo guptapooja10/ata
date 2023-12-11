@@ -80,16 +80,13 @@ def get_populated_fields_count(collection_name, document_id):
     else:
         return 0
 
+# Kunde details
+def get_kunde_from_details(document_id):
+    details_ref = db.collection("Details").document(document_id)
+    details_data = details_ref.get().to_dict()
+    kunde_value = details_data.get("Kunde")
+    return kunde_value
 
-# def get_kunde_from_details(collection_name, document_id):
-#     doc_ref = db.collection(collection_name).document(document_id).collection('Details').document('details_doc')
-#     details_document = doc_ref.get()
-#
-#     if details_document.exists:
-#         details_data = details_document.to_dict()
-#         return details_data.get('Kunde', 'Not available')
-#     else:
-#         return 'Details document not found'
 
 
 # Streamlit app
@@ -108,15 +105,14 @@ def main():
     # Get all document IDs for the selected collection
     document_ids = get_all_document_ids(selected_collection)
 
-    # Display 'Kunde' field from the "Details" document for each document in the selected collection
-    # st.header(f"Kunde Field in Details Document for Documents in {selected_collection} Collection:")
-    # document_ids = get_all_document_ids(selected_collection)
-    # for doc_id in document_ids:
-    #     st.write(f"Document ID: {doc_id}")
-    #
-    #     kunde_value = get_kunde_from_details(selected_collection, doc_id)
-    #     st.write(f"Kunde: {kunde_value}")
-    #     st.write('-' * 50)  # Separator for better readability
+    # Display 'Kunde' field from the "Details" collection
+    st.header(f"Kunde Field in Details Collection:")
+    details_doc = db.collection("Details").document("details_document_id").get()
+    if details_doc.exists:
+        kunde_value = details_doc.to_dict().get("Kunde")
+        st.write(f"Kunde: {kunde_value}")
+    else:
+        st.write("Details document not found in the 'Details' collection.")
 
     # Display total number of fields for each document in the selected collection
     st.header(f"Total Number of Fields in Documents of {selected_collection} Collection:")
