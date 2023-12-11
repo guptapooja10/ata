@@ -145,6 +145,7 @@ def main():
         st.subheader(f"Document ID: {info['Document ID']}")
         st.write(f"Total Fields: {info['Total Fields']} fields")
         st.write(f"Populated Fields: {info['Populated Fields']} fields")
+        st.write(f"Remaining: {info['Remaining']} fields")
         st.write('-' * 50)  # Separator for better readability
 
     # Calculate total populated fields and delta
