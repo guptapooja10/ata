@@ -83,7 +83,6 @@ def get_populated_fields_count(collection_name, document_id):
 
 
 # Kunde details
-# Kunde details
 def get_kunde_from_details(collection_name):
     details_ref = db.collection(collection_name).document("Details")
     details_doc = details_ref.get()
@@ -147,9 +146,9 @@ def main():
         st.subheader(f"Document ID: {info['Document ID']}")
         st.write(f"Total Fields: {info['Total Fields']} fields")
         st.write(f"Populated Fields: {info['Populated Fields']} fields")
-        # st.header("Progress Bar: Total Completed")
-        # st.progress()
-        st.write(f"Remaining: {info['Remaining']} fields")
+        st.header("Progress Bar: Total Completed")
+        st.progress(info['Populated Fields'])
+        # st.write(f"Remaining: {info['Remaining']} fields")
         st.write('-' * 50)  # Separator for better readability
 
     # Calculate total populated fields and delta
