@@ -82,11 +82,17 @@ def get_populated_fields_count(collection_name, document_id):
 
 
 # Kunde details
-def get_kunde_from_details(document_id):
-    details_ref = db.collection("Details").document(document_id)
-    details_data = details_ref.get().to_dict()
-    kunde_value = details_data.get("Kunde")
-    return kunde_value
+def get_kunde_from_details(collection_name):
+    details_ref = db.collection(collection_name).document("Details")
+    details_doc = details_ref.get()
+
+    if details_doc.exists:
+        details_data = details_doc.to_dict()
+        kunde_value = details_data.get("Kunde")
+        return kunde_value
+    else:
+        st.warning(f"No 'Details' document found in the '{collection_name}' collection.")
+        return None
 
 
 # Function to get total and populated fields for each document
