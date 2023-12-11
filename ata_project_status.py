@@ -44,6 +44,40 @@ def get_all_document_ids(collection_name):
     docs = db.collection(collection_name).stream()
     return [doc.id for doc in docs]
 
+
+# Function to get total number of fields in a document
+def get_total_fields(collection_name, document_id):
+    doc_ref = db.collection(collection_name).document(document_id)
+    document = doc_ref.get()
+    if document.exists:
+        return len(document.to_dict())
+    else:
+        return 0
+
+
+# Streamlit app
+def main():
+    st.title('Project Status App')
+
+    # Display the navigation bar
+    navigation_bar()
+
+    # Allow the user to select a collection
+    selected_collection = st.selectbox('Select Collection:', get_all_collections(db))
+
+    # Get all document IDs for the selected collection
+    document_ids = get_all_document_ids(selected_collection)
+
+    # Display total number of fields for each document in the selected collection
+    st.header(f"Total Number of Fields in Documents of {selected_collection} Collection:")
+    for doc_id in document_ids:
+        total_fields = get_total_fields(selected_collection, doc_id)
+        st.write(f"{doc_id}: {total_fields} fields")
+
+
+if __name__ == '__main__':
+    main()
+
 # import streamlit as st
 # from google.cloud import firestore
 # import json
