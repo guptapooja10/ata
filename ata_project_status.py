@@ -105,14 +105,17 @@ def main():
     # Get all document IDs for the selected collection
     document_ids = get_all_document_ids(selected_collection)
 
-    # Display 'Kunde' field from the "Details" collection
-    st.header(f"Kunde Field in Details Collection:")
-    details_doc = db.collection("Details").document("details_document_id").get()
+
+    # Display 'Kunde' field from the "Details" document in the selected collection
+    st.header(f"Kunde Field in Details Document for the Selected Collection: {selected_collection}")
+    details_doc_ref = db.collection(selected_collection).document("Details")
+    details_doc = details_doc_ref.get()
+
     if details_doc.exists:
         kunde_value = details_doc.to_dict().get("Kunde")
         st.write(f"Kunde: {kunde_value}")
     else:
-        st.write("Details document not found in the 'Details' collection.")
+        st.write(f"No 'Details' document found in the '{selected_collection}' collection.")
 
     # Display total number of fields for each document in the selected collection
     st.header(f"Total Number of Fields in Documents of {selected_collection} Collection:")
