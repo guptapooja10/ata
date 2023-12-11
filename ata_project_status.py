@@ -152,8 +152,8 @@ def main():
 
     # Display progress ratio and total tasks delta in the sidebar
     progress_ratio = populated_fields_sum / total_fields_sum
-    st.sidebar.write(f"Over Progress Ratio: {progress_ratio * 100:.2f}%")
-    st.sidebar.write(f"Total Tasks Delta: {delta}")
+    # st.sidebar.write(f"Over Progress Ratio: {progress_ratio * 100:.2f}%")
+    # st.sidebar.write(f"Total Tasks Delta: {delta}")
 
     # Display a progress bar for the progress ratio
     st.header("Progress Bar: Over Progress Ratio")
