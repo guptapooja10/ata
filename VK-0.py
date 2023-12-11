@@ -14,7 +14,7 @@ def navigation_bar():
         "Project Instantiation": "https://ata-app-navigator.streamlit.app/",
         "VK-ST-0": "https://vk-st-0.streamlit.app/",
         "Deckung": "https://deckung.streamlit.app/",
-        "ATA-Dashboard-App": "https://ata-dashboard-app.streamlit.app/"
+        "ATA-Project-Status": "https://ata-project-status.streamlit.app/"
     }
 
     st.sidebar.title('Navigation')
