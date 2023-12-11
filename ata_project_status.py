@@ -27,8 +27,6 @@ def navigation_bar():
         st.sidebar.markdown(f"[{app_name}]({app_url})")
 
 
-navigation_bar()
-
 key_dict = st.secrets["textkey"]
 creds = service_account.Credentials.from_service_account_info(key_dict)
 db = firestore.Client(credentials=creds)
@@ -55,6 +53,25 @@ def get_total_fields(collection_name, document_id):
         return 0
 
 
+def get_populated_fields_count(collection_name, document_id):
+    doc_ref = db.collection(collection_name).document(document_id)
+    document = doc_ref.get()
+
+    def count_populated_fields(data):
+        count = 0
+        for value in data.values():
+            if isinstance(value, dict):
+                count += count_populated_fields(value)
+            elif value is not None:
+                count += 1
+        return count
+
+    if document.exists:
+        return count_populated_fields(document.to_dict())
+    else:
+        return 0
+
+
 # Streamlit app
 def main():
     st.title('Project Status App')
@@ -76,6 +93,8 @@ def main():
     for doc_id in document_ids:
         total_fields = get_total_fields(selected_collection, doc_id)
         st.write(f"{doc_id}: {total_fields} fields")
+        populated_fields_count = get_populated_fields_count(selected_collection, doc_id)
+        st.write(f"{doc_id}: {populated_fields_count} populated fields")
 
 
 if __name__ == '__main__':
