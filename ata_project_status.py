@@ -102,9 +102,10 @@ def main():
     for doc_id in document_ids:
         total_fields = get_total_fields(selected_collection, doc_id)
         st.write(f"{doc_id}: {total_fields} fields")
+        print(f"Total fields in {doc_id}: {total_fields}")
         populated_fields_count = get_populated_fields_count(selected_collection, doc_id)
         st.write(f"{doc_id}: {populated_fields_count} populated fields")
-
+        print(f"Populated fields count in {doc_id}: {populated_fields_count}")
 
 if __name__ == '__main__':
     main()
