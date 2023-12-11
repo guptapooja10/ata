@@ -80,6 +80,7 @@ def get_populated_fields_count(collection_name, document_id):
     else:
         return 0
 
+
 # Kunde details
 def get_kunde_from_details(document_id):
     details_ref = db.collection("Details").document(document_id)
@@ -87,6 +88,22 @@ def get_kunde_from_details(document_id):
     kunde_value = details_data.get("Kunde")
     return kunde_value
 
+
+# Function to get total and populated fields for each document
+def get_fields_information(collection_name, document_ids):
+    fields_info = []
+
+    for doc_id in document_ids:
+        total_fields = get_total_fields(collection_name, doc_id)
+        populated_fields_count = get_populated_fields_count(collection_name, doc_id)
+
+        fields_info.append({
+            "Document ID": doc_id,
+            "Total Fields": total_fields,
+            "Populated Fields": populated_fields_count
+        })
+
+    return fields_info
 
 
 # Streamlit app
@@ -105,35 +122,20 @@ def main():
     # Get all document IDs for the selected collection
     document_ids = get_all_document_ids(selected_collection)
 
-
     # Display 'Kunde' field from the "Details" document in the selected collection
     st.header(f"Kunde Field in Details Document for the Selected Collection: {selected_collection}")
-    details_doc_ref = db.collection(selected_collection).document("Details")
-    details_doc = details_doc_ref.get()
-
-    if details_doc.exists:
-        kunde_value = details_doc.to_dict().get("Kunde")
-        st.write(f"Kunde: {kunde_value}")
-    else:
-        st.write(f"No 'Details' document found in the '{selected_collection}' collection.")
+    kunde_value = get_kunde_from_details(selected_collection)
+    st.write(f"Kunde: {kunde_value}")
 
     # Display total and populated fields for each document in the selected collection
     st.header(f"Fields Information for Documents in {selected_collection} Collection:")
-    for doc_id in document_ids:
-        st.subheader(f"Document ID: {doc_id}")
+    fields_info = get_fields_information(selected_collection, document_ids)
 
-        # Total fields
-        total_fields = get_total_fields(selected_collection, doc_id)
-        st.write(f"Total Fields: {total_fields} fields")
-
-        # Populated fields
-        populated_fields_count = get_populated_fields_count(selected_collection, doc_id)
-        st.write(f"Populated Fields: {populated_fields_count} fields")
-
+    for info in fields_info:
+        st.subheader(f"Document ID: {info['Document ID']}")
+        st.write(f"Total Fields: {info['Total Fields']} fields")
+        st.write(f"Populated Fields: {info['Populated Fields']} fields")
         st.write('-' * 50)  # Separator for better readability
-
-
-
 
 
 if __name__ == '__main__':
