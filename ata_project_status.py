@@ -81,6 +81,17 @@ def get_populated_fields_count(collection_name, document_id):
         return 0
 
 
+def get_kunde_from_details(collection_name, document_id):
+    doc_ref = db.collection(collection_name).document(document_id).collection('Details').document('details_doc')
+    details_document = doc_ref.get()
+
+    if details_document.exists:
+        details_data = details_document.to_dict()
+        return details_data.get('Kunde', 'Not available')
+    else:
+        return 'Details document not found'
+
+
 # Streamlit app
 def main():
     st.title('Project Status App')
@@ -104,6 +115,10 @@ def main():
         st.write(f"{doc_id}: {total_fields} fields")
         populated_fields_count = get_populated_fields_count(selected_collection, doc_id)
         st.write(f"{doc_id}: {populated_fields_count} populated fields")
+
+        kunde_value = get_kunde_from_details(selected_collection, doc_id)
+        st.write(f"Kunde: {kunde_value}")
+        st.write('-' * 50)  # Separator for better readability
 
 
 if __name__ == '__main__':
