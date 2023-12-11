@@ -157,12 +157,14 @@ def main():
     # Create a DataFrame for plotting
     df = pd.DataFrame(fields_info)
 
-    # Display a smaller pie chart for Populated Fields and Delta (Total Fields - Populated Fields) for all documents
+    # Display a pie chart for Populated Fields and Delta (Total Fields - Populated Fields) for all documents
     st.header("Pie Chart: Populated Fields and Delta for All Documents")
-    fig, ax = plt.subplots(figsize=(1, 1))  # Set the size of the pie chart
+    fig, ax = plt.subplots()  # Set the size of the pie chart
     ax.pie([populated_fields_sum, delta], labels=['Populated Fields', 'Delta'], autopct='%1.1f%%', startangle=90)
     ax.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
-    st.pyplot(fig)
+
+    # Display the pie chart in Streamlit with adjusted size
+    st.pyplot(fig, clear_figure=True, width=300, height=300)  # You can adjust width and height as needed
 
 
 if __name__ == '__main__':
