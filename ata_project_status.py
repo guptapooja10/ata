@@ -7,8 +7,6 @@ from google.oauth2 import service_account
 import os
 import matplotlib.pyplot as plt
 
-
-
 image = Image.open('logo_ata.png')
 st.image(image, caption='Ata Logo', use_column_width=True)
 
@@ -115,6 +113,26 @@ def get_fields_information(collection_name, document_ids):
     return fields_info
 
 
+# Function to create a bar chart using Matplotlib
+# Function to create a bar chart using Matplotlib
+def create_bar_chart(df):
+    fig, ax = plt.subplots(figsize=(10, 6))
+    bar_width = 0.35
+
+    # Bar for Total Fields
+    ax.bar(df['Document ID'], df['Total Fields'], width=bar_width, label='Total Fields')
+
+    # Bar for Populated Fields
+    ax.bar(df['Document ID'], df['Populated Fields'], width=bar_width, label='Populated Fields',
+           bottom=df['Total Fields'])
+
+    ax.set_xlabel('Document ID')
+    ax.set_ylabel('Number of Fields')
+    ax.legend()
+
+    return fig
+
+
 # Streamlit app
 def main():
     st.title('Project Status App')
@@ -145,6 +163,13 @@ def main():
         st.write(f"Total Fields: {info['Total Fields']} fields")
         st.write(f"Populated Fields: {info['Populated Fields']} fields")
         st.write('-' * 50)  # Separator for better readability
+
+    df = pd.DataFrame(fields_info)
+
+    # Display a bar chart for Total and Populated Fields
+    st.header("Bar Chart: Total and Populated Fields for Each Document ID")
+    fig = create_bar_chart(df)
+    st.pyplot(fig)
 
 
 if __name__ == '__main__':
