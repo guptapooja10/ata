@@ -6,7 +6,9 @@ from streamlit_calendar import calendar
 from google.oauth2 import service_account
 
 # Authenticate to Firestore with the JSON account key.
-db = firestore.Client.from_service_account_json("ata-firestore-key-dashboard.json")
+key_dict = st.secrets["textkey"]
+creds = service_account.Credentials.from_service_account_info(key_dict)
+db = firestore.Client(credentials=creds)
 
 st.set_page_config(page_title="ATA-Dashboard-App",layout="wide")
 st.write("### Welcome to the ATA-Dashboard-App")
