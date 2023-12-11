@@ -155,6 +155,16 @@ def main():
     st.header("Progress Bar: Total Completed Tasks")
     st.progress(populated_fields_count)
 
+    # Display progress bars for all Document IDs
+    st.header("Progress Bars for All Document IDs:")
+    for doc_id in document_ids:
+        total_fields_doc = get_total_fields(selected_collection, doc_id)
+        populated_fields_count_doc = get_populated_fields_count(selected_collection, doc_id)
+        progress_ratio_doc = populated_fields_count_doc / total_fields_doc
+
+        st.subheader(f"Document ID: {doc_id}")
+        st.progress(progress_ratio_doc, f"Over Progress Ratio - {doc_id}")
+
 
 if __name__ == '__main__':
     main()
