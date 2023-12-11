@@ -159,7 +159,7 @@ def main():
 
     # Display a smaller pie chart for Populated Fields and Delta (Total Fields - Populated Fields) for all documents
     st.header("Pie Chart: Populated Fields and Delta for All Documents")
-    fig, ax = plt.subplots(figsize=(3, 3))  # Set the size of the pie chart
+    fig, ax = plt.subplots(figsize=(1, 1))  # Set the size of the pie chart
     ax.pie([populated_fields_sum, delta], labels=['Populated Fields', 'Delta'], autopct='%1.1f%%', startangle=90)
     ax.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
     st.pyplot(fig)
