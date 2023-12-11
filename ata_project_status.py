@@ -147,7 +147,8 @@ def main():
         st.write(f"Total Fields: {info['Total Fields']} fields")
         st.write(f"Populated Fields: {info['Populated Fields']} fields")
         st.header("Progress Bar: Total Completed")
-        st.progress(info['Populated Fields'])
+        # Set progress bar based on the specific total fields for each document
+        st.progress(info['Populated Fields'] / info['Total Fields'], f"Progress for Document ID: {info['Document ID']}")
         # st.write(f"Remaining: {info['Remaining']} fields")
         st.write('-' * 50)  # Separator for better readability
 
