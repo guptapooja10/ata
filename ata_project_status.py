@@ -47,8 +47,17 @@ def get_all_document_ids(collection_name):
 def get_total_fields(collection_name, document_id):
     doc_ref = db.collection(collection_name).document(document_id)
     document = doc_ref.get()
+
+    def count_fields(data):
+        total_fields = 0
+        for key, value in data.items():
+            total_fields += 1
+            if isinstance(value, dict):
+                total_fields += count_fields(value)
+        return total_fields
+
     if document.exists:
-        return len(document.to_dict())
+        return count_fields(document.to_dict())
     else:
         return 0
 
