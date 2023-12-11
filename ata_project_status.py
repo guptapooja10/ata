@@ -155,9 +155,17 @@ def main():
 
     df = pd.DataFrame(fields_info)
 
-    # Display a pie chart for Populated Fields and Delta (Total Fields - Populated Fields) for each document
-    st.header("Pie Chart: Populated Fields and Delta for Each Document ID")
-    create_pie_chart(df)
+    # Sum up values across all documents
+    total_fields_sum = df['Total Fields'].sum()
+    populated_fields_sum = df['Populated Fields'].sum()
+    delta_sum = total_fields_sum - populated_fields_sum
+
+    # Display a pie chart for Populated Fields and Delta (Total Fields - Populated Fields) for all documents
+    st.header("Pie Chart: Populated Fields and Delta for All Documents")
+    fig, ax = plt.subplots()
+    ax.pie([populated_fields_sum, delta_sum], labels=['Populated Fields', 'Delta'], autopct='%1.1f%%', startangle=90)
+    ax.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+    st.pyplot(fig)
 
 
 if __name__ == '__main__':
