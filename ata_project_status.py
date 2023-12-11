@@ -62,8 +62,11 @@ def main():
     # Display the navigation bar
     navigation_bar()
 
-    # Allow the user to select a collection
-    selected_collection = st.selectbox('Select Collection:', get_all_collections(db))
+    # Get all collection IDs
+    all_collections = get_all_collections(db)
+
+    # Allow the user to select a collection using a dropdown
+    selected_collection = st.selectbox('Select Collection:', all_collections)
 
     # Get all document IDs for the selected collection
     document_ids = get_all_document_ids(selected_collection)
