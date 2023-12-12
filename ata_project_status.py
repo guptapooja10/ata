@@ -113,8 +113,6 @@ def get_fields_information(collection_name, document_ids):
     return fields_info
 
 
-
-
 # Streamlit app
 def main():
     st.title('Project Status App')
@@ -141,15 +139,13 @@ def main():
     fields_info = get_fields_information(selected_collection, document_ids)
 
     for info in fields_info:
-        st.subheader(f"Document ID: {info['Document ID']}")
-        st.write(f"Total Fields: {info['Total Fields']} fields")
-        st.write(f"Populated Fields: {info['Populated Fields']} fields")
+        if info['Total Fields'] > 0:
+            remaining_percentage = (info['Total Fields'] - info['Populated Fields']) / info['Total Fields']
+            st.progress(1.0 - remaining_percentage, f"Progress for Document ID: {info['Document ID']}")
+        else:
+            st.progress(0.0, f"Progress for Document ID: {info['Document ID']}")
 
-        # Set progress bar based on the specific total fields for each document
-        progress_ratio = 1.0 if info['Populated Fields'] == info['Total Fields'] else 0.0
-        st.progress(progress_ratio, f"Progress for Document ID: {info['Document ID']}")
-
-    st.write('-' * 50)  # Separator for better readability
+        st.write('-' * 50)  # Separator for better readability
 
     # Calculate total populated fields and delta
     populated_fields_sum = sum(info['Populated Fields'] for info in fields_info)
