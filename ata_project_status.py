@@ -130,12 +130,12 @@ def main():
     document_ids = get_all_document_ids(selected_collection)
 
     # Display 'Kunde' field from the "Details" document in the selected collection
-    st.header(f"Kunde Field in Details Document for the Selected Collection: {selected_collection}")
+    # st.header(f"Kunde for: {selected_collection}")
     kunde_value = get_kunde_from_details(selected_collection)
     st.write(f"Kunde: {kunde_value}")
 
     # Display total and populated fields for each document in the selected collection
-    st.header(f"Fields Information for Documents in {selected_collection} Collection:")
+    # st.header(f"Fields Information for Documents in {selected_collection} Collection:")
     fields_info = get_fields_information(selected_collection, document_ids)
 
     # Allow the user to select a document ID using a dropdown
