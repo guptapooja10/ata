@@ -104,26 +104,14 @@ def get_fields_information(collection_name, document_ids):
         total_fields = get_total_fields(collection_name, doc_id)
         populated_fields_count = get_populated_fields_count(collection_name, doc_id)
 
-        # Collection-specific rules
-        if collection_name == "Deckung" and total_fields == 84:
-            target_fields = 84
-        elif collection_name == "Details" and total_fields == 4:
-            target_fields = 4
-        elif collection_name == "VK-ST-0" and total_fields == 14:
-            target_fields = 14
-        elif collection_name == "VK-0" and total_fields == 8:
-            target_fields = 8
-        else:
-            target_fields = total_fields
-
         fields_info.append({
             "Document ID": doc_id,
             "Total Fields": total_fields,
-            "Populated Fields": populated_fields_count,
-            "Target Fields": target_fields
+            "Populated Fields": populated_fields_count
         })
 
     return fields_info
+
 
 
 
@@ -158,10 +146,10 @@ def main():
         st.write(f"Populated Fields: {info['Populated Fields']} fields")
 
         # Set progress bar based on the specific total fields for each document
-        progress_ratio = info['Populated Fields'] / info['Target Fields']
+        progress_ratio = 1.0 if info['Populated Fields'] == info['Total Fields'] else 0.0
         st.progress(progress_ratio, f"Progress for Document ID: {info['Document ID']}")
 
-        st.write('-' * 50)  # Separator for better readability
+    st.write('-' * 50)  # Separator for better readability
 
     # Calculate total populated fields and delta
     populated_fields_sum = sum(info['Populated Fields'] for info in fields_info)
