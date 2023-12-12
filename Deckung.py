@@ -182,6 +182,7 @@ if st.session_state.current_collection != selected_collection:
                 st.session_state.erlos = try_convert_to_float(deckungsbeitrag_data.get('Erlös', 0.0))
                 st.session_state.deckungsbeitrag = try_convert_to_float(
                     deckungsbeitrag_data.get('Deckungsbeitrag', 0.0))
+                st.session_state.Gesamtstunden = try_convert_to_float(deckungsbeitrag_data.get('Gesamtstunden', 0.0))
                 # Debugging
                 # st.write("Deckungsbeitrag from DB:", st.session_state.deckungsbeitrag)
                 st.session_state.db_percentage = try_convert_to_float(deckungsbeitrag_data.get('DB (%)', 0.0))
