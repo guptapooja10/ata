@@ -139,6 +139,11 @@ def main():
     fields_info = get_fields_information(selected_collection, document_ids)
 
     for info in fields_info:
+        st.subheader(f"Document ID: {info['Document ID']}")
+        st.write(f"Total Fields: {info['Total Fields']} fields")
+        st.write(f"Populated Fields: {info['Populated Fields']} fields")
+        st.write('-' * 50)  # Separator for better readability
+
         if info['Total Fields'] > 0:
             remaining_percentage = (info['Total Fields'] - info['Populated Fields']) / info['Total Fields']
             st.progress(1.0 - remaining_percentage, f"Progress for Document ID: {info['Document ID']}")
