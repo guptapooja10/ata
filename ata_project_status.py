@@ -138,17 +138,27 @@ def main():
     st.header(f"Fields Information for Documents in {selected_collection} Collection:")
     fields_info = get_fields_information(selected_collection, document_ids)
 
-    for info in fields_info:
-        st.subheader(f"Document ID: {info['Document ID']}")
-        st.write(f"Total Fields: {info['Total Fields']} fields")
-        st.write(f"Populated Fields: {info['Populated Fields']} fields")
-        st.write('-' * 50)  # Separator for better readability
+    # Allow the user to select a document ID using a dropdown
+    selected_document = st.selectbox('Select Document ID:', document_ids)
 
-        if info['Total Fields'] > 0:
-            remaining_percentage = (info['Total Fields'] - info['Populated Fields']) / info['Total Fields']
-            st.progress(1.0 - remaining_percentage, f"Progress for Document ID: {info['Document ID']}")
+    # Find the information for the selected document ID
+    selected_info = next((info for info in fields_info if info['Document ID'] == selected_document), None)
+
+    if selected_info:
+        st.subheader(f"Document ID: {selected_info['Document ID']}")
+        st.write(f"Total Fields: {selected_info['Total Fields']} fields")
+        st.write(f"Populated Fields: {selected_info['Populated Fields']} fields")
+
+        # Calculate progress based on the completion of all fields for the selected document
+        if selected_info['Total Fields'] > 0:
+            remaining_percentage = (selected_info['Total Fields'] - selected_info['Populated Fields']) / selected_info[
+                'Total Fields']
+            progress = 1.0 - remaining_percentage
+            st.progress(progress, f"Progress for Document ID: {selected_info['Document ID']}")
         else:
-            st.progress(0.0, f"Progress for Document ID: {info['Document ID']}")
+            st.progress(0.0, f"Progress for Document ID: {selected_info['Document ID']}")
+    else:
+        st.warning("Please select a valid Document ID.")
 
         st.write('-' * 50)  # Separator for better readability
 
