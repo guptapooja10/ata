@@ -103,18 +103,28 @@ def get_fields_information(collection_name, document_ids):
     for doc_id in document_ids:
         total_fields = get_total_fields(collection_name, doc_id)
         populated_fields_count = get_populated_fields_count(collection_name, doc_id)
-        Remaining = total_fields - populated_fields_count
-        # st.header("Progress Bar: Total Completed")
-        # st.progress(populated_fields_count)
+
+        # Collection-specific rules
+        if collection_name == "Deckung" and total_fields == 84:
+            target_fields = 84
+        elif collection_name == "Details" and total_fields == 4:
+            target_fields = 4
+        elif collection_name == "VK-ST-0" and total_fields == 14:
+            target_fields = 14
+        elif collection_name == "VK-0" and total_fields == 8:
+            target_fields = 8
+        else:
+            target_fields = total_fields
 
         fields_info.append({
             "Document ID": doc_id,
             "Total Fields": total_fields,
             "Populated Fields": populated_fields_count,
-            "Remaining": Remaining
+            "Target Fields": target_fields
         })
 
     return fields_info
+
 
 
 # Streamlit app
@@ -146,10 +156,11 @@ def main():
         st.subheader(f"Document ID: {info['Document ID']}")
         st.write(f"Total Fields: {info['Total Fields']} fields")
         st.write(f"Populated Fields: {info['Populated Fields']} fields")
-        st.header("Progress Bar: Total Completed")
+
         # Set progress bar based on the specific total fields for each document
-        st.progress(info['Populated Fields'] / info['Total Fields'], f"Progress for Document ID: {info['Document ID']}")
-        # st.write(f"Remaining: {info['Remaining']} fields")
+        progress_ratio = info['Populated Fields'] / info['Target Fields']
+        st.progress(progress_ratio, f"Progress for Document ID: {info['Document ID']}")
+
         st.write('-' * 50)  # Separator for better readability
 
     # Calculate total populated fields and delta
