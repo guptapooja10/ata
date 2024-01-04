@@ -9,12 +9,23 @@ if 'main_data' not in st.session_state:
     st.session_state.main_data = {}
 
 
+# Function to fetch customers from Firestore
+def fetch_customers(db):
+    customers_list = []
+    # Assuming you have a collection named 'customers'
+    customer_docs = db.collection('Customers').stream()
+    for doc in customer_docs:
+        # The customer name is the document ID in this case
+        customers_list.append(doc.id)
+    return customers_list
+
+
 # Function to instantiate a new project and save it to Firestore
 def instantiate_project(kunde, benennung, zeichnungs_nr, ausfuehren_nr, db):
     doc_ref = db.collection(zeichnungs_nr).document('Details')
     doc = doc_ref.get()
     if doc.exists:
-        print(f"A project with Zeichnungs Nr {zeichnungs_nr} already exists.")
+        st.success(f"A project with Zeichnungs Nr {zeichnungs_nr} already exists.")
         return False
     else:
         project_data = {
@@ -24,7 +35,18 @@ def instantiate_project(kunde, benennung, zeichnungs_nr, ausfuehren_nr, db):
             "Zeichnungs- Nr.": zeichnungs_nr
         }
         doc_ref.set(project_data)
-        print(f"Project with Zeichnungs Nr {zeichnungs_nr} created successfully.")
+        st.success(f"Project with Zeichnungs Nr {zeichnungs_nr} created successfully.")
+        # After creating the project, update the customer's Project_List
+        customer_doc_ref = db.collection('Customers').document(kunde)
+        customer_doc = customer_doc_ref.get()
+        if customer_doc.exists:
+            customer_data = customer_doc.to_dict()
+            project_list = customer_data.get('Project_List', [])
+            project_list.append(zeichnungs_nr)
+            customer_doc_ref.update({'Project_List': project_list})
+            st.success(f"Zeichnungs Nr {zeichnungs_nr} added to the customer's Project_List.")
+        else:
+            st.success(f"The customer {kunde} does not exist in the database.")
 
         vk_st0_doc_ref = db.collection(zeichnungs_nr).document('VK-ST-0')
         vk_st0_data = {
@@ -71,6 +93,8 @@ def main():
     key_dict = st.secrets["textkey"]
     creds = service_account.Credentials.from_service_account_info(key_dict)
     db = firestore.Client(credentials=creds)
+    # Fetch customer list
+    customer_list = fetch_customers(db)
     st.title('ATA App Navigator')
     image = Image.open('logo_ata.png')
     st.image(image, caption='Ata Logo')
@@ -91,7 +115,7 @@ def main():
     st.header('Project Instantiation')
     # Input fields for project instantiation
     with st.form(key='project_form'):
-        kunde = st.text_input('Kunde')
+        kunde = st.selectbox('Kunde', customer_list)
         benennung = st.text_input('Benennung')
         zeichnungs_nr = st.text_input('Zeichnungs Nr')
         ausfuehren_nr = st.text_input('Ausführen Nr')
