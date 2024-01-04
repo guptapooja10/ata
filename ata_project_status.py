@@ -11,6 +11,28 @@ image = Image.open('logo_ata.png')
 st.image(image, caption='Ata Logo', use_column_width=True)
 
 
+def fetch_customers(db):
+    customers_list = []
+    # Assuming you have a collection named 'customers'
+    customer_docs = db.collection('Customers').stream()
+    for doc in customer_docs:
+        # The customer name is the document ID in this case
+        customers_list.append(doc.id)
+    return customers_list
+
+
+def fetch_projects_for_customers(db, selected_customers):
+    projects = []
+    for customer_id in selected_customers:
+        customer_ref = db.collection('Customers').document(customer_id)
+        customer_doc = customer_ref.get()
+        if customer_doc.exists:
+            customer_data = customer_doc.to_dict()
+            project_list = customer_data.get('Project_List', [])
+            projects.extend(project_list)  # Add the projects of this customer to the list
+    return projects
+
+
 # Navigation bar
 def navigation_bar():
     apps = {
@@ -120,11 +142,24 @@ def main():
     # Display the navigation bar
     navigation_bar()
 
+    # Fetch and display customer selection
+    all_customers = fetch_customers(db)
+    selected_customers = st.multiselect('Select Customer:', all_customers)
+
+    # Determine collections to display based on selected customers
+    if selected_customers:
+        # Fetch projects for selected customers
+        collections_to_display = fetch_projects_for_customers(db, selected_customers)
+    else:
+        # If no customers are selected, display all collections
+        collections_to_display = get_all_collections(db)
+
     # Get all collection IDs
-    all_collections = get_all_collections(db)
+    # all_collections = get_all_collections(db)
 
     # Allow the user to select a collection using a dropdown
-    selected_collection = st.selectbox('Select Collection:', all_collections)
+    # selected_collection = st.selectbox('Select Collection:', all_collections)
+    selected_collection = st.selectbox('Select Project:', collections_to_display)
 
     # Get all document IDs for the selected collection
     document_ids = get_all_document_ids(selected_collection)
