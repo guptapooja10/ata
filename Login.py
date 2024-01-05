@@ -1,7 +1,7 @@
 import streamlit as st
 from firebase_init import initialize_firebase_app
 from firebase_admin import auth
-from streamlit_option_menu import option_menu
+
 
 # Initialize Firebase app if not already initialized
 initialize_firebase_app()
@@ -11,6 +11,10 @@ initialize_firebase_app()
 def get_session_state():
     if 'authenticated' not in st.session_state:
         st.session_state.authenticated = False
+
+
+# Call get_session_state before any Streamlit function
+get_session_state()
 
 
 def navigation_bar():
