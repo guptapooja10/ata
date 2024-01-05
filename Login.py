@@ -47,9 +47,9 @@ def login_app():
         if st.button('Login'):
             # If authentication is successful, set st.session_state.authenticated to True
             st.session_state.authenticated = True
-            st.write('Which app do you want to use?')
+            # st.write('Which app do you want to use?')
             # Display a clickable link to the Project Instantiation app
-            st.experimental_set_query_params(app='project_instantiation')
+            # st.experimental_set_query_params(app='project_instantiation')
     else:
         email = st.text_input('E-Mail Address')
         password = st.text_input('Password', type='password')
@@ -58,7 +58,7 @@ def login_app():
         if st.button('Create my account'):
             user = auth.create_user(email=email, password=password, uid=username)
             # If user creation is successful, set st.session_state.authenticated to True
-            st.session_state.authenticated = True
+            # st.session_state.authenticated = True
             st.success('Account created successfully!')
             st.markdown('You can now log in using your E-Mail and Password')
             st.balloons()
