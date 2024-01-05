@@ -1,9 +1,28 @@
 import streamlit as st
 from firebase_init import initialize_firebase_app
 from firebase_admin import auth
+from streamlit_option_menu import option_menu
 
 # Initialize Firebase app if not already initialized
 initialize_firebase_app()
+
+
+def navigation_bar():
+    apps = {
+        "Login page": "https://credentials-page.streamlit.app/",
+        "Project Instantiation": "https://ata-app-navigator.streamlit.app/",
+        "VK-ST-0": "https://vk-st-0.streamlit.app/",
+        "VK-0": "https://ata-vk-0.streamlit.app/",
+        "ATA-Project-Status": "https://ata-project-status.streamlit.app/"
+    }
+
+    st.sidebar.title('Navigation')
+
+    for app_name, app_url in apps.items():
+        st.sidebar.markdown(f"[{app_name}]({app_url})")
+
+
+navigation_bar()
 
 
 def login_app():
