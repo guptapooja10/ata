@@ -2,7 +2,6 @@ import streamlit as st
 from firebase_init import initialize_firebase_app
 from firebase_admin import auth
 
-
 # Initialize Firebase app if not already initialized
 initialize_firebase_app()
 
@@ -36,9 +35,6 @@ def navigation_bar():
             st.sidebar.text(app_name)
 
 
-navigation_bar()
-
-
 def login_app():
     st.title('Welcome to :violet[ATA]')
 
@@ -68,4 +64,11 @@ def login_app():
 
 
 if __name__ == "__main__":
+    # Call get_session_state before any Streamlit function
+    get_session_state()
+
+    # Call login_app after get_session_state
     login_app()
+
+    # Call navigation_bar after login_app
+    navigation_bar()
