@@ -7,6 +7,12 @@ from streamlit_option_menu import option_menu
 initialize_firebase_app()
 
 
+# To check the user authentication
+def get_session_state():
+    if 'authenticated' not in st.session_state:
+        st.session_state.authenticated = False
+
+
 def navigation_bar():
     apps = {
         "Login page": "https://credentials-page.streamlit.app/",
@@ -19,7 +25,11 @@ def navigation_bar():
     st.sidebar.title('Navigation')
 
     for app_name, app_url in apps.items():
-        st.sidebar.markdown(f"[{app_name}]({app_url})")
+        # Only display the link if the user is authenticated
+        if st.session_state.authenticated:
+            st.sidebar.markdown(f"[{app_name}]({app_url})")
+        else:
+            st.sidebar.text(app_name)
 
 
 navigation_bar()
@@ -34,6 +44,8 @@ def login_app():
         password = st.text_input('Password', type='password')
 
         if st.button('Login'):
+            # If authentication is successful, set st.session_state.authenticated to True
+            st.session_state.authenticated = True
             st.write('Which app do you want to use?')
             # Display a clickable link to the Project Instantiation app
             st.experimental_set_query_params(app='project_instantiation')
@@ -44,6 +56,8 @@ def login_app():
 
         if st.button('Create my account'):
             user = auth.create_user(email=email, password=password, uid=username)
+            # If user creation is successful, set st.session_state.authenticated to True
+            st.session_state.authenticated = True
             st.success('Account created successfully!')
             st.markdown('You can now log in using your E-Mail and Password')
             st.balloons()
