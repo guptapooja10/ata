@@ -27,12 +27,13 @@ def navigation_bar():
 
     st.sidebar.title('Navigation')
 
-    for app_name, app_url in apps.items():
-        # Only display the link if the user is authenticated
-        if st.session_state.authenticated:
+    if st.session_state.authenticated:
+        # If the user is authenticated, display all links
+        for app_name, app_url in apps.items():
             st.sidebar.markdown(f"[{app_name}]({app_url})")
-        else:
-            st.sidebar.text(app_name)
+    else:
+        # If the user is not authenticated, display only the "Login page" link
+        st.sidebar.markdown(f"[Login page]({apps['Login page']})")
 
 
 def login_app():
@@ -46,9 +47,9 @@ def login_app():
         if st.button('Login'):
             # If authentication is successful, set st.session_state.authenticated to True
             st.session_state.authenticated = True
-            # st.write('Which app do you want to use?')
+            st.write('Which app do you want to use?')
             # Display a clickable link to the Project Instantiation app
-            # st.experimental_set_query_params(app='project_instantiation')
+            st.experimental_set_query_params(app='project_instantiation')
     else:
         email = st.text_input('E-Mail Address')
         password = st.text_input('Password', type='password')
