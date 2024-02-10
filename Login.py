@@ -1,9 +1,7 @@
 import streamlit as st
 from firebase_init import initialize_firebase_app
 from firebase_admin import auth
-import pandas as pd
-import plotly.express as px
-from pathlib import Path
+
 
 # Initialize Firebase app if not already initialized
 initialize_firebase_app()
@@ -59,17 +57,6 @@ def file_upload_page():
     if uploaded_files is not None:
         st.success("File uploaded successfully!")
 
-        # Process the uploaded file as needed
-        # For example, you can save it to a temporary directory
-        with tempfile.NamedTemporaryFile(delete=False) as temp_file:
-            temp_file.write(uploaded_files.read())
-            st.write("Temporary file saved at:", temp_file.name)
-
-            # You can use the saved file for further processing
-            # ...
-
-        # Clean up the temporary file
-        os.remove(temp_file.name)
 
 
 if __name__ == "__main__":
