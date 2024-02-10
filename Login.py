@@ -24,7 +24,7 @@ def login_app():
         password = st.text_input('Password', type='password')
 
         # Check if the "Login" button is clicked
-        if st.checkbox('Admin'):
+        if st.checkbox('Employee of ATA'):
             # Assuming authentication is successful, set st.session_state.authenticated to True
             st.session_state.authenticated = True
 
