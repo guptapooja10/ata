@@ -48,12 +48,4 @@ if __name__ == "__main__":
 
     # Handle navigation or display other pages based on authentication status
     if st.session_state.authenticated:
-        st.title("File Upload")
-
-        # File upload widget
-        uploaded_file = st.file_uploader("Choose a file")
-
-        # Check if a file is uploaded
-        if uploaded_file is not None:
-            # Display a simple confirmation message
-            st.success(f"File uploaded successfully!")
+        st.link_button("Login", "https://ata-app-navigator.streamlit.app/")
