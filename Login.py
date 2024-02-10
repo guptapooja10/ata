@@ -24,11 +24,11 @@ def login_app():
         password = st.text_input('Password', type='password')
 
         if st.button('Login'):
-            # If authentication is successful, set st.session_state.authenticated to True
+            # Assuming authentication is successful, set st.session_state.authenticated to True
             st.session_state.authenticated = True
-            # st.write('Which app do you want to use?')
-            # Display a clickable link to the Project Instantiation app
-            # st.experimental_set_query_params(app='project_instantiation')
+
+            # Redirect to "Project Instantiation" page
+            st.experimental_set_query_params(app='project_instantiation')
     else:
         email = st.text_input('E-Mail Address')
         password = st.text_input('Password', type='password')
@@ -52,11 +52,7 @@ if __name__ == "__main__":
 
     # Handle navigation or display other pages based on authentication status
     if st.session_state.authenticated:
-        st.sidebar.title('Navigation')
-        # Add links to other apps here if needed
-        st.sidebar.markdown("[Project Instantiation](https://ata-app-navigator.streamlit.app/)")
-        st.sidebar.markdown("[VK-ST-0](https://vk-st-0.streamlit.app/)")
-        st.sidebar.markdown("[VK-0](https://ata-vk-0.streamlit.app/)")
-        st.sidebar.markdown("[ATA-Project-Status](https://ata-project-status.streamlit.app/)")
+        # Redirect to "Project Instantiation" page
+        st.experimental_set_query_params(app='project_instantiation')
     else:
         st.sidebar.markdown("[Login page](https://credentials-page.streamlit.app/)")
