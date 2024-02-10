@@ -7,26 +7,30 @@ import tempfile
 # Initialize Firebase app if not already initialized
 initialize_firebase_app()
 
+
 def get_session_state():
     if 'authenticated' not in st.session_state:
         st.session_state.authenticated = False
+    if 'page' not in st.session_state:
+        st.session_state.page = 'login'
+
 
 # Call get_session_state before any Streamlit function
 get_session_state()
 
+
 def login_app():
     st.title('Welcome to :violet[ATA]')
 
-    choice = st.selectbox('Login/Signup', ['Login', 'Signup'])
-    if choice == 'Login':
+    if st.session_state.page == 'login':
         email = st.text_input('E-Mail Address')
         password = st.text_input('Password', type='password')
 
         if st.button('Login'):
             # Assuming authentication is successful, set st.session_state.authenticated to True
             st.session_state.authenticated = True
-            # Redirect to the file upload page
-            st.subpage('File Upload')
+            # Change the page to 'file_upload'
+            st.session_state.page = 'file_upload'
 
     else:
         email = st.text_input('E-Mail Address')
@@ -38,6 +42,7 @@ def login_app():
             st.success('Account created successfully!')
             st.markdown('You can now log in using your E-Mail and Password')
             st.balloons()
+
 
 def file_upload_page():
     st.header('File Upload Page')
@@ -54,11 +59,9 @@ def file_upload_page():
             temp_file.write(uploaded_files.read())
             st.write("Temporary file saved at:", temp_file.name)
 
-            # You can use the saved file for further processing
-            # ...
-
         # Clean up the temporary file
         os.remove(temp_file.name)
+
 
 if __name__ == "__main__":
     # Call get_session_state before any Streamlit function
@@ -69,5 +72,6 @@ if __name__ == "__main__":
 
     # Handle navigation or display other pages based on authentication status
     if st.session_state.authenticated:
-        # Display file upload functionality on a new page
-        file_upload_page()
+        # Display file upload functionality based on the current page state
+        if st.session_state.page == 'file_upload':
+            file_upload_page()
