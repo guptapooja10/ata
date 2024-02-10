@@ -1,9 +1,6 @@
 import streamlit as st
 from firebase_init import initialize_firebase_app
 from firebase_admin import auth
-from PIL import Image
-import os
-import tempfile
 
 # Initialize Firebase app if not already initialized
 initialize_firebase_app()
@@ -42,6 +39,8 @@ def login_app():
             st.balloons()
 
 
+st.set_page_config(page_title="File upload", page_icon=":newspaper:", layout="wide")
+
 if __name__ == "__main__":
     # Call get_session_state before any Streamlit function
     get_session_state()
@@ -51,26 +50,10 @@ if __name__ == "__main__":
 
     # Handle navigation or display other pages based on authentication status
     if st.session_state.authenticated:
-        # Redirect to "Project Instantiation" page
-        st.markdown("[Redirecting to Project Instantiation](https://ata-app-navigator.streamlit.app/)")
-
-        # Your page for uploading documents after successful authentication
-        st.header('Document Upload Page')
-        st.write("Upload your important documents here:")
+        # st.header('Document Upload Page')
+        st.write("Upload your documents here:")
 
         uploaded_files = st.file_uploader("Choose a file", type=["pdf", "txt", "csv", "xlsx"])
 
         if uploaded_files is not None:
             st.success("File uploaded successfully!")
-
-            # Process the uploaded file as needed
-            # For example, you can save it to a temporary directory
-            with tempfile.NamedTemporaryFile(delete=False) as temp_file:
-                temp_file.write(uploaded_files.read())
-                st.write("Temporary file saved at:", temp_file.name)
-
-                # You can use the saved file for further processing
-                # ...
-
-            # Clean up the temporary file
-            os.remove(temp_file.name)
