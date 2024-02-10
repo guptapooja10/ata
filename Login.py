@@ -1,6 +1,9 @@
 import streamlit as st
 from firebase_init import initialize_firebase_app
 from firebase_admin import auth
+import pandas as pd
+import plotly.express as px
+from pathlib import Path
 
 # Initialize Firebase app if not already initialized
 initialize_firebase_app()
@@ -24,8 +27,16 @@ def login_app():
         password = st.text_input('Password', type='password')
 
         if st.button('Login'):
-            # Assuming authentication is successful, set st.session_state.authenticated to True
-            st.session_state.authenticated = True
+            # Perform authentication check
+            user = auth.get_user_by_email(email)
+            if user and user.password == password:
+                st.session_state.authenticated = True
+
+                # Show the file upload page
+                file_upload_page()
+
+            else:
+                st.error("Username/password is incorrect")
 
     else:
         email = st.text_input('E-Mail Address')
@@ -39,7 +50,27 @@ def login_app():
             st.balloons()
 
 
-st.set_page_config(page_title="File upload", page_icon=":newspaper:", layout="wide")
+def file_upload_page():
+    st.header('File Upload Page')
+    st.write("Upload your important documents here:")
+
+    uploaded_files = st.file_uploader("Choose a file", type=["pdf", "txt", "csv", "xlsx"])
+
+    if uploaded_files is not None:
+        st.success("File uploaded successfully!")
+
+        # Process the uploaded file as needed
+        # For example, you can save it to a temporary directory
+        with tempfile.NamedTemporaryFile(delete=False) as temp_file:
+            temp_file.write(uploaded_files.read())
+            st.write("Temporary file saved at:", temp_file.name)
+
+            # You can use the saved file for further processing
+            # ...
+
+        # Clean up the temporary file
+        os.remove(temp_file.name)
+
 
 if __name__ == "__main__":
     # Call get_session_state before any Streamlit function
@@ -47,13 +78,3 @@ if __name__ == "__main__":
 
     # Call login_app after get_session_state
     login_app()
-
-    # Handle navigation or display other pages based on authentication status
-    if st.session_state.authenticated:
-        # st.header('Document Upload Page')
-        st.write("Upload your documents here:")
-
-        uploaded_files = st.file_uploader("Choose a file", type=["pdf", "txt", "csv", "xlsx"])
-
-        if uploaded_files is not None:
-            st.success("File uploaded successfully!")
