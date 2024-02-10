@@ -38,6 +38,10 @@ def login_app():
             st.markdown('You can now log in using your E-Mail and Password')
             st.balloons()
 
+    # Use st.link_button for the "Login" redirection
+    if st.session_state.authenticated:
+        st.link_button("Go to App", "https://ata-app-navigator.streamlit.app/")
+
 
 if __name__ == "__main__":
     # Call get_session_state before any Streamlit function
@@ -45,7 +49,3 @@ if __name__ == "__main__":
 
     # Call login_app after get_session_state
     login_app()
-
-    # Handle navigation or display other pages based on authentication status
-    if st.session_state.authenticated:
-        st.link_button("Login", "https://ata-app-navigator.streamlit.app/")
