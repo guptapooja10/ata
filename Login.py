@@ -23,9 +23,16 @@ def login_app():
         email = st.text_input('E-Mail Address')
         password = st.text_input('Password', type='password')
 
+        # Check if the "Login" button is clicked
         if st.button('Login'):
             # Assuming authentication is successful, set st.session_state.authenticated to True
             st.session_state.authenticated = True
+
+            # Redirect to the specified URL if authenticated
+            if st.session_state.authenticated:
+                st.experimental_set_query_params(app='project_instantiation')
+                st.link_button("Login", "https://ata-app-navigator.streamlit.app/")
+
 
     else:
         email = st.text_input('E-Mail Address')
@@ -37,11 +44,6 @@ def login_app():
             st.success('Account created successfully!')
             st.markdown('You can now log in using your E-Mail and Password')
             st.balloons()
-
-    # Use st.link_button for the "Login" redirection
-    if st.session_state.authenticated:
-        st.link_button("Go to App", "https://ata-app-navigator.streamlit.app/")
-
 
 if __name__ == "__main__":
     # Call get_session_state before any Streamlit function
