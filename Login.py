@@ -50,5 +50,5 @@ if __name__ == "__main__":
     if st.session_state.authenticated:
         # Redirect to "Project Instantiation" page
         st.markdown("[Redirecting to Project Instantiation](https://ata-app-navigator.streamlit.app/)")
-    else:
-        st.sidebar.markdown("[Login page](https://credentials-page.streamlit.app/)")
+    #else:
+     #   st.sidebar.markdown("[Login page](https://credentials-page.streamlit.app/)")
