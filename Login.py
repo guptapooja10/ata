@@ -5,15 +5,12 @@ from firebase_admin import auth
 # Initialize Firebase app if not already initialized
 initialize_firebase_app()
 
-
 def get_session_state():
     if 'authenticated' not in st.session_state:
         st.session_state.authenticated = False
 
-
 # Call get_session_state before any Streamlit function
 get_session_state()
-
 
 def login_app():
     st.title('Welcome to :violet[ATA]')
@@ -28,7 +25,7 @@ def login_app():
             st.session_state.authenticated = True
 
             # Redirect to "Project Instantiation" page
-            st.experimental_set_query_params(app='project_instantiation')
+            st.markdown("[Redirecting to Project Instantiation](https://ata-app-navigator.streamlit.app/)")
     else:
         email = st.text_input('E-Mail Address')
         password = st.text_input('Password', type='password')
@@ -42,7 +39,6 @@ def login_app():
             st.markdown('You can now log in using your E-Mail and Password')
             st.balloons()
 
-
 if __name__ == "__main__":
     # Call get_session_state before any Streamlit function
     get_session_state()
@@ -53,6 +49,6 @@ if __name__ == "__main__":
     # Handle navigation or display other pages based on authentication status
     if st.session_state.authenticated:
         # Redirect to "Project Instantiation" page
-        st.experimental_set_query_params(app='project_instantiation')
+        st.markdown("[Redirecting to Project Instantiation](https://ata-app-navigator.streamlit.app/)")
     else:
         st.sidebar.markdown("[Login page](https://credentials-page.streamlit.app/)")
