@@ -48,7 +48,7 @@ if __name__ == "__main__":
 
     # Handle navigation or display other pages based on authentication status
     if st.session_state.authenticated:
-        st.title("Simple File Upload App")
+        st.title("File Upload")
 
         # File upload widget
         uploaded_file = st.file_uploader("Choose a file")
