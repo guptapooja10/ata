@@ -6,7 +6,6 @@ from firebase_admin import auth
 initialize_firebase_app()
 
 
-# To check the user authentication
 def get_session_state():
     if 'authenticated' not in st.session_state:
         st.session_state.authenticated = False
@@ -14,26 +13,6 @@ def get_session_state():
 
 # Call get_session_state before any Streamlit function
 get_session_state()
-
-
-def navigation_bar():
-    apps = {
-        "Login page": "https://credentials-page.streamlit.app/",
-        "Project Instantiation": "https://ata-app-navigator.streamlit.app/",
-        "VK-ST-0": "https://vk-st-0.streamlit.app/",
-        "VK-0": "https://ata-vk-0.streamlit.app/",
-        "ATA-Project-Status": "https://ata-project-status.streamlit.app/"
-    }
-
-    st.sidebar.title('Navigation')
-
-    if st.session_state.authenticated:
-        # If the user is authenticated, display all links
-        for app_name, app_url in apps.items():
-            st.sidebar.markdown(f"[{app_name}]({app_url})")
-    else:
-        # If the user is not authenticated, display only the "Login page" link
-        st.sidebar.markdown(f"[Login page]({apps['Login page']})")
 
 
 def login_app():
@@ -71,5 +50,13 @@ if __name__ == "__main__":
     # Call login_app after get_session_state
     login_app()
 
-    # Call navigation_bar after login_app
-    navigation_bar()
+    # Handle navigation or display other pages based on authentication status
+    if st.session_state.authenticated:
+        st.sidebar.title('Navigation')
+        # Add links to other apps here if needed
+        st.sidebar.markdown("[Project Instantiation](https://ata-app-navigator.streamlit.app/)")
+        st.sidebar.markdown("[VK-ST-0](https://vk-st-0.streamlit.app/)")
+        st.sidebar.markdown("[VK-0](https://ata-vk-0.streamlit.app/)")
+        st.sidebar.markdown("[ATA-Project-Status](https://ata-project-status.streamlit.app/)")
+    else:
+        st.sidebar.markdown("[Login page](https://credentials-page.streamlit.app/)")
