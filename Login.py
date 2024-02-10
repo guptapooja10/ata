@@ -25,7 +25,7 @@ def login_app():
             st.session_state.authenticated = True
 
             # Redirect to "Project Instantiation" page
-            st.markdown("[Redirecting to Project Instantiation](https://ata-app-navigator.streamlit.app/)")
+            #st.markdown("[Redirecting to Project Instantiation](https://ata-app-navigator.streamlit.app/)")
     else:
         email = st.text_input('E-Mail Address')
         password = st.text_input('Password', type='password')
