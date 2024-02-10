@@ -2,7 +2,6 @@ import streamlit as st
 from firebase_init import initialize_firebase_app
 from firebase_admin import auth
 
-
 # Initialize Firebase app if not already initialized
 initialize_firebase_app()
 
@@ -25,16 +24,8 @@ def login_app():
         password = st.text_input('Password', type='password')
 
         if st.button('Login'):
-            # Perform authentication check
-            user = auth.get_user_by_email(email)
-            if user and user.password == password:
-                st.session_state.authenticated = True
-
-                # Show the file upload page
-                file_upload_page()
-
-            else:
-                st.error("Username/password is incorrect")
+            # Assuming authentication is successful, set st.session_state.authenticated to True
+            st.session_state.authenticated = True
 
     else:
         email = st.text_input('E-Mail Address')
@@ -48,20 +39,14 @@ def login_app():
             st.balloons()
 
 
-def file_upload_page():
-    st.header('File Upload Page')
-    st.write("Upload your important documents here:")
-
-    uploaded_files = st.file_uploader("Choose a file", type=["pdf", "txt", "csv", "xlsx"])
-
-    if uploaded_files is not None:
-        st.success("File uploaded successfully!")
-
-
-
 if __name__ == "__main__":
     # Call get_session_state before any Streamlit function
     get_session_state()
 
     # Call login_app after get_session_state
     login_app()
+
+    # Handle navigation or display other pages based on authentication status
+    if st.session_state.authenticated:
+        # Redirect to "Project Instantiation" page
+        st.markdown("[Redirecting to Project Instantiation](https://ata-app-navigator.streamlit.app/)")
