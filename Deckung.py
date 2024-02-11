@@ -9,22 +9,22 @@ from VK_ST_0 import get_all_collections, get_data_from_firestore, field_mapping,
 
 
 # Navigation bar
-def navigation_bar():
-    apps = {
-        "Login page": "https://credentials-page.streamlit.app/",
-        "Project Instantiation": "https://ata-app-navigator.streamlit.app/",
-        "VK-ST-0": "https://vk-st-0.streamlit.app/",
-        "VK-0": "https://ata-vk-0.streamlit.app/",
-        "ATA-Project-Status": "https://ata-project-status.streamlit.app/"
-    }
+#def navigation_bar():
+ #   apps = {
+#        "Login page": "https://credentials-page.streamlit.app/",
+#        "Project Instantiation": "https://ata-app-navigator.streamlit.app/",
+#        "VK-ST-0": "https://vk-st-0.streamlit.app/",
+#        "VK-0": "https://ata-vk-0.streamlit.app/",
+#        "ATA-Project-Status": "https://ata-project-status.streamlit.app/"
+#    }
 
-    st.sidebar.title('Navigation')
+ #   st.sidebar.title('Navigation')
 
-    for app_name, app_url in apps.items():
-        st.sidebar.markdown(f"[{app_name}]({app_url})")
+ #   for app_name, app_url in apps.items():
+ #       st.sidebar.markdown(f"[{app_name}]({app_url})")
 
 
-navigation_bar()
+#navigation_bar()
 
 # Initialize Firestore client
 key_dict = st.secrets["textkey"]
