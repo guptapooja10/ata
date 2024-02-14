@@ -1,14 +1,38 @@
 import streamlit as st
-import time
+from matplotlib import pyplot as plt
+import numpy as np
 
-image_list = ["1.jpg", "2.jpg", "3.jpg"]
+@st.experimental_memo
+def get_numbers():
+    sets = []
+    for i in range(10):
+        sets.append(np.random.normal(1,1,size=100))
+    return sets
 
-interval = 2
+sets = get_numbers()
 
-container = st.container()
+@st.experimental_memo
+def get_plot(i):
+    fig, ax = plt.subplots()
+    ax.hist(sets[i], bins=20)
+    return fig
 
-# Loop through the images
-for i in range(len(image_list)):
-    container.image(image_list[i], caption=f"Image {i + 1}", use_column_width=True)
+# create a bunch of figures
+figs = [get_plot(i) for i in range(10)]
 
-    time.sleep(interval)
+with st.expander('Using a slider'):
+
+    plot = st.container()
+
+    # use st.slider to select
+    index = st.slider('figure index', 1, 10)
+
+    # use st.pyplot
+    with plot:
+        st.pyplot(figs[index-1])
+
+with st.expander('Using tabs'):
+    tabs = st.tabs(list(np.array(range(1,11)).astype(str)))
+
+    for i in range(10):
+        tabs[i].pyplot(figs[i])
