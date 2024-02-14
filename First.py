@@ -1,5 +1,5 @@
 import streamlit as st
-from matplotlib import pyplot as plt
+# from matplotlib import pyplot as plt
 import numpy as np
 
 
@@ -13,16 +13,15 @@ def get_numbers():
 
 sets = get_numbers()
 
-
-@st.experimental_memo
-def get_plot(i):
-    fig, ax = plt.subplots()
-    ax.hist(sets[i], bins=20)
-    return fig
+# @st.experimental_memo
+# def get_plot(i):
+#   fig, ax = plt.subplots()
+#  ax.hist(sets[i], bins=20)
+# return fig
 
 
 # create a bunch of figures
-figs = [get_plot(i) for i in range(10)]
+# figs = [get_plot(i) for i in range(10)]
 
 # with st.expander('Using a slider'):
 
@@ -35,8 +34,8 @@ figs = [get_plot(i) for i in range(10)]
 # with plot:
 #    st.pyplot(figs[index-1])
 
-with st.expander('Using tabs'):
-    tabs = st.tabs(list(np.array(range(1, 11)).astype(str)))
+# with st.expander('Using tabs'):
+#    tabs = st.tabs(list(np.array(range(1, 11)).astype(str)))
 
-    for i in range(10):
-        tabs[i].pyplot(figs[i])
+#   for i in range(10):
+#      tabs[i].pyplot(figs[i])
