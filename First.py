@@ -1,6 +1,7 @@
 import streamlit as st
 import time
 
+st.title("About")
 image_list = ["1.jpg", "2.jpg", "3.jpg"]
 
 interval = 2
