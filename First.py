@@ -66,6 +66,20 @@ def main():
     elif selected_page == "Contact":
         contact_page()
 
+    st.markdown("""
+            <style>
+                .top-right {
+                    position: absolute;
+                    top: 10px;
+                    right: 10px;
+                }
+            </style>
+        """, unsafe_allow_html=True)
+
+    st.markdown(
+        '<div class="top-right">' + st.link_button("Sing In/Sign Up", "https://credentials-page.streamlit.app/") + '</div>',
+        unsafe_allow_html=True)
+
 
 if __name__ == "__main__":
     main()
