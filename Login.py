@@ -2,7 +2,6 @@ import streamlit as st
 from firebase_init import initialize_firebase_app
 from firebase_admin import auth
 
-# Initialize Firebase app if not already initialized
 initialize_firebase_app()
 
 
@@ -11,7 +10,6 @@ def get_session_state():
         st.session_state.authenticated = False
 
 
-# Call get_session_state before any Streamlit function
 get_session_state()
 
 
@@ -23,15 +21,16 @@ def login_app():
         email = st.text_input('E-Mail Address')
         password = st.text_input('Password', type='password')
 
-        if st.checkbox('Admin'):
+        user_type = st.radio("User Type", ["Admin", "Not an Admin"])
+
+        if st.button("Sign In"):
             st.session_state.authenticated = True
-            if st.session_state.authenticated:
+
+            if user_type == "Admin":
                 st.experimental_set_query_params(app='project_instantiation')
                 st.link_button("Sign In", "https://ata-app-navigator.streamlit.app/")
 
-        if st.checkbox('Not an Admin'):
-            st.session_state.authenticated = True
-            if st.session_state.authenticated:
+            elif user_type == "Not an Admin":
                 st.experimental_set_query_params(app='Project_Status_App')
                 st.link_button("Sign In", "https://ata-project-status.streamlit.app/")
 
