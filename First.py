@@ -35,9 +35,9 @@ def about_page():
 
     while True:
         for i in range(len(images)):
-            # Display an image in the placeholder
+
             slideshow_placeholder.image(images[i])
-            # Add a delay (e.g., 2 seconds) before switching to the next image
+
             st.experimental_rerun()
             time.sleep(2)
 
