@@ -57,7 +57,6 @@ def contact_page():
 
 
 def main():
-    # Call login_app after get_session_state
     login_app()
 
     if st.session_state.authenticated:
