@@ -57,8 +57,8 @@ def contact_page():
 
 def main():
     sac.buttons(
-        [sac.ButtonsItem(label='Sign In/Sign Up', icon='share-fill', href='https://credentials-page.streamlit.app/'),
-         ], label='label', index=1, align='end')
+        [sac.ButtonsItem(label='Sign In/Sign Up', href='https://credentials-page.streamlit.app/'),
+         ], index=1, align='end')
     st.sidebar.title("Navigation")
     selected_page = st.sidebar.selectbox("Go to", ["About", "Usage", "Contact"])
 
