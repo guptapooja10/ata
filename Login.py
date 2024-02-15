@@ -23,16 +23,15 @@ def login_app():
         email = st.text_input('E-Mail Address')
         password = st.text_input('Password', type='password')
 
-        user_type = st.radio("User Type", ["Admin", "Not an Admin"])
-
-        if st.button("Sign In"):
+        if st.checkbox('Admin'):
             st.session_state.authenticated = True
-
-            if user_type == "Admin":
+            if st.session_state.authenticated:
                 st.experimental_set_query_params(app='project_instantiation')
                 st.link_button("Sign In", "https://ata-app-navigator.streamlit.app/")
 
-            elif user_type == "Not an Admin":
+        if st.checkbox('Not an Admin'):
+            st.session_state.authenticated = True
+            if st.session_state.authenticated:
                 st.experimental_set_query_params(app='Project_Status_App')
                 st.link_button("Sign In", "https://ata-project-status.streamlit.app/")
 
