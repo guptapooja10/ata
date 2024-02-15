@@ -3,7 +3,7 @@ import numpy as np
 from PIL import Image
 
 
-@st.experimental_memo
+@st.cache_data
 def get_images():
     image_paths = [
         "1.jpg",
