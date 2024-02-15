@@ -11,7 +11,7 @@ def about_page():
     workflow, offering an intuitive and efficient tool for professionals in the engineering field. Explore the 
     various features and functionalities to optimize your work and achieve better results.""")
 
-    @st.cache_data
+    @st.cache
     def get_images():
         image_paths = [
             "2.jpg",
