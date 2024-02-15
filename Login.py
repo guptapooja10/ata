@@ -23,10 +23,10 @@ def login_app():
         email = st.text_input('E-Mail Address')
         password = st.text_input('Password', type='password')
 
-        user_type = st.radio("User Type", ["Admin", "Not an Admin"], key="user_type", default="")
+        user_type = st.radio("User Type", ["Admin", "Not an Admin"], key="user_type")
 
         if st.button("Sign In"):
-            if user_type:
+            if user_type is not None:
                 st.session_state.authenticated = True
 
                 if user_type == "Admin":
