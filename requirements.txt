@@ -159,6 +159,7 @@ stack-data==0.6.2
 streamlit==1.31.0
 streamlit-calendar==0.6.0
 streamlit_option_menu
+streamlit-antd-components==0.3.2
 tenacity==8.2.2
 terminado==0.17.1
 threadpoolctl==3.1.0

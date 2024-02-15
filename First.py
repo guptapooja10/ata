@@ -1,5 +1,5 @@
-# Your main Streamlit app script (main_script.py)
 import streamlit as st
+import streamlit_antd_components as sac
 from PIL import Image
 import time
 
@@ -56,7 +56,9 @@ def contact_page():
 
 
 def main():
-    st.link_button("Sign In/ Sign Up", "https://credentials-page.streamlit.app/")
+    sac.buttons([sac.ButtonsItem(label='link', icon='share-fill', href='https://ant.design/components/button'),
+], label='label', index=1, align='end')
+    #st.link_button("Sign In/ Sign Up", "https://credentials-page.streamlit.app/")
     st.sidebar.title("Navigation")
     selected_page = st.sidebar.selectbox("Go to", ["About", "Usage", "Contact"])
 
