@@ -42,9 +42,8 @@ def login_app():
                     if st.session_state.authenticated:
                         st.experimental_set_query_params(app='Project_Status_App')
                         st.link_button("Sign In", "https://ata-project-status.streamlit.app/")
-            else:
+            elif is_admin_checked or is_not_admin_checked:
                 st.warning("Please enter both email and password before attempting to sign in.")
-
     else:
         email = st.text_input('E-Mail Address')
         password = st.text_input('Password', type='password')
