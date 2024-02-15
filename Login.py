@@ -23,16 +23,17 @@ def login_app():
         email = st.text_input('E-Mail Address')
         password = st.text_input('Password', type='password')
 
-        # Check if the "Login" button is clicked
         if st.checkbox('Admin'):
-            # Assuming authentication is successful, set st.session_state.authenticated to True
             st.session_state.authenticated = True
-
-            # Redirect to the specified URL if authenticated
             if st.session_state.authenticated:
                 st.experimental_set_query_params(app='project_instantiation')
                 st.link_button("Sign In", "https://ata-app-navigator.streamlit.app/")
 
+        if st.checkbox('Not an Admin'):
+            st.session_state.authenticated = True
+            if st.session_state.authenticated:
+                st.experimental_set_query_params(app='Project_Status_App')
+                st.link_button("Sign In", "https://ata-project-status.streamlit.app/")
 
     else:
         email = st.text_input('E-Mail Address')
