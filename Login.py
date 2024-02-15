@@ -32,8 +32,8 @@ def login_app():
             if email and password:  # Check if email and password are provided
                 try:
                     user = auth.get_user_by_email(email, app=firebase_app)
-                    # Attempt to sign in the user using Firebase authentication
-                    auth.get_user(user.uid, app=firebase_app, password=password)  # If no exception is thrown, the authentication is successful
+                    # Verify the password
+                    auth.verify_password(password, user.password_hash)
                     st.session_state.authenticated = True
                     if is_admin_checked:
                         st.experimental_set_query_params(app='project_instantiation')
@@ -52,7 +52,7 @@ def login_app():
 
         if st.button('Create my account'):
             try:
-                user = auth.create_user(email=email, password=password, uid=username, app=firebase_app)
+                auth.create_user(email=email, password=password, uid=username, app=firebase_app)
                 st.success('Account created successfully!')
                 st.markdown('You can now log in using your E-Mail and Password')
                 st.balloons()
