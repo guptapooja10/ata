@@ -39,7 +39,7 @@ def about_page():
             slideshow_placeholder.image(images[i])
 
             st.experimental_rerun()
-            time.sleep(2)
+            time.sleep(5)
 
 
 def usage_page():
