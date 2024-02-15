@@ -1,7 +1,11 @@
+# Your main Streamlit app script (main_script.py)
 import streamlit as st
-import numpy as np
 from PIL import Image
 import time
+from Login import login_app, get_session_state
+
+# Call get_session_state before any Streamlit function
+get_session_state()
 
 
 def about_page():
@@ -20,7 +24,6 @@ def about_page():
             "4.jpg",
             "5.jpg"
         ]
-
         images = [Image.open(image_path) for image_path in image_paths]
         return images
 
@@ -33,6 +36,7 @@ def about_page():
             # Display an image in the placeholder
             slideshow_placeholder.image(images[i])
             # Add a delay (e.g., 2 seconds) before switching to the next image
+            st.experimental_rerun()
             time.sleep(2)
 
 
@@ -53,15 +57,19 @@ def contact_page():
 
 
 def main():
-    st.sidebar.title("Navigation")
-    selected_page = st.sidebar.selectbox("Go to", ["About", "Usage", "Contact"])
+    # Call login_app after get_session_state
+    login_app()
 
-    if selected_page == "About":
-        about_page()
-    elif selected_page == "Usage":
-        usage_page()
-    elif selected_page == "Contact":
-        contact_page()
+    if st.session_state.authenticated:
+        st.sidebar.title("Navigation")
+        selected_page = st.sidebar.selectbox("Go to", ["About", "Usage", "Contact"])
+
+        if selected_page == "About":
+            about_page()
+        elif selected_page == "Usage":
+            usage_page()
+        elif selected_page == "Contact":
+            contact_page()
 
 
 if __name__ == "__main__":
