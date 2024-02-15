@@ -1,4 +1,6 @@
 import streamlit as st
+import numpy as np
+from PIL import Image
 
 
 def about_page():
@@ -8,6 +10,26 @@ def about_page():
     project status and generating accurate price quotations. We aim to simplify complex tasks and enhance your 
     workflow, offering an intuitive and efficient tool for professionals in the engineering field. Explore the 
     various features and functionalities to optimize your work and achieve better results.""")
+
+    @st.cache_data
+    def get_images():
+        image_paths = [
+            "2.png",
+            "3.png",
+            "4.png",
+            "5.png"
+        ]
+
+        images = [Image.open(image_path) for image_path in image_paths]
+        return images
+
+    tabs = st.tabs(list(np.array(range(1, 4)).astype(str)))
+
+    images = get_images()
+
+    for i in range(len(images)):
+        # Display an image in each tab
+        tabs[i].image(images[i])
 
 
 def features_page():
