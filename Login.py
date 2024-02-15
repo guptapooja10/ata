@@ -26,18 +26,17 @@ def login_app():
         is_admin_checked = st.checkbox('Admin')
         is_not_admin_checked = st.checkbox('Not an Admin')
 
+        if is_admin_checked and is_not_admin_checked:
+            st.warning("You can't choose both the options")
+
         if st.checkbox('Admin'):
             st.session_state.authenticated = True
-            if is_admin_checked and is_not_admin_checked:
-                st.warning("You can't choose both the options")
             if st.session_state.authenticated:
                 st.experimental_set_query_params(app='project_instantiation')
                 st.link_button("Sign In", "https://ata-app-navigator.streamlit.app/")
 
         if st.checkbox('Not an Admin'):
             st.session_state.authenticated = True
-            if is_admin_checked and is_not_admin_checked:
-                st.warning("You can't choose both the options")
             if st.session_state.authenticated:
                 st.experimental_set_query_params(app='Project_Status_App')
                 st.link_button("Sign In", "https://ata-project-status.streamlit.app/")
