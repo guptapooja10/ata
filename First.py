@@ -19,5 +19,5 @@ tabs = st.tabs(list(np.array(range(1, 5)).astype(str)))
 images = get_images()
 
 for i in range(len(images)):
-    # Display an image in each tab
-    tabs[i].image(images[i], caption=f"Image {i + 1}")
+
+    tabs[i].image(images[i])
