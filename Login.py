@@ -2,6 +2,7 @@ import streamlit as st
 from firebase_init import initialize_firebase_app
 from firebase_admin import auth
 
+# Initialize Firebase app if not already initialized
 initialize_firebase_app()
 
 
@@ -10,6 +11,7 @@ def get_session_state():
         st.session_state.authenticated = False
 
 
+# Call get_session_state before any Streamlit function
 get_session_state()
 
 
@@ -21,7 +23,7 @@ def login_app():
         email = st.text_input('E-Mail Address')
         password = st.text_input('Password', type='password')
 
-        user_type = st.radio("User Type", ["Admin", "Not an Admin"])
+        user_type = st.radio("User Type", ["Admin", "Not an Admin"], key="user_type")
 
         if st.button("Sign In"):
             st.session_state.authenticated = True
