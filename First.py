@@ -36,8 +36,8 @@ def about_page():
             time.sleep(2)
 
 
-def features_page():
-    st.title("Features")
+def usage_page():
+    st.title("How to use the app?")
     st.markdown("- **Feature 1:** Description of Feature 1")
     st.markdown("- **Feature 2:** Description of Feature 2")
     st.markdown("- **Feature 3:** Description of Feature 3")
@@ -56,8 +56,8 @@ def main():
 
     if selected_page == "About":
         about_page()
-    elif selected_page == "Features":
-        features_page()
+    elif selected_page == "Usage":
+        usage_page()
     elif selected_page == "Contact":
         contact_page()
 
