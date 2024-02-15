@@ -5,9 +5,9 @@ def about_page():
     st.title("About")
     st.write("""Welcome to the comprehensive engineering solution application! The app is designed to streamline your 
     engineering processes, providing valuable insights into dimensions, costs, welding, heating processes, 
-    and generating accurate price quotations. We aim to simplify complex tasks and enhance your workflow, offering an 
-    intuitive and efficient tool for professionals in the engineering field. Explore the various features and 
-    functionalities to optimize your work and achieve better results.""")
+    project status and generating accurate price quotations. We aim to simplify complex tasks and enhance your 
+    workflow, offering an intuitive and efficient tool for professionals in the engineering field. Explore the 
+    various features and functionalities to optimize your work and achieve better results.""")
 
 
 def features_page():
@@ -15,14 +15,6 @@ def features_page():
     st.markdown("- **Feature 1:** Description of Feature 1")
     st.markdown("- **Feature 2:** Description of Feature 2")
     st.markdown("- **Feature 3:** Description of Feature 3")
-
-
-def team_page():
-    st.title("Team")
-    st.markdown("Meet the creators behind My App:")
-    st.markdown("- **John Doe:** Lead Developer ([LinkedIn](#))")
-    st.markdown("- **Jane Smith:** UI/UX Designer ([LinkedIn](#))")
-    st.markdown("- **Bob Johnson:** Data Scientist ([LinkedIn](#))")
 
 
 def contact_page():
@@ -40,8 +32,6 @@ def main():
         about_page()
     elif selected_page == "Features":
         features_page()
-    elif selected_page == "Team":
-        team_page()
     elif selected_page == "Contact":
         contact_page()
 
