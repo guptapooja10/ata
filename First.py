@@ -1,13 +1,7 @@
-# Your main Streamlit app script (main_script.py)
+
 import streamlit as st
 from PIL import Image
 import time
-
-
-# from Login import login_app, get_session_state
-
-# Call get_session_state before any Streamlit function
-# get_session_state()
 
 
 def about_page():
@@ -31,15 +25,20 @@ def about_page():
 
     images = get_images()
 
-    slideshow_placeholder = st.empty()
+    index = st.empty()
 
-    while True:
-        for i in range(len(images)):
+    for i in range(len(images)):
+        # Display an image in the placeholder
+        index.image(images[i])
 
-            slideshow_placeholder.image(images[i])
+        # Display the image index
+        #st.write(f"Image {i + 1} of {len(images)}")
 
-            st.experimental_rerun()
-            time.sleep(5)
+        # Add a delay before switching to the next image
+        time.sleep(5)
+
+        # Clear the placeholder before the next iteration
+        index.empty()
 
 
 def usage_page():
@@ -59,18 +58,15 @@ def contact_page():
 
 
 def main():
-    # login_app()
+    st.sidebar.title("Navigation")
+    selected_page = st.sidebar.selectbox("Go to", ["About", "Usage", "Contact"])
 
-    #if st.session_state.authenticated:
-        st.sidebar.title("Navigation")
-        selected_page = st.sidebar.selectbox("Go to", ["About", "Usage", "Contact"])
-
-        if selected_page == "About":
-            about_page()
-        elif selected_page == "Usage":
-            usage_page()
-        elif selected_page == "Contact":
-            contact_page()
+    if selected_page == "About":
+        about_page()
+    elif selected_page == "Usage":
+        usage_page()
+    elif selected_page == "Contact":
+        contact_page()
 
 
 if __name__ == "__main__":
