@@ -33,7 +33,7 @@ def about_page():
             index.image(images[i], caption=f"Image {i + 1} of {len(images)}")
 
             # Add a delay before switching to the next image
-            time.sleep(2)
+            time.sleep(5)
 
             # Clear the placeholder before the next iteration
             index.empty()
@@ -56,6 +56,7 @@ def contact_page():
 
 
 def main():
+    st.link_button("Sign In/ Sign Up", "https://credentials-page.streamlit.app/")
     st.sidebar.title("Navigation")
     selected_page = st.sidebar.selectbox("Go to", ["About", "Usage", "Contact"])
 
