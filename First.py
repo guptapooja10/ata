@@ -52,7 +52,7 @@ def contact_page():
 
 def main():
     st.sidebar.title("Navigation")
-    selected_page = st.sidebar.selectbox("Go to", ["About", "Features", "Contact"])
+    selected_page = st.sidebar.selectbox("Go to", ["About", "Usage", "Contact"])
 
     if selected_page == "About":
         about_page()
