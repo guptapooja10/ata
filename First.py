@@ -7,8 +7,8 @@ import time
 def about_page():
     st.title("About")
     st.write("""Welcome to the comprehensive engineering solution application! The app is designed to streamline your 
-    engineering processes, providing valuable insights into dimensions, costs, welding, heating processes, 
-    project status and generating accurate price quotations. We aim to simplify complex tasks and enhance your 
+    engineering processes, providing valuable insights into **dimensions, costs, welding, heating processes, 
+    project status and generating accurate price quotations**. We aim to simplify complex tasks and enhance your 
     workflow, offering an intuitive and efficient tool for professionals in the engineering field. Explore the 
     various features and functionalities to optimize your work and achieve better results.""")
 
@@ -46,10 +46,10 @@ def usage_page():
 def contact_page():
     st.title("Contact Us")
     st.markdown("Have questions or feedback? Reach out to us:")
-    st.markdown("- **Email:** [david.hoffmann@ovgu.de]")
-    st.markdown("- **Email:** [niharika.ramanath@ovgu.de]")
-    st.markdown("- **Email:** [pooja.gupta@ovgu.de]")
-    st.markdown("- **GitHub:** [guptapooja10/ata]")
+    st.markdown("- **Email:** david.hoffmann@ovgu.de")
+    st.markdown("- **Email:** niharika.ramanath@ovgu.de")
+    st.markdown("- **Email:** pooja.gupta@ovgu.de")
+    st.markdown("- **GitHub:** guptapooja10/ata")
 
 
 def main():
