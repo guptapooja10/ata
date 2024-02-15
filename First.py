@@ -66,17 +66,17 @@ def main():
     elif selected_page == "Contact":
         contact_page()
 
-    st.write("""
-        <style>
-            .top-right {
-                position: absolute;
-                top: 10px;
-                right: 10px;
-            }
-        </style>
-    """, unsafe_allow_html=True)
+    #st.write("""
+     #   <style>
+      #      .top-right {
+       #         position: absolute;
+        #        top: 10px;
+         #       right: 10px;
+          #  }
+        #</style>
+    #""", unsafe_allow_html=True)
 
-    st.write('<div class="top-right">' + st.link_button("Sign In/Sign Up", "https://credentials-page.streamlit.app/") + '</div>', unsafe_allow_html=True)
+   # st.write('<div class="top-right">' + st.link_button("Sign In/Sign Up", "https://credentials-page.streamlit.app/") + '</div>', unsafe_allow_html=True)
 
 
 if __name__ == "__main__":
