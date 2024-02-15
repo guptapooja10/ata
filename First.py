@@ -12,7 +12,7 @@ def about_page():
     workflow, offering an intuitive and efficient tool for professionals in the engineering field. Explore the 
     various features and functionalities to optimize your work and achieve better results.""")
 
-    @st.cache
+    @st.cache_data
     def get_images():
         image_paths = [
             "2.jpg",
@@ -41,9 +41,7 @@ def about_page():
 
 def usage_page():
     st.title("How to use the app?")
-    st.markdown("- **Feature 1:** Description of Feature 1")
-    st.markdown("- **Feature 2:** Description of Feature 2")
-    st.markdown("- **Feature 3:** Description of Feature 3")
+
 
 
 def contact_page():
