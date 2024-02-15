@@ -23,7 +23,7 @@ def about_page():
         images = [Image.open(image_path) for image_path in image_paths]
         return images
 
-    tabs = st.tabs(list(np.array(range(1, 4)).astype(str)))
+    tabs = st.tabs(list(np.array(range(1, 5)).astype(str)))
 
     images = get_images()
 
