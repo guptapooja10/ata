@@ -29,9 +29,9 @@ def login_app():
             st.session_state.authenticated = True
 
             # Redirect to the specified URL if authenticated
-            if st.session_state.authenticated:
-                st.experimental_set_query_params(app='project_instantiation')
-                st.link_button("Go to App", "https://ata-app-navigator.streamlit.app/")
+            ##if st.session_state.authenticated:
+             ##   st.experimental_set_query_params(app='project_instantiation')
+              ##  st.link_button("Go to App", "https://ata-app-navigator.streamlit.app/")
 
 
     else:
