@@ -23,24 +23,23 @@ def login_app():
         email = st.text_input('E-Mail Address')
         password = st.text_input('Password', type='password')
 
-        is_admin_checked = st.checkbox('Admin')
-        is_not_admin_checked = st.checkbox('Not an Admin')
+        is_admin_checked = st.checkbox('Admin', key='admin_checkbox')
+        is_not_admin_checked = st.checkbox('Not an Admin', key='not_admin_checkbox')
 
         if is_admin_checked and is_not_admin_checked:
             st.warning("You can't choose both the options")
 
-        if st.checkbox('Admin'):
+        if is_admin_checked:
             st.session_state.authenticated = True
             if st.session_state.authenticated:
                 st.experimental_set_query_params(app='project_instantiation')
                 st.link_button("Sign In", "https://ata-app-navigator.streamlit.app/")
 
-        if st.checkbox('Not an Admin'):
+        if is_not_admin_checked:
             st.session_state.authenticated = True
             if st.session_state.authenticated:
                 st.experimental_set_query_params(app='Project_Status_App')
                 st.link_button("Sign In", "https://ata-project-status.streamlit.app/")
-
 
     else:
         email = st.text_input('E-Mail Address')
