@@ -20,6 +20,6 @@ with st.expander('Using tabs'):
 
     images = get_images()
 
-    for i in range(10):
+    for i in range(3):
         # Display an image in each tab
         tabs[i].image(images[i], caption=f"Image {i + 1}")
