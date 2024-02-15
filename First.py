@@ -33,7 +33,7 @@ def about_page():
             index.image(images[i], caption=f"Image {i + 1} of {len(images)}")
 
             # Add a delay before switching to the next image
-            time.sleep(5)
+            time.sleep(2)
 
             # Clear the placeholder before the next iteration
             index.empty()
@@ -65,18 +65,6 @@ def main():
         usage_page()
     elif selected_page == "Contact":
         contact_page()
-
-    #st.write("""
-     #   <style>
-      #      .top-right {
-       #         position: absolute;
-        #        top: 10px;
-         #       right: 10px;
-          #  }
-        #</style>
-    #""", unsafe_allow_html=True)
-
-   # st.write('<div class="top-right">' + st.link_button("Sign In/Sign Up", "https://credentials-page.streamlit.app/") + '</div>', unsafe_allow_html=True)
 
 
 if __name__ == "__main__":
