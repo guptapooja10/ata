@@ -14,10 +14,10 @@ def about_page():
     @st.cache_data
     def get_images():
         image_paths = [
-            "2.png",
-            "3.png",
-            "4.png",
-            "5.png"
+            "2.jpg",
+            "3.jpg",
+            "4.jpg",
+            "5.jpg"
         ]
 
         images = [Image.open(image_path) for image_path in image_paths]
