@@ -15,7 +15,7 @@ def get_images():
     return images
 
 
-with st.expander('Using tabs'):
+#with st.expander('Using tabs'):
     tabs = st.tabs(list(np.array(range(1, 11)).astype(str)))
 
     images = get_images()
