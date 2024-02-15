@@ -1,6 +1,7 @@
 import streamlit as st
 import numpy as np
 from PIL import Image
+import time
 
 
 def about_page():
@@ -23,13 +24,16 @@ def about_page():
         images = [Image.open(image_path) for image_path in image_paths]
         return images
 
-    tabs = st.tabs(list(np.array(range(1, 5)).astype(str)))
-
     images = get_images()
 
-    for i in range(len(images)):
-        # Display an image in each tab
-        tabs[i].image(images[i])
+    slideshow_placeholder = st.empty()
+
+    while True:
+        for i in range(len(images)):
+            # Display an image in the placeholder
+            slideshow_placeholder.image(images[i])
+            # Add a delay (e.g., 2 seconds) before switching to the next image
+            time.sleep(2)
 
 
 def features_page():
