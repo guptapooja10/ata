@@ -1,6 +1,6 @@
 import streamlit as st
 from firebase_init import initialize_firebase_app
-from firebase_admin import auth, exceptions
+from firebase_admin import auth
 
 # Initialize Firebase app if not already initialized
 initialize_firebase_app()
@@ -30,19 +30,18 @@ def login_app():
             st.warning("Please select only one option (Admin or Not an Admin)")
         else:
             if email and password:  # Check if email and password are provided
-                try:
-                    user = auth.get_user_by_email(email)
-                    # Attempt to sign in the user using Firebase authentication
-                    auth.get_user(user.uid, password)  # If no exception is thrown, the authentication is successful
+                if is_admin_checked:
+                    # Perform authentication only if email and password are provided
                     st.session_state.authenticated = True
-                    if is_admin_checked:
+                    if st.session_state.authenticated:
                         st.experimental_set_query_params(app='project_instantiation')
                         st.link_button("Sign In", "https://ata-app-navigator.streamlit.app/")
-                    elif is_not_admin_checked:
+                elif is_not_admin_checked:
+                    # Perform authentication only if email and password are provided
+                    st.session_state.authenticated = True
+                    if st.session_state.authenticated:
                         st.experimental_set_query_params(app='Project_Status_App')
                         st.link_button("Sign In", "https://ata-project-status.streamlit.app/")
-                except exceptions.FirebaseError as e:
-                    st.warning("Invalid email or password. Please try again.")
             elif is_admin_checked or is_not_admin_checked:
                 st.warning("Please enter both email and password before attempting to sign in.")
     else:
@@ -51,13 +50,10 @@ def login_app():
         username = st.text_input('Enter your username')
 
         if st.button('Create my account'):
-            try:
-                user = auth.create_user(email=email, password=password, uid=username)
-                st.success('Account created successfully!')
-                st.markdown('You can now log in using your E-Mail and Password')
-                st.balloons()
-            except exceptions.FirebaseError as e:
-                st.warning(f"Account creation failed: {e.message}")
+            user = auth.create_user(email=email, password=password, uid=username)
+            st.success('Account created successfully!')
+            st.markdown('You can now log in using your E-Mail and Password')
+            st.balloons()
 
 
 if __name__ == "__main__":
