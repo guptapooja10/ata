@@ -2,10 +2,10 @@
 import streamlit as st
 from PIL import Image
 import time
-from Login import login_app, get_session_state
+#from Login import login_app, get_session_state
 
 # Call get_session_state before any Streamlit function
-get_session_state()
+#get_session_state()
 
 
 def about_page():
@@ -57,7 +57,7 @@ def contact_page():
 
 
 def main():
-    login_app()
+    #login_app()
 
     if st.session_state.authenticated:
         st.sidebar.title("Navigation")
