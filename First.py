@@ -1,7 +1,6 @@
-
+# Your main Streamlit app script (main_script.py)
 import streamlit as st
 from PIL import Image
-import time
 
 
 def about_page():
@@ -27,18 +26,19 @@ def about_page():
 
     index = st.empty()
 
-    for i in range(len(images)):
-        # Display an image in the placeholder
-        index.image(images[i])
+    while True:
+        for i in range(len(images)):
+            # Display an image in the placeholder
+            index.image(images[i])
 
-        # Display the image index
-        #st.write(f"Image {i + 1} of {len(images)}")
+            # Display the image index
+            #st.write(f"Image {i + 1} of {len(images)}")
 
-        # Add a delay before switching to the next image
-        time.sleep(5)
+            # Clear the placeholder before the next iteration
+            index.empty()
 
-        # Clear the placeholder before the next iteration
-        index.empty()
+            # To make the images run continuously, you can use st.empty() again after a short delay
+            st.empty()
 
 
 def usage_page():
