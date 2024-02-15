@@ -46,8 +46,10 @@ def usage_page():
 def contact_page():
     st.title("Contact Us")
     st.markdown("Have questions or feedback? Reach out to us:")
-    st.markdown("- **Email:** [your.email@example.com]")
-    st.markdown("- **Twitter:** [@YourTwitterHandle]")
+    st.markdown("- **Email:** [david.hoffmann@ovgu.de]")
+    st.markdown("- **Email:** [niharika.ramanath@ovgu.de]")
+    st.markdown("- **Email:** [pooja.gupta@ovgu.de]")
+    st.markdown("- **GitHub:** [guptapooja10/ata]")
 
 
 def main():
