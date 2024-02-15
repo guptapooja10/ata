@@ -2,10 +2,12 @@ import streamlit as st
 
 
 def about_page():
-    st.title("About My App")
-    st.write("""
-        Welcome to My App! This app is designed to [describe the purpose of your app].
-        """)
+    st.title("About")
+    st.write("""Welcome to the comprehensive engineering solution application! The app is designed to streamline your 
+    engineering processes, providing valuable insights into dimensions, costs, welding, heating processes, 
+    and generating accurate price quotations. We aim to simplify complex tasks and enhance your workflow, offering an 
+    intuitive and efficient tool for professionals in the engineering field. Explore the various features and 
+    functionalities to optimize your work and achieve better results.""")
 
 
 def features_page():
