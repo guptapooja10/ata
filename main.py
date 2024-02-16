@@ -98,10 +98,9 @@ def main():
     customer_list = fetch_customers(db)
     st.title('ATA App Navigator')
     image = Image.open('logo_ata.png')
-    st.image(image, caption='Ata Logo')
+    st.image(image)
 
-    sac.tabs([
-        sac.TabsItem(label='apple', tag="10"),], align='center')
+    sac.menu([sac.MenuItem('Vk-ST-0', icon='box-fill', href="https://vk-st-0.streamlit.app/"), ], open_all=True)
     # Navigation bar
     # apps = {
     #   "Login page": "https://credentials-page.streamlit.app/",
