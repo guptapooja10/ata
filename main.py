@@ -109,13 +109,10 @@ def main():
         "ATA-Project-Status": "https://ata-project-status.streamlit.app/"
     }
 
-    selected_app = st.sidebar.selectbox("Select App", list(apps.keys()))
+    st.sidebar.title('Navigation')
 
-    if st.sidebar.button("Go to App"):
-        app_url = apps[selected_app]
-        st.write(f"Redirecting to {selected_app}...")
-        # Redirect the user to the selected app
-        st.experimental_set_query_params(app=app_url)
+    for app_name, app_url in apps.items():
+        st.sidebar.markdown(f"[{app_name}]({app_url})")
 
     st.header('Project Instantiation')
     # Input fields for project instantiation
