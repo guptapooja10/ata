@@ -107,11 +107,11 @@ def main():
         "VK-0": "https://ata-vk-0.streamlit.app/",
         "Deckung": "https://deckung.streamlit.app/",
         "ATA-Project-Status": "https://ata-project-status.streamlit.app/"
-
     }
 
     for app_name, app_url in apps.items():
-        st.sidebar.selectbox(f"[{app_name}]({app_url})")
+        if st.sidebar.button(app_name):
+            st.experimental_set_query_params(app=app_url)
 
     st.header('Project Instantiation')
     # Input fields for project instantiation
