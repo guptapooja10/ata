@@ -100,7 +100,12 @@ def main():
     image = Image.open('logo_ata.png')
     st.image(image)
 
-    sac.menu([sac.MenuItem('Vk-ST-0', icon='box-fill', href="https://vk-st-0.streamlit.app/"), ], open_all=True)
+    sac.segmented(
+        items=[
+            sac.SegmentedItem(label='VK-ST-0', icon='share-fill', href='https://vk-st-0.streamlit.app/'),
+        ], align='center'
+    )
+
     # Navigation bar
     # apps = {
     #   "Login page": "https://credentials-page.streamlit.app/",
