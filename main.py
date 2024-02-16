@@ -109,9 +109,11 @@ def main():
         "ATA-Project-Status": "https://ata-project-status.streamlit.app/"
     }
 
-    for app_name, app_url in apps.items():
-        if st.button(app_name):
-            st.experimental_set_query_params(app=app_url)
+    selected_app = st.sidebar.selectbox("Select App", list(apps.keys()))
+
+    if st.sidebar.button("Go to App"):
+        app_url = apps[selected_app]
+        st.experimental_set_query_params(app=app_url)
 
     st.header('Project Instantiation')
     # Input fields for project instantiation
