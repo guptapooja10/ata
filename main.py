@@ -100,9 +100,8 @@ def main():
     image = Image.open('logo_ata.png')
     st.image(image, caption='Ata Logo')
 
-    sac.menu([
-        sac.MenuItem('home', icon='house-fill', tag=[sac.Tag('Tag1', color='green'), sac.Tag('Tag2', 'red')]), ],
-        variant='filled', indent=5, open_all=True)
+    sac.tabs([
+        sac.TabsItem(label='apple', tag="10"),], align='center')
     # Navigation bar
     # apps = {
     #   "Login page": "https://credentials-page.streamlit.app/",
