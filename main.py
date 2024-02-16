@@ -9,6 +9,12 @@ from Deckung import deckung_properties
 if 'main_data' not in st.session_state:
     st.session_state.main_data = {}
 
+sac.segmented(
+        items=[
+            sac.SegmentedItem(label='VK-ST-0', icon='share-fill', href='https://vk-st-0.streamlit.app/'),
+            sac.SegmentedItem(label='VK-ST-0', icon='share-fill', href='https://vk-st-0.streamlit.app/'),
+        ], align='start', direction='vertical'
+    )
 
 # Function to fetch customers from Firestore
 def fetch_customers(db):
@@ -100,12 +106,7 @@ def main():
     image = Image.open('logo_ata.png')
     st.image(image)
 
-    sac.segmented(
-        items=[
-            sac.SegmentedItem(label='VK-ST-0', icon='share-fill', href='https://vk-st-0.streamlit.app/'),
-            sac.SegmentedItem(label='VK-ST-0', icon='share-fill', href='https://vk-st-0.streamlit.app/'),
-        ], align='start', direction='vertical'
-    )
+
 
     # Navigation bar
     # apps = {
