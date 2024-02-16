@@ -1,4 +1,5 @@
 import streamlit as st
+import streamlit_antd_components as sac
 from PIL import Image
 from google.cloud import firestore
 from google.oauth2 import service_account
@@ -98,19 +99,23 @@ def main():
     st.title('ATA App Navigator')
     image = Image.open('logo_ata.png')
     st.image(image, caption='Ata Logo')
+
+    sac.menu([
+        sac.MenuItem('home', icon='house-fill', tag=[sac.Tag('Tag1', color='green'), sac.Tag('Tag2', 'red')]), ],
+        variant='filled', indent=5, open_all=True)
     # Navigation bar
-    #apps = {
-     #   "Login page": "https://credentials-page.streamlit.app/",
-      #  "VK-ST-0": "https://vk-st-0.streamlit.app/",
-       # "VK-0": "https://ata-vk-0.streamlit.app/",
-        #"Deckung": "https://deckung.streamlit.app/",
-       # "ATA-Project-Status": "https://ata-project-status.streamlit.app/"
-   # }
+    # apps = {
+    #   "Login page": "https://credentials-page.streamlit.app/",
+    #  "VK-ST-0": "https://vk-st-0.streamlit.app/",
+    # "VK-0": "https://ata-vk-0.streamlit.app/",
+    # "Deckung": "https://deckung.streamlit.app/",
+    # "ATA-Project-Status": "https://ata-project-status.streamlit.app/"
+    # }
 
-    #st.sidebar.title('Navigation')
+    # st.sidebar.title('Navigation')
 
-    #for app_name, app_url in apps.items():
-     #   st.sidebar.markdown(f"[{app_name}]({app_url})")
+    # for app_name, app_url in apps.items():
+    #   st.sidebar.markdown(f"[{app_name}]({app_url})")
 
     st.header('Project Instantiation')
     # Input fields for project instantiation
