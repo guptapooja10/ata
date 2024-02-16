@@ -109,11 +109,11 @@ def main():
         "ATA-Project-Status": "https://ata-project-status.streamlit.app/"
     }
 
-    selected_app = st.sidebar.selectbox("Select App", list(apps.values()))
+    selected_app_url = st.sidebar.selectbox("Select App", list(apps.keys()))
 
     if st.sidebar.button("Go to App"):
-        app_url = apps[selected_app]
-        #st.sidebar.markdown(f"({app_url})")
+        selected_app_url = apps[selected_app_url]
+        st.markdown(f"[Go to App]({selected_app_url})", unsafe_allow_html=True)
 
     st.header('Project Instantiation')
     # Input fields for project instantiation
