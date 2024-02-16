@@ -110,7 +110,7 @@ def main():
     }
 
     for app_name, app_url in apps.items():
-        if st.sidebar.button(app_name):
+        if st.sidebar.link_button(app_name):
             st.experimental_set_query_params(app=app_url)
 
     st.header('Project Instantiation')
