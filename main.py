@@ -9,12 +9,6 @@ from Deckung import deckung_properties
 if 'main_data' not in st.session_state:
     st.session_state.main_data = {}
 
-sac.segmented(
-        items=[
-            sac.SegmentedItem(label='VK-ST-0', icon='share-fill', href='https://vk-st-0.streamlit.app/'),
-            sac.SegmentedItem(label='VK-ST-0', icon='share-fill', href='https://vk-st-0.streamlit.app/'),
-        ], align='start', direction='vertical'
-    )
 
 # Function to fetch customers from Firestore
 def fetch_customers(db):
@@ -106,21 +100,18 @@ def main():
     image = Image.open('logo_ata.png')
     st.image(image)
 
-
-
     # Navigation bar
-    # apps = {
-    #   "Login page": "https://credentials-page.streamlit.app/",
-    #  "VK-ST-0": "https://vk-st-0.streamlit.app/",
-    # "VK-0": "https://ata-vk-0.streamlit.app/",
-    # "Deckung": "https://deckung.streamlit.app/",
-    # "ATA-Project-Status": "https://ata-project-status.streamlit.app/"
-    # }
+    apps = {
+        "Login page": "https://credentials-page.streamlit.app/",
+        "VK-ST-0": "https://vk-st-0.streamlit.app/",
+        "VK-0": "https://ata-vk-0.streamlit.app/",
+        "Deckung": "https://deckung.streamlit.app/",
+        "ATA-Project-Status": "https://ata-project-status.streamlit.app/"
 
-    # st.sidebar.title('Navigation')
+    }
 
-    # for app_name, app_url in apps.items():
-    #   st.sidebar.markdown(f"[{app_name}]({app_url})")
+    for app_name, app_url in apps.items():
+        st.sidebar.selectbox(f"[{app_name}]({app_url})")
 
     st.header('Project Instantiation')
     # Input fields for project instantiation
