@@ -103,6 +103,7 @@ def main():
     sac.segmented(
         items=[
             sac.SegmentedItem(label='VK-ST-0', icon='share-fill', href='https://vk-st-0.streamlit.app/'),
+            sac.SegmentedItem(label='VK-ST-0', icon='share-fill', href='https://vk-st-0.streamlit.app/'),
         ], align='left', direction='vertical'
     )
 
