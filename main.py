@@ -113,7 +113,7 @@ def main():
 
     if st.sidebar.button("Go to App"):
         app_url = apps[selected_app]
-        st.experimental_set_query_params(app=app_url)
+        st.sidebar.markdown(f"({app_url})")
 
     st.header('Project Instantiation')
     # Input fields for project instantiation
