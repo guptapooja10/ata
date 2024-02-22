@@ -33,6 +33,7 @@ def login_app():
             if email and password:  # Check if email and password are provided
                 try:
                     user = firebase_auth.get_user_by_email(email)
+                    pas = firebase_auth.get_user_by_password(password)
                     st.session_state.authenticated = True
                     st.experimental_set_query_params(app='project_instantiation')
                     st.link_button("Sign In", "https://ata-app-navigator.streamlit.app/")
