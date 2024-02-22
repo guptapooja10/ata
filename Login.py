@@ -1,16 +1,19 @@
 import streamlit as st
 from firebase_init import initialize_firebase_app
-from firebase_admin import auth, exceptions as firebase_exceptions
+from firebase_admin import auth as firebase_auth
 
 # Initialize Firebase app if not already initialized
 initialize_firebase_app()
+
 
 def get_session_state():
     if 'authenticated' not in st.session_state:
         st.session_state.authenticated = False
 
+
 # Call get_session_state before any Streamlit function
 get_session_state()
+
 
 def login_app():
     st.title('Welcome to :violet[ATA]')
@@ -29,12 +32,12 @@ def login_app():
         else:
             if email and password:  # Check if email and password are provided
                 try:
-                    user = auth.sign_in_with_email_and_password(email, password)
+                    user = firebase_auth.get_user_by_email(email)
                     st.session_state.authenticated = True
                     st.experimental_set_query_params(app='project_instantiation')
                     st.link_button("Sign In", "https://ata-app-navigator.streamlit.app/")
-                except firebase_exceptions.AuthError as e:
-                    st.warning(f"Login failed: {e.message}")
+                except:
+                    st.warning(f"Login failed.")
             elif is_admin_checked or is_not_admin_checked:
                 st.warning("Please enter both email and password before attempting to sign in.")
     else:
@@ -44,12 +47,13 @@ def login_app():
 
         if st.button('Create my account'):
             try:
-                user = auth.create_user(email=email, password=password, uid=username)
+                user = firebase_auth.create_user(email=email, password=password, uid=username)
                 st.success('Account created successfully!')
                 st.markdown('You can now log in using your E-Mail and Password')
                 st.balloons()
-            except firebase_exceptions.AuthError as e:
-                st.warning(f"Account creation failed: {e.message}")
+            except:
+                st.warning(f"Account creation failed.")
+
 
 if __name__ == "__main__":
     # Call get_session_state before any Streamlit function
