@@ -19,6 +19,7 @@ def login_app():
     st.title('Welcome to :violet[ATA]')
 
     choice = st.selectbox('Login/Signup', ['Login', 'Signup'])
+
     if choice == 'Login':
         email = st.text_input('E-Mail Address')
         password = st.text_input('Password', type='password')
@@ -30,18 +31,13 @@ def login_app():
             st.warning("Please select only one option (Admin or Not an Admin)")
         else:
             if email and password:  # Check if email and password are provided
-                if is_admin_checked:
-                    # Perform authentication only if email and password are provided
+                try:
+                    user = auth.get_user_by_email(email)
                     st.session_state.authenticated = True
-                    if st.session_state.authenticated:
-                        st.experimental_set_query_params(app='project_instantiation')
-                        st.link_button("Sign In", "https://ata-app-navigator.streamlit.app/")
-                elif is_not_admin_checked:
-                    # Perform authentication only if email and password are provided
-                    st.session_state.authenticated = True
-                    if st.session_state.authenticated:
-                        st.experimental_set_query_params(app='Project_Status_App')
-                        st.link_button("Sign In", "https://ata-project-status.streamlit.app/")
+                    st.experimental_set_query_params(app='project_instantiation')
+                    st.link_button("Sign In", "https://ata-app-navigator.streamlit.app/")
+                except:
+                    st.warning("Login failed. Please check your credentials.")
             elif is_admin_checked or is_not_admin_checked:
                 st.warning("Please enter both email and password before attempting to sign in.")
     else:
@@ -50,10 +46,13 @@ def login_app():
         username = st.text_input('Enter your username')
 
         if st.button('Create my account'):
-            user = auth.create_user(email=email, password=password, uid=username)
-            st.success('Account created successfully!')
-            st.markdown('You can now log in using your E-Mail and Password')
-            st.balloons()
+            try:
+                user = auth.create_user(email=email, password=password, uid=username)
+                st.success('Account created successfully!')
+                st.markdown('You can now log in using your E-Mail and Password')
+                st.balloons()
+            except:
+                st.warning("Account creation failed. Please try again with a different email or username.")
 
 
 if __name__ == "__main__":
