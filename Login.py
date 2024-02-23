@@ -34,6 +34,8 @@ def app():
         is_admin_checked = st.checkbox('Admin', key='admin_checkbox')
         is_not_admin_checked = st.checkbox('Not an Admin', key='not_admin_checkbox')
 
+        login_button = None  # Initialize the variable
+
         if is_admin_checked and is_not_admin_checked:
             st.warning("Please select only one option (Admin or Not an Admin)")
         else:
@@ -42,23 +44,23 @@ def app():
             elif is_not_admin_checked:
                 login_button = st.button('Login (Not Admin)')
 
-            if login_button and email_input and password_input:
-                try:
-                    # Determine the role based on checkbox values
-                    role = 'admin' if is_admin_checked else 'not_admin'
-                    user = auth.get_user_by_email(email_input)
-                    email = email_input  # Update the email variable
-                    print(user.uid)
-                    st.session_state.username = user.uid
-                    st.session_state.useremail = user.email
+        if login_button and email_input and password_input:
+            try:
+                # Determine the role based on checkbox values
+                role = 'admin' if is_admin_checked else 'not_admin'
+                user = auth.get_user_by_email(email_input)
+                email = email_input  # Update the email variable
+                print(user.uid)
+                st.session_state.username = user.uid
+                st.session_state.useremail = user.email
 
-                    global Usernm
-                    Usernm = (user.uid)
+                global Usernm
+                Usernm = (user.uid)
 
-                    st.session_state.signedout = True
-                    st.session_state.signout = True
-                except:
-                    st.warning('Login Failed')
+                st.session_state.signedout = True
+                st.session_state.signout = True
+            except:
+                st.warning('Login Failed')
 
     def t():
         st.session_state.signout = False
