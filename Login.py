@@ -39,6 +39,7 @@ def login_app():
                         st.link_button("Sign In", "https://ata-app-navigator.streamlit.app/")
                 elif is_not_admin_checked:
                     # Perform authentication only if email and password are provided
+                    user = auth.get_user_by_email(email)
                     st.session_state.authenticated = True
                     if st.session_state.authenticated:
                         st.experimental_set_query_params(app='Project_Status_App')
