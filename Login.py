@@ -17,7 +17,7 @@ get_session_state()
 
 def app():
     # Usernm = []
-    st.title('Welcome to :violet[Pondering] :sunglasses:')
+    st.title('Welcome to :violet[ATA]')
 
     if 'username' not in st.session_state:
         st.session_state.username = ''
@@ -27,9 +27,9 @@ def app():
     email = ""  # Initialize the email variable outside the block
 
     def f():
-        nonlocal email  # Use the nonlocal keyword to access the outer 'email' variable
+        nonlocal email
         try:
-            email_input = st.text_input('Email Address')  # Input the email here
+            email_input = st.text_input('Email Address')
             password_input = st.text_input('Password', type='password')
 
             if st.button('Login'):
