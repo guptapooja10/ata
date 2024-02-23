@@ -15,120 +15,50 @@ def get_session_state():
 get_session_state()
 
 
-def app():
-    # Usernm = []
+def login_app():
     st.title('Welcome to :violet[ATA]')
 
-    if 'username' not in st.session_state:
-        st.session_state.username = ''
-    if 'useremail' not in st.session_state:
-        st.session_state.useremail = ''
+    choice = st.selectbox('Login/Signup', ['Login', 'Signup'])
+    if choice == 'Login':
+        email = st.text_input('E-Mail Address')
+        password = st.text_input('Password', type='password')
 
-    email = ""  # Initialize the email variable outside the block
-
-    is_admin_checked = False  # Initialize outside the block
-    is_not_admin_checked = False  # Initialize outside the block
-
-    def f():
-        nonlocal email
-        nonlocal is_admin_checked
-        nonlocal is_not_admin_checked
-
-        email_input = st.text_input('Email Address')
-        password_input = st.text_input('Password', type='password')
-
-        if st.checkbox('Admin', key='admin_checkbox'):
-            is_admin_checked = True
-            is_not_admin_checked = False
-        elif st.checkbox('Not an Admin', key='not_admin_checkbox'):
-            is_admin_checked = False
-            is_not_admin_checked = True
-        else:
-            is_admin_checked = False
-            is_not_admin_checked = False
-
-        login_button = None  # Initialize the variable
+        is_admin_checked = st.checkbox('Admin', key='admin_checkbox')
+        is_not_admin_checked = st.checkbox('Not an Admin', key='not_admin_checkbox')
 
         if is_admin_checked and is_not_admin_checked:
             st.warning("Please select only one option (Admin or Not an Admin)")
         else:
-            if is_admin_checked:
-                login_button = st.button('Login (Admin)')
-            elif is_not_admin_checked:
-                login_button = st.button('Login (Not Admin)')
+            if email and password:  # Check if email and password are provided
+                if is_admin_checked:
+                    # Perform authentication only if email and password are provided
+                    st.session_state.authenticated = True
+                    if st.session_state.authenticated:
+                        st.experimental_set_query_params(app='project_instantiation')
+                        st.link_button("Sign In", "https://ata-app-navigator.streamlit.app/")
+                elif is_not_admin_checked:
+                    # Perform authentication only if email and password are provided
+                    st.session_state.authenticated = True
+                    if st.session_state.authenticated:
+                        st.experimental_set_query_params(app='Project_Status_App')
+                        st.link_button("Sign In", "https://ata-project-status.streamlit.app/")
+            elif is_admin_checked or is_not_admin_checked:
+                st.warning("Please enter both email and password before attempting to sign in.")
+    else:
+        email = st.text_input('E-Mail Address')
+        password = st.text_input('Password', type='password')
+        username = st.text_input('Enter your username')
 
-        if login_button and email_input and password_input:
-            try:
-                # Determine the role based on checkbox values
-                role = 'admin' if is_admin_checked else 'not_admin'
-                user = auth.get_user_by_email(email_input)
-                email = email_input  # Update the email variable
-                print(user.uid)
-                st.session_state.username = user.uid
-                st.session_state.useremail = user.email
-
-                global Usernm
-                Usernm = (user.uid)
-
-                st.session_state.signedout = True
-                st.session_state.signout = True
-            except:
-                st.warning('Login Failed')
-
-    def t():
-        st.session_state.signout = False
-        st.session_state.signedout = False
-        st.session_state.username = ''
-
-    if "signedout" not in st.session_state:
-        st.session_state["signedout"] = False
-    if 'signout' not in st.session_state:
-        st.session_state['signout'] = False
-
-    if not st.session_state["signedout"]:
-        choice = st.selectbox('Login/Signup', ['Login', 'Sign up'])
-
-        if choice == 'Sign up':
-            email_input = st.text_input("Enter your email")  # Input the email here
-            password_input = st.text_input('Password', type='password')
-            username = st.text_input("Enter your unique username")
-
-            if st.button('Create my account'):
-                try:
-                    # Determine the role based on checkbox values
-                    role = 'admin' if is_admin_checked else 'not_admin'
-                    user = auth.create_user(email=email_input, password=password_input, uid=username, role=role)
-
-                    st.success('Account created successfully!')
-                    st.markdown('Please Login using your email and password')
-                    st.balloons()
-                except:
-                    st.warning(f"Account creation failed.")
-        else:
-            f()  # Call the function here
-
-    if st.session_state.signout:
-        st.text('Name ' + st.session_state.username)
-        st.text('Email id: ' + st.session_state.useremail)
-        if is_admin_checked:
-            if st.button('Sign out (Admin)', on_click=t):
-                pass
-            if st.button('Admin Login'):
-                st.session_state.authenticated = True
-                if st.session_state.authenticated:
-                    st.link_button("Sign In", "https://ata-app-navigator.streamlit.app/")
-        elif is_not_admin_checked:
-            if st.button('Sign out (Not Admin)', on_click=t):
-                pass
-            if st.button('Login'):
-                st.session_state.authenticated = True
-                if st.session_state.authenticated:
-                    st.link_button("Sign In", "https://ata-project-status.streamlit.app/")
+        if st.button('Create my account'):
+            user = auth.create_user(email=email, password=password, uid=username)
+            st.success('Account created successfully!')
+            st.markdown('You can now log in using your E-Mail and Password')
+            st.balloons()
 
 
 if __name__ == "__main__":
     # Call get_session_state before any Streamlit function
     get_session_state()
 
-    # Call app after get_session_state
-    app()
+    # Call login_app after get_session_state
+    login_app()
