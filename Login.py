@@ -1,6 +1,6 @@
 import streamlit as st
 from firebase_init import initialize_firebase_app
-from firebase_admin import auth as firebase_auth
+from firebase_admin import auth
 
 # Initialize Firebase app if not already initialized
 initialize_firebase_app()
@@ -15,52 +15,61 @@ def get_session_state():
 get_session_state()
 
 
-def login_app():
-    st.title('Welcome to :violet[ATA]')
+def app():
+    # Usernm = []
+    st.title('Welcome to :violet[Pondering] :sunglasses:')
 
-    choice = st.selectbox('Login/Signup', ['Login', 'Signup'])
+    if 'username' not in st.session_state:
+        st.session_state.username = ''
+    if 'useremail' not in st.session_state:
+        st.session_state.useremail = ''
 
-    if choice == 'Login':
-        email = st.text_input('E-Mail Address')
+    def f():
+        try:
+            user = auth.get_user_by_email(email)
+            print(user.uid)
+            st.session_state.username = user.uid
+            st.session_state.useremail = user.email
+
+            global Usernm
+            Usernm = (user.uid)
+
+            st.session_state.signedout = True
+            st.session_state.signout = True
+
+
+        except:
+            st.warning('Login Failed')
+
+    def t():
+        st.session_state.signout = False
+        st.session_state.signedout = False
+        st.session_state.username = ''
+
+    if "signedout" not in st.session_state:
+        st.session_state["signedout"] = False
+    if 'signout' not in st.session_state:
+        st.session_state['signout'] = False
+
+    if not st.session_state["signedout"]:  # only show if the state is False, hence the button has never been clicked
+        choice = st.selectbox('Login/Signup', ['Login', 'Sign up'])
+        email = st.text_input('Email Address')
         password = st.text_input('Password', type='password')
 
-        is_admin_checked = st.checkbox('Admin', key='admin_checkbox')
-        is_not_admin_checked = st.checkbox('Not an Admin', key='not_admin_checkbox')
+        if choice == 'Sign up':
+            username = st.text_input("Enter  your unique username")
 
-        if is_admin_checked and is_not_admin_checked:
-            st.warning("Please select only one option (Admin or Not an Admin)")
-        else:
-            if email and password:  # Check if email and password are provided
-                try:
-                    # Sign in the user with email and password
-                    user = firebase_auth.get_user_by_email(email)
-                    # No need to check the password explicitly, Firebase handles it during login
-                    st.session_state.authenticated = True
-                    st.experimental_set_query_params(app='project_instantiation')
-                    st.link_button("Sign In", "https://ata-app-navigator.streamlit.app/")
-                except:
-                    st.warning(f"Login failed.")
-            elif is_admin_checked or is_not_admin_checked:
-                st.warning("Please enter both email and password before attempting to sign in.")
-    else:
-        email = st.text_input('E-Mail Address')
-        password = st.text_input('Password', type='password')
-        username = st.text_input('Enter your username')
+            if st.button('Create my account'):
+                user = auth.create_user(email=email, password=password, uid=username)
 
-        if st.button('Create my account'):
-            try:
-                # Create a new user with email and password
-                user = firebase_auth.create_user(email=email, password=password, uid=username)
                 st.success('Account created successfully!')
-                st.markdown('You can now log in using your E-Mail and Password')
+                st.markdown('Please Login using your email and password')
                 st.balloons()
-            except:
-                st.warning(f"Account creation failed.")
+        else:
+            # st.button('Login', on_click=f)
+            st.button('Login', on_click=f)
 
-
-if __name__ == "__main__":
-    # Call get_session_state before any Streamlit function
-    get_session_state()
-
-    # Call login_app after get_session_state
-    login_app()
+    if st.session_state.signout:
+        st.text('Name ' + st.session_state.username)
+        st.text('Email id: ' + st.session_state.useremail)
+        st.button('Sign out', on_click=t)
