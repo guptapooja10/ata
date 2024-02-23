@@ -32,6 +32,7 @@ def login_app():
             if email and password:  # Check if email and password are provided
                 if is_admin_checked:
                     # Perform authentication only if email and password are provided
+                    user = auth.get_user_by_email(email)
                     st.session_state.authenticated = True
                     if st.session_state.authenticated:
                         st.experimental_set_query_params(app='project_instantiation')
