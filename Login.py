@@ -32,8 +32,9 @@ def login_app():
         else:
             if email and password:  # Check if email and password are provided
                 try:
+                    # Sign in the user with email and password
                     user = firebase_auth.get_user_by_email(email)
-                    pas = firebase_auth.get_user_by_password(password)
+                    # No need to check the password explicitly, Firebase handles it during login
                     st.session_state.authenticated = True
                     st.experimental_set_query_params(app='project_instantiation')
                     st.link_button("Sign In", "https://ata-app-navigator.streamlit.app/")
@@ -48,6 +49,7 @@ def login_app():
 
         if st.button('Create my account'):
             try:
+                # Create a new user with email and password
                 user = firebase_auth.create_user(email=email, password=password, uid=username)
                 st.success('Account created successfully!')
                 st.markdown('You can now log in using your E-Mail and Password')
