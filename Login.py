@@ -75,9 +75,14 @@ def app():
             password_input = st.text_input('Password', type='password')
             username = st.text_input("Enter your unique username")
 
+            is_admin_checked = st.checkbox('Admin', key='admin_checkbox')
+            is_not_admin_checked = st.checkbox('Not an Admin', key='not_admin_checkbox')
+
             if st.button('Create my account'):
                 try:
-                    user = auth.create_user(email=email_input, password=password_input, uid=username)
+                    # Determine the role based on checkbox values
+                    role = 'admin' if is_admin_checked else 'not_admin'
+                    user = auth.create_user(email=email_input, password=password_input, uid=username, role=role)
 
                     st.success('Account created successfully!')
                     st.markdown('Please Login using your email and password')
@@ -90,7 +95,20 @@ def app():
     if st.session_state.signout:
         st.text('Name ' + st.session_state.username)
         st.text('Email id: ' + st.session_state.useremail)
-        st.button('Sign out', on_click=t)
+        if is_admin_checked:
+            if st.button('Sign out (Admin)', on_click=t):
+                pass
+            if st.button('Login'):
+                st.session_state.authenticated = True
+                if st.session_state.authenticated:
+                    st.link_button("Sign In", "https://ata-app-navigator.streamlit.app/")
+        elif is_not_admin_checked:
+            if st.button('Sign out (Not Admin)', on_click=t):
+                pass
+            if st.button('Login'):
+                st.session_state.authenticated = True
+                if st.session_state.authenticated:
+                    st.link_button("Sign In", "https://ata-project-status.streamlit.app/")
 
 
 if __name__ == "__main__":
