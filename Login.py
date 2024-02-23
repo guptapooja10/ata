@@ -34,7 +34,7 @@ def app():
 
             if st.button('Login'):
                 user = auth.get_user_by_email(email_input)
-                email = email_input  # Update the email variable
+                email = email_input # Update the email variable
                 print(user.uid)
                 st.session_state.username = user.uid
                 st.session_state.useremail = user.email
@@ -61,14 +61,19 @@ def app():
         choice = st.selectbox('Login/Signup', ['Login', 'Sign up'])
 
         if choice == 'Sign up':
+            email_input = st.text_input("Enter your email")  # Input the email here
+            password_input = st.text_input('Password', type='password')
             username = st.text_input("Enter your unique username")
 
             if st.button('Create my account'):
-                user = auth.create_user(email=email, password=password, uid=username)
+                try:
+                    user = auth.create_user(email=email_input, password=password_input, uid=username)
 
-                st.success('Account created successfully!')
-                st.markdown('Please Login using your email and password')
-                st.balloons()
+                    st.success('Account created successfully!')
+                    st.markdown('Please Login using your email and password')
+                    st.balloons()
+                except:
+                    st.warning(f"Account creation failed.")
         else:
             f()  # Call the function here
 
