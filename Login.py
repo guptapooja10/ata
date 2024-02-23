@@ -26,13 +26,26 @@ def app():
 
     email = ""  # Initialize the email variable outside the block
 
+    is_admin_checked = False  # Initialize outside the block
+    is_not_admin_checked = False  # Initialize outside the block
+
     def f():
         nonlocal email
+        nonlocal is_admin_checked
+        nonlocal is_not_admin_checked
+
         email_input = st.text_input('Email Address')
         password_input = st.text_input('Password', type='password')
 
-        is_admin_checked = st.checkbox('Admin', key='admin_checkbox')
-        is_not_admin_checked = st.checkbox('Not an Admin', key='not_admin_checkbox')
+        if st.checkbox('Admin', key='admin_checkbox'):
+            is_admin_checked = True
+            is_not_admin_checked = False
+        elif st.checkbox('Not an Admin', key='not_admin_checkbox'):
+            is_admin_checked = False
+            is_not_admin_checked = True
+        else:
+            is_admin_checked = False
+            is_not_admin_checked = False
 
         login_button = None  # Initialize the variable
 
@@ -79,9 +92,6 @@ def app():
             email_input = st.text_input("Enter your email")  # Input the email here
             password_input = st.text_input('Password', type='password')
             username = st.text_input("Enter your unique username")
-
-            is_admin_checked = st.checkbox('Admin', key='admin_checkbox')
-            is_not_admin_checked = st.checkbox('Not an Admin', key='not_admin_checkbox')
 
             if st.button('Create my account'):
                 try:
