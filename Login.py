@@ -113,14 +113,14 @@ def app():
         if is_admin_checked:
             if st.button('Sign out (Admin)', on_click=t):
                 pass
-            if st.button('Login (Admin)'):
+            if st.button('Admin Login'):
                 st.session_state.authenticated = True
                 if st.session_state.authenticated:
                     st.link_button("Sign In", "https://ata-app-navigator.streamlit.app/")
         elif is_not_admin_checked:
             if st.button('Sign out (Not Admin)', on_click=t):
                 pass
-            if st.button('Login (Not Admin)'):
+            if st.button('Login'):
                 st.session_state.authenticated = True
                 if st.session_state.authenticated:
                     st.link_button("Sign In", "https://ata-project-status.streamlit.app/")
