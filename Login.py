@@ -24,20 +24,26 @@ def app():
     if 'useremail' not in st.session_state:
         st.session_state.useremail = ''
 
+    email = ""  # Initialize the email variable outside the block
+
     def f():
+        nonlocal email  # Use the nonlocal keyword to access the outer 'email' variable
         try:
-            user = auth.get_user_by_email(email)
-            print(user.uid)
-            st.session_state.username = user.uid
-            st.session_state.useremail = user.email
+            email_input = st.text_input('Email Address')  # Input the email here
+            password_input = st.text_input('Password', type='password')
 
-            global Usernm
-            Usernm = (user.uid)
+            if st.button('Login'):
+                user = auth.get_user_by_email(email_input)
+                email = email_input  # Update the email variable
+                print(user.uid)
+                st.session_state.username = user.uid
+                st.session_state.useremail = user.email
 
-            st.session_state.signedout = True
-            st.session_state.signout = True
+                global Usernm
+                Usernm = (user.uid)
 
-
+                st.session_state.signedout = True
+                st.session_state.signout = True
         except:
             st.warning('Login Failed')
 
@@ -51,13 +57,11 @@ def app():
     if 'signout' not in st.session_state:
         st.session_state['signout'] = False
 
-    if not st.session_state["signedout"]:  # only show if the state is False, hence the button has never been clicked
+    if not st.session_state["signedout"]:
         choice = st.selectbox('Login/Signup', ['Login', 'Sign up'])
-        email = st.text_input('Email Address')
-        password = st.text_input('Password', type='password')
 
         if choice == 'Sign up':
-            username = st.text_input("Enter  your unique username")
+            username = st.text_input("Enter your unique username")
 
             if st.button('Create my account'):
                 user = auth.create_user(email=email, password=password, uid=username)
@@ -66,10 +70,17 @@ def app():
                 st.markdown('Please Login using your email and password')
                 st.balloons()
         else:
-            # st.button('Login', on_click=f)
-            st.button('Login', on_click=f)
+            f()  # Call the function here
 
     if st.session_state.signout:
         st.text('Name ' + st.session_state.username)
         st.text('Email id: ' + st.session_state.useremail)
         st.button('Sign out', on_click=t)
+
+
+if __name__ == "__main__":
+    # Call get_session_state before any Streamlit function
+    get_session_state()
+
+    # Call app after get_session_state
+    app()
