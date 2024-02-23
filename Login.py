@@ -35,7 +35,9 @@ def app():
             is_admin_checked = st.checkbox('Admin', key='admin_checkbox')
             is_not_admin_checked = st.checkbox('Not an Admin', key='not_admin_checkbox')
 
-            if st.button('Login'):
+            if is_admin_checked and is_not_admin_checked:
+                st.warning("Please select only one option (Admin or Not an Admin)")
+            elif st.button('Login'):
                 try:
                     # Determine the role based on checkbox values
                     role = 'admin' if is_admin_checked else 'not_admin'
