@@ -37,23 +37,29 @@ def app():
 
             if is_admin_checked and is_not_admin_checked:
                 st.warning("Please select only one option (Admin or Not an Admin)")
-            elif st.button('Login'):
-                try:
-                    # Determine the role based on checkbox values
-                    role = 'admin' if is_admin_checked else 'not_admin'
-                    user = auth.get_user_by_email(email_input)
-                    email = email_input  # Update the email variable
-                    print(user.uid)
-                    st.session_state.username = user.uid
-                    st.session_state.useremail = user.email
+            else:
+                if is_admin_checked:
+                    login_button = st.button('Login (Admin)')
+                elif is_not_admin_checked:
+                    login_button = st.button('Login (Not Admin)')
 
-                    global Usernm
-                    Usernm = (user.uid)
+                if login_button:
+                    try:
+                        # Determine the role based on checkbox values
+                        role = 'admin' if is_admin_checked else 'not_admin'
+                        user = auth.get_user_by_email(email_input)
+                        email = email_input  # Update the email variable
+                        print(user.uid)
+                        st.session_state.username = user.uid
+                        st.session_state.useremail = user.email
 
-                    st.session_state.signedout = True
-                    st.session_state.signout = True
-                except:
-                    st.warning('Login Failed')
+                        global Usernm
+                        Usernm = (user.uid)
+
+                        st.session_state.signedout = True
+                        st.session_state.signout = True
+                    except:
+                        st.warning('Login Failed')
         except:
             st.warning('Login Failed')
 
@@ -98,14 +104,14 @@ def app():
         if is_admin_checked:
             if st.button('Sign out (Admin)', on_click=t):
                 pass
-            if st.button('Login'):
+            if st.button('Login (Admin)'):
                 st.session_state.authenticated = True
                 if st.session_state.authenticated:
                     st.link_button("Sign In", "https://ata-app-navigator.streamlit.app/")
         elif is_not_admin_checked:
             if st.button('Sign out (Not Admin)', on_click=t):
                 pass
-            if st.button('Login'):
+            if st.button('Login (Not Admin)'):
                 st.session_state.authenticated = True
                 if st.session_state.authenticated:
                     st.link_button("Sign In", "https://ata-project-status.streamlit.app/")
