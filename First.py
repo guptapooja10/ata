@@ -43,7 +43,6 @@ def usage_page():
     st.title("How to use the app?")
 
 
-
 def contact_page():
     st.title("Contact Us")
     st.markdown("Have questions or feedback? Reach out to us:")
