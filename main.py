@@ -8,8 +8,15 @@ from Deckung import deckung_properties
 # Initialize session state data if it doesn't exist
 if 'main_data' not in st.session_state:
     st.session_state.main_data = {}
+##
+if 'user_uid' not in st.session_state:
+    st.session_state.user_uid = None
 
-
+if st.session_state.user_uid:
+    st.markdown(f"**User UID in Other App:** {st.session_state.user_uid}")
+else:
+    st.warning("User not authenticated.")
+##
 # Function to fetch customers from Firestore
 def fetch_customers(db):
     customers_list = []
