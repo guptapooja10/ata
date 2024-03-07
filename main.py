@@ -109,6 +109,9 @@ def main():
         "ATA-Project-Status": "https://ata-project-status.streamlit.app/"
     }
 
+    # New Navigation
+    st.sidebar.page_link("ata_project_status.py", label="Project Status")
+
     st.sidebar.title('Navigation')
 
     for app_name, app_url in apps.items():
