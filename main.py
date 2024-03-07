@@ -116,8 +116,11 @@ def main():
     sac.segmented(
 
         items=[
+            sac.SegmentedItem(label='About', href='https://aboutpage.streamlit.app/'),
+            sac.SegmentedItem(label='Sign In', href='https://credentials-page.streamlit.app/'),
             sac.SegmentedItem(label='Material List', href='https://vk-st-0.streamlit.app/'),
             sac.SegmentedItem(label='Deckung', href='https://deckung.streamlit.app/'),
+            sac.SegmentedItem(label='Angebot', href='https://deckung.streamlit.app/'),
             sac.SegmentedItem(label='Project Status', href='https://ata-project-status.streamlit.app/'), ],
         align='center'
     )
