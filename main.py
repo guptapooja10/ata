@@ -95,8 +95,8 @@ def main():
     # Fetch customer list
     customer_list = fetch_customers(db)
     st.title('ATA App Navigator')
-    image = Image.open('logo_ata.png')
-    st.image(image)
+    #image = Image.open('logo_ata.png')
+    #st.image(image)
 
     # Navigation bar
     apps = {
