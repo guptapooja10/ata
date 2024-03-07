@@ -9,6 +9,7 @@ from Deckung import deckung_properties
 if 'main_data' not in st.session_state:
     st.session_state.main_data = {}
 
+
 def fetch_customers(db):
     customers_list = []
     # Assuming you have a collection named 'customers'
@@ -94,9 +95,9 @@ def main():
     db = firestore.Client(credentials=creds)
     # Fetch customer list
     customer_list = fetch_customers(db)
-    st.title('ATA App Navigator')
-    #image = Image.open('logo_ata.png')
-    #st.image(image)
+    # st.title('ATA App Navigator')
+    # image = Image.open('logo_ata.png')
+    # st.image(image)
 
     # Navigation bar
     apps = {
@@ -117,8 +118,9 @@ def main():
         items=[
             sac.SegmentedItem(label='Material List', href='https://vk-st-0.streamlit.app/'),
             sac.SegmentedItem(label='Deckung', href='https://deckung.streamlit.app/'),
-            sac.SegmentedItem(label='Project Status', href='https://ata-project-status.streamlit.app/'),], label='Navigation', align='center'
-)
+            sac.SegmentedItem(label='Project Status', href='https://ata-project-status.streamlit.app/'), ],
+        align='center'
+    )
 
     st.header('Project Instantiation')
     # Input fields for project instantiation
