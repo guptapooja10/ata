@@ -6,34 +6,27 @@ from PIL import Image
 from google.cloud import firestore
 from google.oauth2 import service_account
 from VK_ST_0 import get_all_collections, get_data_from_firestore, field_mapping, upload_data_to_firestore
+import streamlit_antd_components as sac
 
 
-# Navigation bar
-def navigation_bar():
-    apps = {
-        "Login page": "https://credentials-page.streamlit.app/",
-        "Project Instantiation": "https://ata-app-navigator.streamlit.app/",
-        "VK-ST-0": "https://vk-st-0.streamlit.app/",
-        "VK-0": "https://ata-vk-0.streamlit.app/",
-        "ATA-Project-Status": "https://ata-project-status.streamlit.app/"
-    }
+sac.segmented(
 
-    st.sidebar.title('Navigation')
-
-    for app_name, app_url in apps.items():
-        st.sidebar.markdown(f"[{app_name}]({app_url})")
-
-
-navigation_bar()
-
+        items=[
+            sac.SegmentedItem(label='About', href='https://aboutpage.streamlit.app/'),
+            sac.SegmentedItem(label='Sign In', href='https://credentials-page.streamlit.app/'),
+            sac.SegmentedItem(label='Project Instantiation', href='https://ata-app-navigator.streamlit.app/'),
+            sac.SegmentedItem(label='Material List', href='https://vk-st-0.streamlit.app/'),
+            sac.SegmentedItem(label='Deckung', href='https://deckung.streamlit.app/'),
+            sac.SegmentedItem(label='Angebot', href='https://deckung.streamlit.app/'),
+            sac.SegmentedItem(label='Project Status', href='https://ata-project-status.streamlit.app/'), ],
+        align='end', size='sm', radius='sm'
+    )
 # Initialize Firestore client
 key_dict = st.secrets["textkey"]
 creds = service_account.Credentials.from_service_account_info(key_dict)
 db = firestore.Client(credentials=creds)
 
-# # st.set_page_config(layout="wide")
-image = Image.open('logo_ata.png')
-st.image(image, caption='Ata Logo')
+
 
 # Upload image
 uploaded_file = st.file_uploader("Upload Image", type=["jpg", "jpeg", "png"])
