@@ -70,3 +70,6 @@ if __name__ == "__main__":
     # Call login_app after get_session_state
     login_app()
 
+    if st.session_state.authenticated:
+        st.write(f"User authenticated. UID: {st.session_state.user_uid}")
+
