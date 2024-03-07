@@ -8,16 +8,7 @@ from Deckung import deckung_properties
 # Initialize session state data if it doesn't exist
 if 'main_data' not in st.session_state:
     st.session_state.main_data = {}
-##
-if 'user_uid' not in st.session_state:
-    st.session_state.user_uid = None
 
-if st.session_state.user_uid:
-    st.markdown(f"**User UID in Other App:** {st.session_state.user_uid}")
-#else:
-#    st.warning("User not authenticated.")
-##
-# Function to fetch customers from Firestore
 def fetch_customers(db):
     customers_list = []
     # Assuming you have a collection named 'customers'
@@ -120,6 +111,14 @@ def main():
 
     for app_name, app_url in apps.items():
         st.sidebar.markdown(f"[{app_name}]({app_url})")
+
+    sac.segmented(
+
+        items=[
+            sac.SegmentedItem(label='Material List', href='https://vk-st-0.streamlit.app/'),
+            sac.SegmentedItem(label='Deckung', href='https://deckung.streamlit.app/'),
+            sac.SegmentedItem(label='Project Status', href='https://ata-project-status.streamlit.app/'),], label='Navigation', align='center'
+)
 
     st.header('Project Instantiation')
     # Input fields for project instantiation
