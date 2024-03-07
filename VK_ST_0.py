@@ -54,8 +54,8 @@ def upload_data_to_firestore(db, collection_name, document_id, data):
     st.success("Data uploaded successfully!")
 
 
-image = Image.open('logo_ata.png')
-st.image(image, caption='Ata Logo', use_column_width=True)
+#image = Image.open('logo_ata.png')
+#st.image(image, caption='Ata Logo', use_column_width=True)
 
 # Define data types and properties
 properties = {
