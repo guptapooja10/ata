@@ -49,11 +49,11 @@ def login_app():
     else:
         email = st.text_input('E-Mail Address')
         password = st.text_input('Password', type='password')
-        role = st.text_input('Role')
+        # role = st.text_input('Role')
         username = st.text_input('Enter your username')
 
         if st.button('Create my account'):
-            user = auth.create_user(email=email, password=password, role=role, uid=username)
+            user = auth.create_user(email=email, password=password, uid=username)
             st.success('Account created successfully!')
             st.markdown('You can now log in using your E-Mail and Password')
             st.balloons()
