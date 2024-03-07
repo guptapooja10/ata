@@ -34,6 +34,7 @@ def login_app():
                     # Perform authentication only if email and password are provided
                     user = auth.get_user_by_email(email)
                     st.session_state.authenticated = True
+                    st.session_state.user_uid = user.uid if st.session_state.authenticated else None
                     if st.session_state.authenticated:
                         st.experimental_set_query_params(app='project_instantiation')
                         st.link_button("Sign In", "https://ata-app-navigator.streamlit.app/")
@@ -65,3 +66,6 @@ if __name__ == "__main__":
 
     # Call login_app after get_session_state
     login_app()
+
+    if st.session_state.authenticated:
+        st.markdown(f"**User UID:** {st.session_state.user_uid}")
