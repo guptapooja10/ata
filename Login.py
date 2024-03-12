@@ -10,6 +10,7 @@ def get_session_state():
     if 'authenticated' not in st.session_state:
         st.session_state.authenticated = False
 
+
 # Call get_session_state before any Streamlit function
 get_session_state()
 
@@ -49,7 +50,7 @@ def login_app():
     else:
         email = st.text_input('E-Mail Address')
         password = st.text_input('Password', type='password')
-        role = st.text_input('Role')
+        role = st.selectbox('Admin/Not Admin', ['Admin', 'Not Admin'])
         username = st.text_input('Enter your username')
 
         if st.button('Create my account'):
