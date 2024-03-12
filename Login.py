@@ -10,10 +10,6 @@ def get_session_state():
     if 'authenticated' not in st.session_state:
         st.session_state.authenticated = False
 
-    if 'user_uid' not in st.session_state:
-        st.session_state.user_uid = None
-
-
 # Call get_session_state before any Streamlit function
 get_session_state()
 
@@ -69,7 +65,3 @@ if __name__ == "__main__":
 
     # Call login_app after get_session_state
     login_app()
-
-    if st.session_state.authenticated:
-        st.write(f"User authenticated. UID: {st.session_state.user_uid}")
-
