@@ -113,18 +113,27 @@ def main():
     # for app_name, app_url in apps.items():
     #    st.sidebar.markdown(f"[{app_name}]({app_url})")
 
-    sac.segmented(
+    # sac.segmented(
 
-        items=[
-            sac.SegmentedItem(label='Project Instantiation', href='https://ata-app-navigator.streamlit.app/'),
-            sac.SegmentedItem(label='About', href='https://aboutpage.streamlit.app/'),
-            sac.SegmentedItem(label='Sign In', href='https://credentials-page.streamlit.app/'),
-            sac.SegmentedItem(label='Material List', href='https://vk-st-0.streamlit.app/'),
-            sac.SegmentedItem(label='Deckung', href='https://deckung.streamlit.app/'),
-            sac.SegmentedItem(label='Angebot', href='https://angebot.streamlit.app/'),
-            sac.SegmentedItem(label='Project Status', href='https://ata-project-status.streamlit.app/'), ],
-        align='end', size='sm', radius='sm'
-    )
+    #    items=[
+    #       sac.SegmentedItem(label='Project Instantiation', href='https://ata-app-navigator.streamlit.app/'),
+    #      sac.SegmentedItem(label='About', href='https://aboutpage.streamlit.app/'),
+    #     sac.SegmentedItem(label='Sign In', href='https://credentials-page.streamlit.app/'),
+    #    sac.SegmentedItem(label='Material List', href='https://vk-st-0.streamlit.app/'),
+    #   sac.SegmentedItem(label='Deckung', href='https://deckung.streamlit.app/'),
+    #    sac.SegmentedItem(label='Angebot', href='https://angebot.streamlit.app/'),
+    #   sac.SegmentedItem(label='Project Status', href='https://ata-project-status.streamlit.app/'), ],
+    # align='end', size='sm', radius='sm'
+    # )
+
+    sac.menu([
+        sac.MenuItem(type='divider'),
+        sac.MenuItem('link', type='group', children=[
+            sac.MenuItem('antd-menu', icon='heart-fill', href='https://ant.design/components/menu#menu'),
+            sac.MenuItem('bootstrap-icon', icon='bootstrap-fill', href='https://icons.getbootstrap.com/'),
+        ]),
+
+    ], size='xs', color='dark')
 
     st.header('Project Instantiation')
     # Input fields for project instantiation
