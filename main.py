@@ -123,7 +123,7 @@ def main():
             sac.SegmentedItem(label='Deckung', href='https://deckung.streamlit.app/'),
             sac.SegmentedItem(label='Angebot', href='https://angebot.streamlit.app/'),
             sac.SegmentedItem(label='Project Status', href='https://ata-project-status.streamlit.app/'), ],
-        direction='vertical', color='dark', size='sm'
+        color='dark', size='sm', align='end'
     )
 
     st.header('Project Instantiation')

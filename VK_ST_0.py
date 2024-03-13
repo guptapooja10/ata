@@ -17,7 +17,7 @@ sac.segmented(
             sac.SegmentedItem(label='Deckung', href='https://deckung.streamlit.app/'),
             sac.SegmentedItem(label='Angebot', href='https://angebot.streamlit.app/'),
             sac.SegmentedItem(label='Project Status', href='https://ata-project-status.streamlit.app/'), ],
-        align='end', size='sm', radius='sm'
+        color='dark', size='sm', align='end'
     )
 
 
