@@ -133,7 +133,7 @@ def main():
             sac.MenuItem('bootstrap-icon', icon='bootstrap-fill', href='https://icons.getbootstrap.com/'),
         ]),
 
-    ], size='xs', color='dark')
+    ], align='left', size='xs', color='dark')
 
     st.header('Project Instantiation')
     # Input fields for project instantiation
