@@ -19,7 +19,7 @@ sac.segmented(
             sac.SegmentedItem(label='Material List', href='https://vk-st-0.streamlit.app/'),
             sac.SegmentedItem(label='Angebot', href='https://angebot.streamlit.app/'),
             sac.SegmentedItem(label='Project Status', href='https://ata-project-status.streamlit.app/'), ],
-        color='dark', size='sm', align='end'
+        align='end', size='sm', bg_color='transparent'
     )
 # Initialize Firestore client
 key_dict = st.secrets["textkey"]
