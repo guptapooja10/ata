@@ -1,4 +1,5 @@
 import streamlit as st
+import streamlit_antd_components as sac
 import pandas as pd
 import io
 from PIL import Image
@@ -34,21 +35,19 @@ def fetch_projects_for_customers(db, selected_customers):
 
 
 # Navigation bar
-def navigation_bar():
-    apps = {
-        "Login page": "https://credentials-page.streamlit.app/",
-        "Project Instantiation": "https://ata-app-navigator.streamlit.app/",
-        "VK-ST-0": "https://vk-st-0.streamlit.app/",
-        "VK-0": "https://ata-vk-0.streamlit.app/",
-        "Deckung": "https://deckung.streamlit.app/",
+sac.segmented(
 
-    }
-
-    st.sidebar.title('Navigation')
-
-    for app_name, app_url in apps.items():
-        st.sidebar.markdown(f"[{app_name}]({app_url})")
-
+    items=[
+        sac.SegmentedItem(label='Project Status', href='https://ata-project-status.streamlit.app/'),
+        sac.SegmentedItem(label='Deckung', href='https://deckung.streamlit.app/'),
+        sac.SegmentedItem(label='About', href='https://aboutpage.streamlit.app/'),
+        sac.SegmentedItem(label='Sign In', href='https://credentials-page.streamlit.app/'),
+        sac.SegmentedItem(label='Project Instantiation', href='https://ata-app-navigator.streamlit.app/'),
+        sac.SegmentedItem(label='Material List', href='https://vk-st-0.streamlit.app/'),
+        sac.SegmentedItem(label='Angebot', href='https://angebot.streamlit.app/'),
+    ],
+    align='end', size='sm', bg_color='transparent'
+)
 
 key_dict = st.secrets["textkey"]
 creds = service_account.Credentials.from_service_account_info(key_dict)
@@ -138,9 +137,6 @@ def get_fields_information(collection_name, document_ids):
 # Streamlit app
 def main():
     st.title('Project Status App')
-
-    # Display the navigation bar
-    navigation_bar()
 
     # Fetch and display customer selection
     all_customers = fetch_customers(db)
