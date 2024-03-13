@@ -2,14 +2,15 @@ import streamlit as st
 import streamlit_antd_components as sac
 import pandas as pd
 import io
-from PIL import Image
+# from PIL import Image
 from google.cloud import firestore
 from google.oauth2 import service_account
 import os
 import matplotlib.pyplot as plt
 
-image = Image.open('logo_ata.png')
-st.image(image, caption='Ata Logo', use_column_width=True)
+
+# image = Image.open('logo_ata.png')
+# st.image(image, caption='Ata Logo', use_column_width=True)
 
 
 def fetch_customers(db):
