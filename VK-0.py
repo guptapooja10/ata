@@ -6,24 +6,23 @@ from google.cloud import firestore
 from google.oauth2 import service_account
 import os
 
+# Navigation bar
+# def navigation_bar():
+#   apps = {
+#        "Login page": "https://credentials-page.streamlit.app/",
+#        "Project Instantiation": "https://ata-app-navigator.streamlit.app/",
+#        "VK-ST-0": "https://vk-st-0.streamlit.app/",
+#        "Deckung": "https://deckung.streamlit.app/",
+#        "ATA-Project-Status": "https://ata-project-status.streamlit.app/"
+#    }
 
-#Navigation bar
-def navigation_bar():
-    apps = {
-        "Login page": "https://credentials-page.streamlit.app/",
-        "Project Instantiation": "https://ata-app-navigator.streamlit.app/",
-        "VK-ST-0": "https://vk-st-0.streamlit.app/",
-        "Deckung": "https://deckung.streamlit.app/",
-        "ATA-Project-Status": "https://ata-project-status.streamlit.app/"
-    }
+#    st.sidebar.title('Navigation')
 
-    st.sidebar.title('Navigation')
-
-    for app_name, app_url in apps.items():
-        st.sidebar.markdown(f"[{app_name}]({app_url})")
+#    for app_name, app_url in apps.items():
+#        st.sidebar.markdown(f"[{app_name}]({app_url})")
 
 
-navigation_bar()
+# navigation_bar()
 
 key_dict = st.secrets["textkey"]
 creds = service_account.Credentials.from_service_account_info(key_dict)
@@ -127,7 +126,7 @@ if vk_0_data:
         if prop not in ['Kunde', 'Gegenstand', 'Zeichnungs- Nr.', 'Ausführen Nr.']:  # Remaining fields
             st.session_state.vk_0_data[prop] = vk_0_data.get(prop, "")
 
-st.title("Vorkalkulation")
+st.title("Schweißen")
 
 # If firestore_data is fetched, update the session state
 if firestore_data:
