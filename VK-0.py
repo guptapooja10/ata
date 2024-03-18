@@ -9,6 +9,29 @@ key_dict = st.secrets["textkey"]
 creds = service_account.Credentials.from_service_account_info(key_dict)
 db = firestore.Client(credentials=creds)
 
+
+def get_all_collections(db):
+    excluded_collections = {'operators', 'posts', 'projects'}
+    collections = db.collections()
+    return [collection.id for collection in collections if collection.id not in excluded_collections]
+
+
+def get_all_document_ids(collection_name):
+    docs = db.collection(collection_name).stream()
+    return [doc.id for doc in docs]
+
+
+def get_data_from_firestore(collection_name, document_id):
+    doc_ref = db.collection(collection_name).document(document_id)
+    doc = doc_ref.get()
+    return doc.to_dict() if doc.exists else None
+
+
+def upload_data_to_firestore(db, collection_name, document_id, data):
+    doc_ref = db.collection(collection_name).document(document_id)
+    doc_ref.set(data)
+    st.success("Data uploaded successfully!")
+
 # Define data types and properties
 properties = {
     'Kunde': str,
@@ -46,8 +69,11 @@ if 'current_collection' not in st.session_state:
     st.session_state.current_collection = None
 
 # Display a select box with all collection names
-collection_names = db.collection_names()
+collection_names = get_all_collections(db)
 selected_collection = st.selectbox('Select Collection:', options=collection_names)
+firestore_data = {}
+details_data = {}
+vk_0_data = {}
 
 # Update session state with selected collection
 if st.session_state.current_collection != selected_collection:
