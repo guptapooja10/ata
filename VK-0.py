@@ -151,7 +151,6 @@ for prop in props_col2:
     # Use the session state data to populate the fields
     st.session_state.vk_0_data[prop] = col2.text_input(prompt, value=st.session_state.vk_0_data[prop]).strip()
 
-
 # Define the expanders
 with st.expander("Customer"):
     # Input fields for customer-related data
@@ -162,11 +161,12 @@ with st.expander("Customer"):
 
 with st.expander("Processing Times"):
     # Input fields for processing times
-    st.number_input("Brennen (min)", value=st.session_state.vk_0_data["Brennen"])
-    st.number_input("Richten (min)", value=st.session_state.vk_0_data["Richten"])
-    st.number_input("Heften_Zussamenb_Verputzen (min)", value=st.session_state.vk_0_data["Heften_Zussamenb_Verputzen"])
-    st.number_input("Anzeichnen (min)", value=st.session_state.vk_0_data["Anzeichnen"])
-    st.number_input("Schweißen (min)", value=st.session_state.vk_0_data["Schweißen"])
+    st.number_input("Brennen (min)", value=float(st.session_state.vk_0_data["Brennen"]))
+    st.number_input("Richten (min)", value=float(st.session_state.vk_0_data["Richten"]))
+    st.number_input("Heften_Zussamenb_Verputzen (min)", value=float(st.session_state.vk_0_data["Heften_Zussamenb_Verputzen"]))
+    st.number_input("Anzeichnen (min)", value=float(st.session_state.vk_0_data["Anzeichnen"]))
+    st.number_input("Schweißen (min)", value=float(st.session_state.vk_0_data["Schweißen"]))
+
 
 def perform_calculations(data):
     # Convert relevant fields to numeric type
