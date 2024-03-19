@@ -68,6 +68,7 @@ properties = {
     'Schweißen': float,
     'Schweißnahtnummer': float,
     'Schweißnaht': str,
+    'Positionsnummer': float,
     'Lage': str,
     'Nahtlänge': float,
     'Nahtbreite': float,
