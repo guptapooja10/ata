@@ -190,9 +190,11 @@ with st.expander("Schweißnahtberechnung"):
     st.number_input("Anzeichnen (min)", value=float(st.session_state.vk_0_data["Anzeichnen"]))
     st.number_input("Schweißen (min)", value=float(st.session_state.vk_0_data["Schweißen"]))
 
+weld_names = ["Kehlnaht", "HV 40°", "HV40/15", "HV45°", "HV45°/15", "V 45°", "V60°", "Schrägen"]
+
 with st.expander("Eigenschaften"):
     st.number_input("Schweißnahtnummer", value=float(st.session_state.vk_0_data["Schweißnahtnummer"]) if st.session_state.vk_0_data["Schweißnahtnummer"] != "" else 0.0)
-    st.text_input("Schweißnaht", value=st.session_state.vk_0_data["Schweißnaht"])
+    st.selectbox("Schweißnaht", options=weld_names, index=weld_names.index(st.session_state.vk_0_data["Schweißnaht"]) if st.session_state.vk_0_data["Schweißnaht"] in weld_names else 0)
     st.number_input("Positionsnummer", value=float(st.session_state.vk_0_data["Positionsnummer"]) if st.session_state.vk_0_data["Positionsnummer"] != "" else 0.0)
     st.text_input("Lage", value=st.session_state.vk_0_data["Lage"])
     st.number_input("Nahtlänge (mm)", value=float(st.session_state.vk_0_data["Nahtlänge"]) if st.session_state.vk_0_data["Nahtlänge"] != "" else 0.0)
