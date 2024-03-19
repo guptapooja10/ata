@@ -190,19 +190,20 @@ with st.expander("Schweißnahtberechnung"):
     st.number_input("Schweißen (min)", value=float(st.session_state.vk_0_data["Schweißen"]))
 
 with st.expander("Eigenschaften"):
-    st.number_input("Schweißnahtnummer", value=float(st.session_state.vk_0_data["Schweißnahtnummer"]))
+    st.number_input("Schweißnahtnummer", value=float(st.session_state.vk_0_data["Schweißnahtnummer"]) if st.session_state.vk_0_data["Schweißnahtnummer"] != "" else 0.0)
     st.text_input("Schweißnaht", value=st.session_state.vk_0_data["Schweißnaht"])
-    st.number_input("Positionsnummer", value=float(st.session_state.vk_0_data["Positionsnummer"]))
+    st.number_input("Positionsnummer", value=float(st.session_state.vk_0_data["Positionsnummer"]) if st.session_state.vk_0_data["Positionsnummer"] != "" else 0.0)
     st.text_input("Lage", value=st.session_state.vk_0_data["Lage"])
-    st.number_input("Nahtlänge (mm)", value=float(st.session_state.vk_0_data["Nahtlänge"]))
-    st.number_input("Nahtbreite (mm)", value=float(st.session_state.vk_0_data["Nahtbreite"]))
-    st.number_input("Blechdicke (mm)", value=float(st.session_state.vk_0_data["Blechdicke"]))
-    st.number_input("Drahtdurch- messer (mm)", value=float(st.session_state.vk_0_data["Drahtdurch- messer"]))
-    st.number_input("Kosten Drahtelektrode (€/kg)", value=float(st.session_state.vk_0_data["Kosten Drahtelektrode"]))
-    st.number_input("Schweißzeit + Nebenzeit (h)", value=float(st.session_state.vk_0_data["Schweißzeit + Nebenzeit"]))
-    st.number_input("Kosten Schweißer (€)", value=float(st.session_state.vk_0_data["Kosten Schweißer"]))
-    st.number_input("Kosten SZ (€)", value=float(st.session_state.vk_0_data["Kosten SZ"]))
-    st.number_input("Gesamtkosten(€) / Stück", value=float(st.session_state.vk_0_data["Gesamtkosten"]))
+    st.number_input("Nahtlänge (mm)", value=float(st.session_state.vk_0_data["Nahtlänge"]) if st.session_state.vk_0_data["Nahtlänge"] != "" else 0.0)
+    st.number_input("Nahtbreite (mm)", value=float(st.session_state.vk_0_data["Nahtbreite"]) if st.session_state.vk_0_data["Nahtbreite"] != "" else 0.0)
+    st.number_input("Blechdicke (mm)", value=float(st.session_state.vk_0_data["Blechdicke"]) if st.session_state.vk_0_data["Blechdicke"] != "" else 0.0)
+    st.number_input("Drahtdurchmesser (mm)", value=float(st.session_state.vk_0_data["Drahtdurchmesser"]) if st.session_state.vk_0_data["Drahtdurchmesser"] != "" else 0.0)
+    st.number_input("Kosten Drahtelektrode (€/kg)", value=float(st.session_state.vk_0_data["Kosten Drahtelektrode"]) if st.session_state.vk_0_data["Kosten Drahtelektrode"] != "" else 0.0)
+    st.number_input("Schweißzeit + Nebenzeit (h)", value=float(st.session_state.vk_0_data["Schweißzeit + Nebenzeit"]) if st.session_state.vk_0_data["Schweißzeit + Nebenzeit"] != "" else 0.0)
+    st.number_input("Kosten Schweißer (€)", value=float(st.session_state.vk_0_data["Kosten Schweißer"]) if st.session_state.vk_0_data["Kosten Schweißer"] != "" else 0.0)
+    st.number_input("Kosten SZ (€)", value=float(st.session_state.vk_0_data["Kosten SZ"]) if st.session_state.vk_0_data["Kosten SZ"] != "" else 0.0)
+    st.number_input("Gesamtkosten(€) / Stück", value=float(st.session_state.vk_0_data["Gesamtkosten"]) if st.session_state.vk_0_data["Gesamtkosten"] != "" else 0.0)
+
 
 
 def perform_calculations(data):
