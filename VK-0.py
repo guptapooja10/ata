@@ -181,10 +181,11 @@ dfs = pd.DataFrame(
         {"Factor1": 20, "Factor2": 2.74},
     ]
 )
-edited_df = st.data_editor(dfs, num_rows="dynamic")
+
 
 # Define the expanders
 with st.expander("Faktoren Nebenzeiten"):
+    edited_df = st.data_editor(dfs, num_rows="dynamic")
     st.dataframe(edited_df)
 
 with st.expander("Customer"):
