@@ -66,6 +66,7 @@ properties = {
     'Heften_Zussamenb_Verputzen': float,
     'Anzeichnen': float,
     'Schweißen': float,
+
 }
 
 units = {
@@ -152,20 +153,20 @@ for prop in props_col2:
     st.session_state.vk_0_data[prop] = col2.text_input(prompt, value=st.session_state.vk_0_data[prop]).strip()
 
 # Define the expanders
-#with st.expander("Customer"):
+with st.expander("Customer"):
     # Input fields for customer-related data
-#    st.text_input("Kunde", value=st.session_state.vk_0_data["Kunde"])
-#    st.text_input("Gegenstand", value=st.session_state.vk_0_data["Gegenstand"])
-#    st.text_input("Zeichnungs- Nr.", value=st.session_state.vk_0_data["Zeichnungs- Nr."])
-#    st.text_input("Ausführen Nr.", value=st.session_state.vk_0_data["Ausführen Nr."])
+    st.text_input("Kunde", value=st.session_state.vk_0_data["Kunde"])
+    st.text_input("Gegenstand", value=st.session_state.vk_0_data["Gegenstand"])
+    st.text_input("Zeichnungs- Nr.", value=st.session_state.vk_0_data["Zeichnungs- Nr."])
+    st.text_input("Ausführen Nr.", value=st.session_state.vk_0_data["Ausführen Nr."])
 
-#with st.expander("Processing Times"):
+with st.expander("Processing Times"):
     # Input fields for processing times
-#    st.number_input("Brennen (min)", value=float(st.session_state.vk_0_data["Brennen"]))
-#    st.number_input("Richten (min)", value=float(st.session_state.vk_0_data["Richten"]))
-#    st.number_input("Heften_Zussamenb_Verputzen (min)", value=float(st.session_state.vk_0_data["Heften_Zussamenb_Verputzen"]))
-#    st.number_input("Anzeichnen (min)", value=float(st.session_state.vk_0_data["Anzeichnen"]))
-#    st.number_input("Schweißen (min)", value=float(st.session_state.vk_0_data["Schweißen"]))
+    st.number_input("Brennen (min)", value=float(st.session_state.vk_0_data["Brennen"]))
+    st.number_input("Richten (min)", value=float(st.session_state.vk_0_data["Richten"]))
+    st.number_input("Heften_Zussamenb_Verputzen (min)", value=float(st.session_state.vk_0_data["Heften_Zussamenb_Verputzen"]))
+    st.number_input("Anzeichnen (min)", value=float(st.session_state.vk_0_data["Anzeichnen"]))
+    st.number_input("Schweißen (min)", value=float(st.session_state.vk_0_data["Schweißen"]))
 
 
 def perform_calculations(data):
