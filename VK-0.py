@@ -186,7 +186,6 @@ dfs = pd.DataFrame(
 # Define the expanders
 with st.expander("Faktoren Nebenzeiten"):
     edited_df = st.data_editor(dfs, num_rows="dynamic")
-    st.dataframe(edited_df)
 
 with st.expander("Customer"):
     # Input fields for customer-related data
