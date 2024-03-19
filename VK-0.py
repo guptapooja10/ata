@@ -66,7 +66,18 @@ properties = {
     'Heften_Zussamenb_Verputzen': float,
     'Anzeichnen': float,
     'Schweißen': float,
-
+    'Schweißnahtnummer': float,
+    'Schweißnaht': str,
+    'Lage': str,
+    'Nahtlänge': float,
+    'Nahtbreite': float,
+    'Blechdicke': float,
+    'Drahtdurch- messer': float,
+    'Kosten Drahtelektrode': float,
+    'Schweißzeit + Nebenzeit': float,
+    'Kosten Schweißer': float,
+    'Kosten SZ': float,
+    'Gesamtkosten': float,
 }
 
 units = {
@@ -75,6 +86,16 @@ units = {
     'Heften_Zussamenb_Verputzen': 'min',
     'Anzeichnen': 'min',
     'Schweißen': 'min',
+    'Nahtlänge': 'mm',
+    'Nahtbreite': 'mm',
+    'Blechdicke': 'mm',
+    'Drahtdurch- messer': 'mm',
+    'Kosten Drahtelektrode': '€/kg',
+    'Schweißzeit + Nebenzeit': 'h',
+    'Kosten Schweißer': '€',
+    'Kosten SZ': '€',
+    'Gesamtkosten': '€ / Stück',
+
 }
 
 field_mapping = {
@@ -160,13 +181,28 @@ with st.expander("Customer"):
     st.text_input("Zeichnungs- Nr.", value=st.session_state.vk_0_data["Zeichnungs- Nr."])
     st.text_input("Ausführen Nr.", value=st.session_state.vk_0_data["Ausführen Nr."])
 
-with st.expander("Processing Times"):
+with st.expander("Schweißnahtberechnung"):
     # Input fields for processing times
     st.number_input("Brennen (min)", value=float(st.session_state.vk_0_data["Brennen"]))
     st.number_input("Richten (min)", value=float(st.session_state.vk_0_data["Richten"]))
     st.number_input("Heften_Zussamenb_Verputzen (min)", value=float(st.session_state.vk_0_data["Heften_Zussamenb_Verputzen"]))
     st.number_input("Anzeichnen (min)", value=float(st.session_state.vk_0_data["Anzeichnen"]))
     st.number_input("Schweißen (min)", value=float(st.session_state.vk_0_data["Schweißen"]))
+
+with st.expander("Eigenschaften"):
+    st.number_input("Schweißnahtnummer", value=float(st.session_state.vk_0_data["Schweißnahtnummer"]))
+    st.text_input("Schweißnaht", value=st.session_state.vk_0_data["Schweißnaht"])
+    st.number_input("Positionsnummer", value=float(st.session_state.vk_0_data["Positionsnummer"]))
+    st.text_input("Lage", value=st.session_state.vk_0_data["Lage"])
+    st.number_input("Nahtlänge (mm)", value=float(st.session_state.vk_0_data["Nahtlänge"]))
+    st.number_input("Nahtbreite (mm)", value=float(st.session_state.vk_0_data["Nahtbreite"]))
+    st.number_input("Blechdicke (mm)", value=float(st.session_state.vk_0_data["Blechdicke"]))
+    st.number_input("Drahtdurch- messer (mm)", value=float(st.session_state.vk_0_data["Drahtdurch- messer"]))
+    st.number_input("Kosten Drahtelektrode (€/kg)", value=float(st.session_state.vk_0_data["Kosten Drahtelektrode"]))
+    st.number_input("Schweißzeit + Nebenzeit (h)", value=float(st.session_state.vk_0_data["Schweißzeit + Nebenzeit"]))
+    st.number_input("Kosten Schweißer (€)", value=float(st.session_state.vk_0_data["Kosten Schweißer"]))
+    st.number_input("Kosten SZ (€)", value=float(st.session_state.vk_0_data["Kosten SZ"]))
+    st.number_input("Gesamtkosten(€) / Stück", value=float(st.session_state.vk_0_data["Gesamtkosten"]))
 
 
 def perform_calculations(data):
