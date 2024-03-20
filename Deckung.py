@@ -60,6 +60,15 @@ deckung_properties = {
     'Erlös': float,
     'DB': float,
     'Deckungsbeitrag': float,
+    'Brennen': float,
+    'Schlossern': float,
+    'Schweißen': float,
+    'sonstiges': float,
+    'Gesamt': float,
+    'Stunden/Tonne': float,
+    'Fertigung EUR': float,
+    'Stunden': float,
+    'Total_Stunden/Tonne': float,
 }
 
 
@@ -77,6 +86,15 @@ units = {
     'Erlös': '€',
     'DB': '%',
     'Deckungsbeitrag': '€',
+    'Brennen': 'min',
+    'Schlossern': 'min',
+    'Schweißen': 'min',
+    'sonstiges': 'min',
+    'Gesamt': 'min',
+    'Stunden/Tonne': 'min',
+    'Fertigung EUR': 'min',
+    'Stunden': 'min',
+    'Total_Stunden/Tonne': 'min',
 }
 
 vk_st_0_field_mapping = {
@@ -377,7 +395,7 @@ with st.expander("Grenzkosten"):
 combined_data = {
     **st.session_state.deckung_data,  # Project and Product Details
     **st.session_state['Material'],  # Material Cost Details
-    # **st.session_state['Gesamtstunden'],
+    **st.session_state['Gesamtstunden'],
     'Erlös': st.session_state.erlos,
     'DB (%)': st.session_state.db_percentage,
     'Deckungsbeitrag': st.session_state.deckungsbeitrag,
