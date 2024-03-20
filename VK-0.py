@@ -182,6 +182,7 @@ dfs = pd.DataFrame(
     ]
 )
 
+extracted_value = dfs.loc[dfs["No."] == 3, "Factor2"].values[0]
 
 # Define the expanders
 with st.expander("Faktoren Nebenzeiten"):
@@ -214,12 +215,11 @@ with st.expander("Eigenschaften"):
     st.number_input("Nahtbreite (mm)", value=float(st.session_state.vk_0_data["Nahtbreite"]) if st.session_state.vk_0_data["Nahtbreite"] != "" else 0.0)
     st.number_input("Blechdicke (mm)", value=float(st.session_state.vk_0_data["Blechdicke"]) if st.session_state.vk_0_data["Blechdicke"] != "" else 0.0)
     st.number_input("Drahtdurch- messer (mm)", value=float(st.session_state.vk_0_data["Drahtdurch- messer"]) if st.session_state.vk_0_data["Drahtdurch- messer"] != "" else 0.0)
-    st.number_input("Kosten Drahtelektrode (€/kg)", value=float(st.session_state.vk_0_data["Kosten Drahtelektrode"]) if st.session_state.vk_0_data["Kosten Drahtelektrode"] != "" else 0.0)
+    st.number_input("Kosten Drahtelektrode (€/kg)", value=float(extracted_value) if extracted_value != "" else 0.0)
     st.number_input("Schweißzeit + Nebenzeit (h)", value=float(st.session_state.vk_0_data["Schweißzeit + Nebenzeit"]) if st.session_state.vk_0_data["Schweißzeit + Nebenzeit"] != "" else 0.0)
     st.number_input("Kosten Schweißer (€)", value=float(st.session_state.vk_0_data["Kosten Schweißer"]) if st.session_state.vk_0_data["Kosten Schweißer"] != "" else 0.0)
     st.number_input("Kosten SZ (€)", value=float(st.session_state.vk_0_data["Kosten SZ"]) if st.session_state.vk_0_data["Kosten SZ"] != "" else 0.0)
     st.number_input("Gesamtkosten(€) / Stück", value=float(st.session_state.vk_0_data["Gesamtkosten"]) if st.session_state.vk_0_data["Gesamtkosten"] != "" else 0.0)
-
 
 
 def perform_calculations(data):
