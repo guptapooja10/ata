@@ -431,7 +431,7 @@ if st.button("Upload to Database", key="upload_to_db"):
     combined_data_to_upload = {
         **st.session_state.deckung_data,  # Project and Product Details
         **st.session_state['Material'],  # Material Cost Details
-        **st.session_state['Gesamtstunden'],
+        #**st.session_state['Gesamtstunden'],
         'Erlös': st.session_state.erlos,
         'DB (%)': st.session_state.db_percentage,
         'Deckungsbeitrag': st.session_state.deckungsbeitrag,
