@@ -127,10 +127,10 @@ if "DB (%)" not in st.session_state:
 
 # Now 'df' is defined from the session state
 df = pd.DataFrame.from_dict(st.session_state['Material']).transpose()
-try:
-    df1 = pd.DataFrame.from_dict(st.session_state['Gesamtstunden']).transpose()
-except Exception as e:
-    print("Error:", e)
+#try:
+#    df1 = pd.DataFrame.from_dict(st.session_state['Gesamtstunden']).transpose()
+#except Exception as e:
+#    print("Error:", e)
 
 
 if 'total_material_cost' not in st.session_state:
@@ -277,12 +277,12 @@ if vk_0_data:
     st.session_state.deckung_data['Schweißen_VK_0'] = vk_0_data.get('Schweißen_VK_0', "")
 
 
-df1['Stunden'] = [
-    st.session_state.deckung_data.get('Brennen_VK_0', 0),
-    st.session_state.deckung_data.get('Schlossern_VK_0', 0),
-    st.session_state.deckung_data.get('Schweißen_VK_0', 0),
-    0, 0, 0, 0
-]
+#df1['Stunden'] = [
+#    st.session_state.deckung_data.get('Brennen_VK_0', 0),
+#    st.session_state.deckung_data.get('Schlossern_VK_0', 0),
+#    st.session_state.deckung_data.get('Schweißen_VK_0', 0),
+#    0, 0, 0, 0
+#]
 
 brennen_col = 'Brennen'
 eur_hour_col = 'Eur/hour'
@@ -291,58 +291,58 @@ total_stunden_tonne_col = 'Total_Stunden/Tonne'
 
 
 # Gesamtstunden expander
-with st.expander("Gesamtstunden"):
+#with st.expander("Gesamtstunden"):
 
-    gewicht_value = st.session_state.deckung_data.get('Gewicht', 0.0)
-    st.write(f"The value of Gewicht is: {gewicht_value}")
+#    gewicht_value = st.session_state.deckung_data.get('Gewicht', 0.0)
+#    st.write(f"The value of Gewicht is: {gewicht_value}")
 
     # # Display the DataFrame using editable DataTable
-    edited_df = st.data_editor(df1)
+#    edited_df = st.data_editor(df1)
 
     # Update deckung_properties with columns from Gesamtstunden DataFrame
-    gesamtstunden_columns = edited_df.columns.tolist()
-    deckung_properties.update({col: float for col in gesamtstunden_columns})
+#    gesamtstunden_columns = edited_df.columns.tolist()
+#    deckung_properties.update({col: float for col in gesamtstunden_columns})
 
-    if st.button('Calculate Gesamtstunden', key="Calculate_Gesamtstunden"):
-        # Convert the DataFrame columns to numeric values where possible
-        for col in edited_df.columns:
-            edited_df[col] = pd.to_numeric(edited_df[col], errors='ignore')
+#    if st.button('Calculate Gesamtstunden', key="Calculate_Gesamtstunden"):
+#        # Convert the DataFrame columns to numeric values where possible
+#        for col in edited_df.columns:
+#            edited_df[col] = pd.to_numeric(edited_df[col], errors='ignore')
 
         # Calculate Gesamtstunden
-        total_stunden = edited_df["Stunden"].sum()
+#        total_stunden = edited_df["Stunden"].sum()
 
         # Calculate Stunden/Tonne
-        stunden_tonne = 0 if gewicht_value == 0 else total_stunden / (gewicht_value * 1000)
+#        stunden_tonne = 0 if gewicht_value == 0 else total_stunden / (gewicht_value * 1000)
 
 
 
         # Update DataFrame with calculated values
-        edited_df.loc["Gesamt", ["Stunden"]] = total_stunden
-        edited_df.at["Brennen", total_stunden_tonne_col] = (
-                edited_df.at["Brennen", eur_hour_col] * edited_df.at["Brennen", stunden_col]
-        )
-        edited_df.at["Schlossern", total_stunden_tonne_col] = (
-                edited_df.at["Schlossern", eur_hour_col] * edited_df.at["Schlossern", stunden_col]
-        )
-        edited_df.at["Schweißen", total_stunden_tonne_col] = (
-                edited_df.at["Schweißen", eur_hour_col] * edited_df.at["Schweißen", stunden_col]
-        )
-        edited_df.at["sonstiges", total_stunden_tonne_col] = (
-                edited_df.at["sonstiges", eur_hour_col] * edited_df.at["sonstiges", stunden_col]
-        )
-        edited_df.loc["Stunden/Tonne", total_stunden_tonne_col] = stunden_tonne
+#        edited_df.loc["Gesamt", ["Stunden"]] = total_stunden
+#        edited_df.at["Brennen", total_stunden_tonne_col] = (
+#                edited_df.at["Brennen", eur_hour_col] * edited_df.at["Brennen", stunden_col]
+#        )
+#        edited_df.at["Schlossern", total_stunden_tonne_col] = (
+#                edited_df.at["Schlossern", eur_hour_col] * edited_df.at["Schlossern", stunden_col]
+#        )
+ #       edited_df.at["Schweißen", total_stunden_tonne_col] = (
+ #               edited_df.at["Schweißen", eur_hour_col] * edited_df.at["Schweißen", stunden_col]
+ #       )
+ #       edited_df.at["sonstiges", total_stunden_tonne_col] = (
+ #               edited_df.at["sonstiges", eur_hour_col] * edited_df.at["sonstiges", stunden_col]
+ #       )
+ #       edited_df.loc["Stunden/Tonne", total_stunden_tonne_col] = stunden_tonne
         # Calculate Fertigung EUR
-        fertigung_eur = (
-                edited_df.at["Brennen", total_stunden_tonne_col] + edited_df.at["Schlossern", total_stunden_tonne_col] + edited_df.at["Schweißen", total_stunden_tonne_col] + edited_df.at["sonstiges", total_stunden_tonne_col] - edited_df.at["Stunden/Tonne", total_stunden_tonne_col]
-        )
-        edited_df.at["Fertigung EUR", stunden_col] = fertigung_eur
+ #       fertigung_eur = (
+ #               edited_df.at["Brennen", total_stunden_tonne_col] + edited_df.at["Schlossern", total_stunden_tonne_col] + edited_df.at["Schweißen", total_stunden_tonne_col] + edited_df.at["sonstiges", total_stunden_tonne_col] - edited_df.at["Stunden/Tonne", total_stunden_tonne_col]
+ #       )
+ #       edited_df.at["Fertigung EUR", stunden_col] = fertigung_eur
         # Store 'Fertigung EUR' in session state
-        st.session_state['fertigung_eur'] = fertigung_eur
+ #       st.session_state['fertigung_eur'] = fertigung_eur
 
-        st.data_editor(edited_df)
+ #       st.data_editor(edited_df)
 
         # Update the session state with the edited DataFrame
-        st.session_state['Gesamtstunden'] = edited_df.to_dict(orient="index")
+  #      st.session_state['Gesamtstunden'] = edited_df.to_dict(orient="index")
 
 
 # Create an expander for 'Grenzkosten'
