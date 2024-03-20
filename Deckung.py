@@ -304,7 +304,8 @@ with st.expander("Processing Time"):
         df1["Total"] = df1["Eur/hour"] * df1["Hour"]
 
         # Update the displayed DataFrame
-        edited_df.dataframe(df1, height=300)
+        edited_df = st.data_editor(df1, num_rows="dynamic")
+
 
         # Update the input fields with the calculated values
         st.session_state.deckung_data["Gesamtstunden"] = gesamtstunden
