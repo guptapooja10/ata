@@ -395,7 +395,7 @@ with st.expander("Grenzkosten"):
 combined_data = {
     **st.session_state.deckung_data,  # Project and Product Details
     **st.session_state['Material'],  # Material Cost Details
-    **st.session_state['Gesamtstunden'],
+    # **st.session_state['Gesamtstunden'],
     'Erlös': st.session_state.erlos,
     'DB (%)': st.session_state.db_percentage,
     'Deckungsbeitrag': st.session_state.deckungsbeitrag,
