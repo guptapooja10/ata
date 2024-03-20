@@ -29,7 +29,7 @@ db = firestore.Client(credentials=creds)
 
 
 # Upload image
-uploaded_file = st.file_uploader("Upload Image", type=["jpg", "jpeg", "png"])
+uploaded_file = st.sidebar.file_uploader("Upload Image", type=["jpg", "jpeg", "png"])
 
 
 # Function to safely convert a value to float
