@@ -218,10 +218,13 @@ with st.expander("Eigenschaften"):
     # extracted_value = dfs.loc[dfs["No."] == 3, "Factor2"].values[0] if any(dfs["No."] == 3) else None
     st.number_input("Kosten Drahtelektrode (€/kg)", value=float(st.session_state.vk_0_data["Kosten Drahtelektrode"]) if st.session_state.vk_0_data["Blechdicke"] != "" else 0.0)
     st.number_input("Schweißzeit + Nebenzeit (h)", value=float(st.session_state.vk_0_data["Schweißzeit + Nebenzeit"]) if st.session_state.vk_0_data["Schweißzeit + Nebenzeit"] != "" else 0.0)
-    st.number_input("Kosten Schweißer (€)", value=float(st.session_state.vk_0_data["Kosten Schweißer"]) if st.session_state.vk_0_data["Kosten Schweißer"] != "" else 0.0)
-    st.number_input("Kosten SZ (€)", value=float(st.session_state.vk_0_data["Kosten SZ"]) if st.session_state.vk_0_data["Kosten SZ"] != "" else 0.0)
-    st.number_input("Gesamtkosten(€) / Stück", value=float(st.session_state.vk_0_data["Gesamtkosten"]) if st.session_state.vk_0_data["Gesamtkosten"] != "" else 0.0)
+    kosten_schweisser = float(st.session_state.vk_0_data["Kosten Schweißer"]) if st.session_state.vk_0_data[
+                                                                                     "Kosten Schweißer"] != "" else 0.0
+    kosten_sz = float(st.session_state.vk_0_data["Kosten SZ"]) if st.session_state.vk_0_data["Kosten SZ"] != "" else 0.0
+    gesamtkosten_value = kosten_schweisser + kosten_sz
 
+    # Display the calculated "Gesamtkosten" value
+    gesamtkosten_input = st.number_input("Gesamtkosten(€) / Stück", value=gesamtkosten_value)
 
 def perform_calculations(data):
     # Convert relevant fields to numeric type
