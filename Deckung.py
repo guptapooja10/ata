@@ -301,10 +301,10 @@ with st.expander("Processing Time"):
         # Perform the calculations
         gesamtstunden = df1["Hour"].sum()  # Sum of hours for all processes
         stunden_tonne = gesamtstunden / gewicht_value * 1000  # Hours per tonne
-        df1["Total"] = df1["Eur/hour"] * df1["Hour"]
+        #df1["Total"] = df1["Eur/hour"] * df1["Hour"]
 
         # Update the displayed DataFrame
-        edited_df = st.data_editor(df1, num_rows="dynamic")
+        #edited_df = st.data_editor(df1, num_rows="dynamic")
 
 
         # Update the input fields with the calculated values
