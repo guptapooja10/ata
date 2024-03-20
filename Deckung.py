@@ -298,6 +298,19 @@ with st.expander("Processing Time"):
     st.text_input("Gewicht", value=st.session_state.deckung_data["Gewicht"])
     edited_df = st.data_editor(df1, num_rows="dynamic")
 
+    if st.button("Calculate Total Time"):
+        # Perform the calculations
+        gesamtstunden = df1["Hour"].sum()  # Sum of hours for all processes
+        stunden_tonne = gesamtstunden / gewicht_value * 1000  # Hours per tonne
+
+        # Update the input fields with the calculated values
+        st.session_state.deckung_data["Gesamtstunden"] = gesamtstunden
+        st.session_state.deckung_data["Stunden / Tonne"] = stunden_tonne
+
+        # Display the calculated results
+        st.text_input("Gesamtstunden", value=gesamtstunden)
+        st.text_input("Stunden / Tonne", value=stunden_tonne)
+
 # Create an expander for 'Grenzkosten'
 with st.expander("Grenzkosten"):
     for prop in ['Glühen', 'Prüfen , Doku', 'Strahlen / Streichen', 'techn. Bearb.', 'mech. Vorbearb.',
