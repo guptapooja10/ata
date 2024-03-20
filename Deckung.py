@@ -294,6 +294,7 @@ df1 = pd.DataFrame (
 )
 
 with st.expander("Processing Time"):
+    gewicht_value = st.session_state.deckung_data.get('Gewicht', 0)
     edited_df = st.data_editor(df1, num_rows="dynamic")
 
 # Create an expander for 'Grenzkosten'
