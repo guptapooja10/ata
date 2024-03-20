@@ -227,31 +227,41 @@ with st.expander("Eigenschaften"):
     st.number_input("Drahtdurch- messer (mm)",
                     value=float(st.session_state.vk_0_data["Drahtdurch- messer"]) if st.session_state.vk_0_data[
                                                                                          "Drahtdurch- messer"] != "" else 0.0)
-    Masse_Drahtelektrode = st.number_input("Masse Drahtelektrode (kg)",
-                    value=float(st.session_state.vk_0_data["Masse Drahtelektrode"]) if st.session_state.vk_0_data[
-                                                                                           "Masse Drahtelektrode"] != "" else 0.0)
-    Kosten_Drahtelektrode = st.number_input("Kosten Drahtelektrode (€/kg)",
-                    value=float(st.session_state.vk_0_data["Kosten Drahtelektrode"]) if st.session_state.vk_0_data[
-                                                                                            "Kosten Drahtelektrode"] != "" else 0.0)
-    benötigte_Drahtrollen = st.number_input("benötigte Drahtrollen",
-                    value=float(st.session_state.vk_0_data["benötigte Drahtrollen"]) if st.session_state.vk_0_data[
-                                                                                            "benötigte Drahtrollen"] != "" else 0.0)
-    st.number_input("Schweißzeit + Nebenzeit (h)",
-                    value=float(st.session_state.vk_0_data["Schweißzeit + Nebenzeit"]) if st.session_state.vk_0_data[
-                                                                                              "Schweißzeit + Nebenzeit"] != "" else 0.0)
-    kosten_schweisser = st.number_input("Kosten Schweißer (€)",
-                                        value=float(st.session_state.vk_0_data["Kosten Schweißer"]) if
-                                        st.session_state.vk_0_data["Kosten Schweißer"] != "" else 0.0)
+    masse_drahtelektrode = st.session_state.vk_0_data.get("Masse Drahtelektrode", 0.0)
+    kosten_drahtelektrode = st.session_state.vk_0_data.get("Kosten Drahtelektrode", 0.0)
+    benotigte_drahtrollen = st.session_state.vk_0_data.get("benötigte Drahtrollen", 0.0)
+    schweisszeit_nebenzeit = st.session_state.vk_0_data.get("Schweißzeit + Nebenzeit", 0.0)
+    kosten_schweisser = st.session_state.vk_0_data.get("Kosten Schweißer", 0.0)
 
-    kostensz_value = Kosten_Drahtelektrode * benötigte_Drahtrollen * Masse_Drahtelektrode
+    # Input fields for Masse Drahtelektrode, Kosten Drahtelektrode, benötigte Drahtrollen, Schweißzeit + Nebenzeit, and Kosten Schweißer
+    masse_drahtelektrode_input = st.number_input("Masse Drahtelektrode (kg)", value=float(
+        masse_drahtelektrode) if masse_drahtelektrode != "" else 0.0)
+    kosten_drahtelektrode_input = st.number_input("Kosten Drahtelektrode (€/kg)", value=float(
+        kosten_drahtelektrode) if kosten_drahtelektrode != "" else 0.0)
+    benotigte_drahtrollen_input = st.number_input("benötigte Drahtrollen", value=float(
+        benotigte_drahtrollen) if benotigte_drahtrollen != "" else 0.0)
+    schweisszeit_nebenzeit_input = st.number_input("Schweißzeit + Nebenzeit (h)", value=float(
+        schweisszeit_nebenzeit) if schweisszeit_nebenzeit != "" else 0.0)
+    kosten_schweisser_input = st.number_input("Kosten Schweißer (€)",
+                                              value=float(kosten_schweisser) if kosten_schweisser != "" else 0.0)
+
+    # Calculate Kosten SZ
+    kostensz_value = kosten_drahtelektrode_input * benotigte_drahtrollen_input * masse_drahtelektrode_input
+
+    # Store Kosten SZ in session state
     st.session_state.vk_0_data["Kosten SZ"] = kostensz_value
-    kosten_sz = st.number_input("Kosten SZ (€)", value=kostensz_value)
-    gesamtkosten_value = kosten_schweisser + kosten_sz
 
+    # Display Kosten SZ
+    kosten_sz_input = st.number_input("Kosten SZ (€)", value=kostensz_value)
+
+    # Calculate Gesamtkosten
+    gesamtkosten_value = kosten_schweisser_input + kosten_sz_input
+
+    # Store Gesamtkosten in session state
     st.session_state.vk_0_data["Gesamtkosten"] = gesamtkosten_value
-    # Display the calculated "Gesamtkosten" value
-    gesamtkosten_input = st.number_input("Gesamtkosten(€) / Stück", value=gesamtkosten_value)
 
+    # Display Gesamtkosten
+    gesamtkosten_input = st.number_input("Gesamtkosten(€) / Stück", value=gesamtkosten_value)
 
 def perform_calculations(data):
     # Convert relevant fields to numeric type
