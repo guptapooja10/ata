@@ -434,9 +434,9 @@ if st.button("Upload to Database", key="upload_to_db"):
         'Erlös': st.session_state.erlos,
         'DB (%)': st.session_state.db_percentage,
         'Deckungsbeitrag': st.session_state.deckungsbeitrag,
-        'total_stunden': st.session_state['Gesamtstunden'].get('Gesamtstunden', {}).get('Stunden', 0),
-        'stunden_tonne': st.session_state['Gesamtstunden'].get('Stunden/Tonne', {}).get(total_stunden_tonne_col, 0),
-        'fertigung_eur': st.session_state['Gesamtstunden'].get('Fertigung EUR', {}).get(stunden_col, 0),
+        #'total_stunden': st.session_state['Gesamtstunden'].get('Gesamtstunden', {}).get('Stunden', 0),
+        #'stunden_tonne': st.session_state['Gesamtstunden'].get('Stunden/Tonne', {}).get(total_stunden_tonne_col, 0),
+        #'fertigung_eur': st.session_state['Gesamtstunden'].get('Fertigung EUR', {}).get(stunden_col, 0),
     }
 
     # Call the function to upload data to Firestore
