@@ -283,15 +283,21 @@ stunden_col = 'Stunden'
 total_stunden_tonne_col = 'Total_Stunden/Tonne'
 
 
-df1 = pd.DataFrame (
-    [
-        {"Process": "Brennen", "Eur/hour": 0, "Hour": st.session_state.deckung_data.get('Brennen_VK_0', 0)},
-        {"Process": "Schlossern", "Eur/hour": 0, "Hour": st.session_state.deckung_data.get('Schlossern_VK_0', 0)},
-        {"Process": "Schweißen", "Eur/hour": 0, "Hour": st.session_state.deckung_data.get('Schweißen_VK_0', 0)},
-        {"Process": "sonstiges", "Eur/hour": 0, "Hour": 0},
+import streamlit as st
+import pandas as pd
 
-    ]
-)
+# Define the DataFrame with the "Total" column calculated as the product of "Eur/hour" and "Hour"
+df1 = pd.DataFrame([
+    {"Process": "Brennen", "Eur/hour": 0, "Hour": st.session_state.deckung_data.get('Brennen_VK_0', 0),
+     "Total": lambda x: x['Eur/hour'] * x['Hour']},
+    {"Process": "Schlossern", "Eur/hour": 0, "Hour": st.session_state.deckung_data.get('Schlossern_VK_0', 0),
+     "Total": lambda x: x['Eur/hour'] * x['Hour']},
+    {"Process": "Schweißen", "Eur/hour": 0, "Hour": st.session_state.deckung_data.get('Schweißen_VK_0', 0),
+     "Total": lambda x: x['Eur/hour'] * x['Hour']},
+    {"Process": "sonstiges", "Eur/hour": 0, "Hour": 0, "Total": lambda x: 0},
+])
+
+
 
 with st.expander("Processing Time"):
     gewicht_value = st.session_state.deckung_data.get('Gewicht', 0)
