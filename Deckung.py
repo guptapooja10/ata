@@ -127,7 +127,11 @@ if "DB (%)" not in st.session_state:
 
 # Now 'df' is defined from the session state
 df = pd.DataFrame.from_dict(st.session_state['Material']).transpose()
-df1 = pd.DataFrame.from_dict(st.session_state['Gesamtstunden']).transpose()
+try:
+    df1 = pd.DataFrame.from_dict(st.session_state['Gesamtstunden']).transpose()
+except Exception as e:
+    print("Error:", e)
+
 
 if 'total_material_cost' not in st.session_state:
     st.session_state['total_material_cost'] = 0.0
