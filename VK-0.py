@@ -176,9 +176,9 @@ if firestore_data:
 
 dfs = pd.DataFrame(
     [
-        {"Factor1": 7.5, "Factor2": 0},
-        {"Factor1": 12, "Factor2": "MAG 135"},
-        {"Factor1": 20, "Factor2": 2.74},
+        {"No.": 1, "Factor1": 7.5, "Factor2": 0},
+        {"No.": 2, "Factor1": 12, "Factor2": "MAG 135"},
+        {"No.": 3, "Factor1": 20, "Factor2": 2.74},
     ]
 )
 
@@ -186,6 +186,7 @@ dfs = pd.DataFrame(
 # Define the expanders
 with st.expander("Faktoren Nebenzeiten"):
     edited_df = st.data_editor(dfs, num_rows="dynamic")
+
 
 with st.expander("Customer"):
     # Input fields for customer-related data
