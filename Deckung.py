@@ -155,7 +155,7 @@ if 'current_collection' not in st.session_state:
 
 collection_names = get_all_collections(db)
 
-selected_collection = st.sidebar.selectbox('Select Collection:', options=collection_names, key="Deckung")
+selected_collection = st.selectbox('Select Collection:', options=collection_names, key="Deckung")
 
 if st.session_state.current_collection != selected_collection:
     st.session_state.current_collection = selected_collection
