@@ -74,7 +74,10 @@ properties = {
     'Nahtbreite': float,
     'Blechdicke': float,
     'Drahtdurch- messer': float,
+    'Masse Drahtelektrode': float,
     'Kosten Drahtelektrode': float,
+    'benötigte Drahtrollen': float,
+'
     'Schweißzeit + Nebenzeit': float,
     'Kosten Schweißer': float,
     'Kosten SZ': float,
@@ -91,6 +94,7 @@ units = {
     'Nahtbreite': 'mm',
     'Blechdicke': 'mm',
     'Drahtdurch- messer': 'mm',
+    'Masse Drahtelektrode': 'kg',
     'Kosten Drahtelektrode': '€/kg',
     'Schweißzeit + Nebenzeit': 'h',
     'Kosten Schweißer': '€',
@@ -215,7 +219,9 @@ with st.expander("Eigenschaften"):
     st.number_input("Nahtbreite (mm)", value=float(st.session_state.vk_0_data["Nahtbreite"]) if st.session_state.vk_0_data["Nahtbreite"] != "" else 0.0)
     st.number_input("Blechdicke (mm)", value=float(st.session_state.vk_0_data["Blechdicke"]) if st.session_state.vk_0_data["Blechdicke"] != "" else 0.0)
     st.number_input("Drahtdurch- messer (mm)", value=float(st.session_state.vk_0_data["Drahtdurch- messer"]) if st.session_state.vk_0_data["Drahtdurch- messer"] != "" else 0.0)
+    st.number_input("Masse Drahtelektrode (kg)", value=float(st.session_state.vk_0_data["Masse Drahtelektrode"]) if st.session_state.vk_0_data["Masse Drahtelektrode"] != "" else 0.0)
     st.number_input("Kosten Drahtelektrode (€/kg)", value=float(st.session_state.vk_0_data["Kosten Drahtelektrode"]) if st.session_state.vk_0_data["Blechdicke"] != "" else 0.0)
+    st.number_input("benötigte Drahtrollen", value=float(st.session_state.vk_0_data["benötigte Drahtrollen"]) if st.session_state.vk_0_data["benötigte Drahtrollen"] != "" else 0.0)
     st.number_input("Schweißzeit + Nebenzeit (h)", value=float(st.session_state.vk_0_data["Schweißzeit + Nebenzeit"]) if st.session_state.vk_0_data["Schweißzeit + Nebenzeit"] != "" else 0.0)
     kosten_schweisser = st.number_input("Kosten Schweißer (€)", value=float(st.session_state.vk_0_data["Kosten Schweißer"]) if st.session_state.vk_0_data["Kosten Schweißer"] != "" else 0.0)
     kosten_sz = st.number_input("Kosten SZ (€)", value=float(st.session_state.vk_0_data["Kosten SZ"]) if st.session_state.vk_0_data["Kosten SZ"] != "" else 0.0)
