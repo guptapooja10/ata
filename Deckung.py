@@ -13,8 +13,8 @@ sac.segmented(
 
         items=[
             sac.SegmentedItem(label='Deckung', href='https://deckung.streamlit.app/'),
-            sac.SegmentedItem(label='About', href='https://aboutpage.streamlit.app/'),
-            sac.SegmentedItem(label='Sign In', href='https://credentials-page.streamlit.app/'),
+            # sac.SegmentedItem(label='About', href='https://aboutpage.streamlit.app/'),
+            # sac.SegmentedItem(label='Sign In', href='https://credentials-page.streamlit.app/'),
             sac.SegmentedItem(label='Project Instantiation', href='https://ata-app-navigator.streamlit.app/'),
             sac.SegmentedItem(label='Material List', href='https://vk-st-0.streamlit.app/'),
             sac.SegmentedItem(label='Angebot', href='https://angebot.streamlit.app/'),
@@ -60,15 +60,6 @@ deckung_properties = {
     'Erlös': float,
     'DB': float,
     'Deckungsbeitrag': float,
-    'Brennen': float,
-    'Schlossern': float,
-    'Schweißen': float,
-    'sonstiges': float,
-    'Gesamt': float,
-    'Stunden/Tonne': float,
-    'Fertigung EUR': float,
-    'Stunden': float,
-    'Total_Stunden/Tonne': float,
 }
 
 
@@ -86,15 +77,6 @@ units = {
     'Erlös': '€',
     'DB': '%',
     'Deckungsbeitrag': '€',
-    'Brennen': 'min',
-    'Schlossern': 'min',
-    'Schweißen': 'min',
-    'sonstiges': 'min',
-    'Gesamt': 'min',
-    'Stunden/Tonne': 'min',
-    'Fertigung EUR': 'min',
-    'Stunden': 'min',
-    'Total_Stunden/Tonne': 'min',
 }
 
 vk_st_0_field_mapping = {
