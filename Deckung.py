@@ -282,10 +282,6 @@ eur_hour_col = 'Eur/hour'
 stunden_col = 'Stunden'
 total_stunden_tonne_col = 'Total_Stunden/Tonne'
 
-
-import streamlit as st
-import pandas as pd
-
 # Define the DataFrame with the "Total" column calculated as the product of "Eur/hour" and "Hour"
 df1 = pd.DataFrame([
     {"Process": "Brennen", "Eur/hour": 0, "Hour": st.session_state.deckung_data.get('Brennen_VK_0', 0),
