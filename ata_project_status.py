@@ -156,7 +156,7 @@ def main():
 
     # Allow the user to select a collection using a dropdown
     # selected_collection = st.selectbox('Select Collection:', all_collections)
-    selected_collection = st.selectbox('Select Project:', collections_to_display)
+    selected_collection = st.sidebar.selectbox('Select Project:', collections_to_display)
 
     # Get all document IDs for the selected collection
     document_ids = get_all_document_ids(selected_collection)
@@ -171,7 +171,7 @@ def main():
     fields_info = get_fields_information(selected_collection, document_ids)
 
     # Allow the user to select a document ID using a dropdown
-    selected_document = st.selectbox('Select Document ID:', document_ids)
+    selected_document = st.sidebar.selectbox('Select Document ID:', document_ids)
 
     # Find the information for the selected document ID
     selected_info = next((info for info in fields_info if info['Document ID'] == selected_document), None)
