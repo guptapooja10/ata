@@ -77,7 +77,6 @@ properties = {
     'Masse Drahtelektrode': float,
     'Kosten Drahtelektrode': float,
     'benötigte Drahtrollen': float,
-'
     'Schweißzeit + Nebenzeit': float,
     'Kosten Schweißer': float,
     'Kosten SZ': float,
