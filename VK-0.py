@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 import io
-#from PIL import Image
+# from PIL import Image
 from google.cloud import firestore
 from google.oauth2 import service_account
 import streamlit_antd_components as sac
@@ -9,18 +9,17 @@ import os
 
 sac.segmented(
 
-        items=[
-            sac.SegmentedItem(label='Schweißen', href='https://ata-vk-0.streamlit.app/'),
-            sac.SegmentedItem(label='About', href='https://aboutpage.streamlit.app/'),
-            sac.SegmentedItem(label='Sign In', href='https://credentials-page.streamlit.app/'),
-            sac.SegmentedItem(label='Project Instantiation', href='https://ata-app-navigator.streamlit.app/'),
-            sac.SegmentedItem(label='Material List', href='https://vk-st-0.streamlit.app/'),
-            sac.SegmentedItem(label='Deckung', href='https://deckung.streamlit.app/'),
-            sac.SegmentedItem(label='Angebot', href='https://angebot.streamlit.app/'),
-            sac.SegmentedItem(label='Project Status', href='https://ata-project-status.streamlit.app/'), ],
-        align='end', size='sm', bg_color='transparent'
-    )
-
+    items=[
+        sac.SegmentedItem(label='Schweißen', href='https://ata-vk-0.streamlit.app/'),
+        # sac.SegmentedItem(label='About', href='https://aboutpage.streamlit.app/'),
+        # sac.SegmentedItem(label='Sign In', href='https://credentials-page.streamlit.app/'),
+        sac.SegmentedItem(label='Project Instantiation', href='https://ata-app-navigator.streamlit.app/'),
+        sac.SegmentedItem(label='Material List', href='https://vk-st-0.streamlit.app/'),
+        sac.SegmentedItem(label='Deckung', href='https://deckung.streamlit.app/'),
+        sac.SegmentedItem(label='Angebot', href='https://angebot.streamlit.app/'),
+        sac.SegmentedItem(label='Project Status', href='https://ata-project-status.streamlit.app/'), ],
+    align='end', size='sm', bg_color='transparent'
+)
 
 # navigation_bar()
 
@@ -52,8 +51,8 @@ def upload_data_to_firestore(db, collection_name, document_id, data):
     st.success("Data uploaded successfully!")
 
 
-#image = Image.open('logo_ata.png')
-#st.image(image, caption='Ata Logo', use_column_width=True)
+# image = Image.open('logo_ata.png')
+# st.image(image, caption='Ata Logo', use_column_width=True)
 
 # Define data types and properties
 properties = {
@@ -185,12 +184,9 @@ dfs = pd.DataFrame(
     ]
 )
 
-
 # Define the expanders
 with st.expander("Faktoren Nebenzeiten"):
     edited_df = st.data_editor(dfs, num_rows="dynamic")
-
-
 
 with st.expander("Customer"):
     # Input fields for customer-related data
@@ -203,32 +199,59 @@ with st.expander("Schweißnahtberechnung"):
     # Input fields for processing times
     st.number_input("Brennen (min)", value=float(st.session_state.vk_0_data["Brennen"]))
     st.number_input("Richten (min)", value=float(st.session_state.vk_0_data["Richten"]))
-    st.number_input("Heften_Zussamenb_Verputzen (min)", value=float(st.session_state.vk_0_data["Heften_Zussamenb_Verputzen"]))
+    st.number_input("Heften_Zussamenb_Verputzen (min)",
+                    value=float(st.session_state.vk_0_data["Heften_Zussamenb_Verputzen"]))
     st.number_input("Anzeichnen (min)", value=float(st.session_state.vk_0_data["Anzeichnen"]))
     st.number_input("Schweißen (min)", value=float(st.session_state.vk_0_data["Schweißen"]))
 
 weld_names = ["Kehlnaht", "HV 40°", "HV40/15", "HV45°", "HV45°/15", "V 45°", "V60°", "Schrägen"]
 
 with st.expander("Eigenschaften"):
-    st.number_input("Schweißnahtnummer", value=float(st.session_state.vk_0_data["Schweißnahtnummer"]) if st.session_state.vk_0_data["Schweißnahtnummer"] != "" else 0.0)
-    st.selectbox("Schweißnaht", options=weld_names, index=weld_names.index(st.session_state.vk_0_data["Schweißnaht"]) if st.session_state.vk_0_data["Schweißnaht"] in weld_names else 0)
+    st.number_input("Schweißnahtnummer",
+                    value=float(st.session_state.vk_0_data["Schweißnahtnummer"]) if st.session_state.vk_0_data[
+                                                                                        "Schweißnahtnummer"] != "" else 0.0)
+    st.selectbox("Schweißnaht", options=weld_names,
+                 index=weld_names.index(st.session_state.vk_0_data["Schweißnaht"]) if st.session_state.vk_0_data[
+                                                                                          "Schweißnaht"] in weld_names else 0)
     st.text_input("Positionsnummer", value=st.session_state.vk_0_data["Positionsnummer"])
     st.text_input("Lage", value=st.session_state.vk_0_data["Lage"])
-    st.number_input("Nahtlänge (mm)", value=float(st.session_state.vk_0_data["Nahtlänge"]) if st.session_state.vk_0_data["Nahtlänge"] != "" else 0.0)
-    st.number_input("Nahtbreite (mm)", value=float(st.session_state.vk_0_data["Nahtbreite"]) if st.session_state.vk_0_data["Nahtbreite"] != "" else 0.0)
-    st.number_input("Blechdicke (mm)", value=float(st.session_state.vk_0_data["Blechdicke"]) if st.session_state.vk_0_data["Blechdicke"] != "" else 0.0)
-    st.number_input("Drahtdurch- messer (mm)", value=float(st.session_state.vk_0_data["Drahtdurch- messer"]) if st.session_state.vk_0_data["Drahtdurch- messer"] != "" else 0.0)
-    st.number_input("Masse Drahtelektrode (kg)", value=float(st.session_state.vk_0_data["Masse Drahtelektrode"]) if st.session_state.vk_0_data["Masse Drahtelektrode"] != "" else 0.0)
-    st.number_input("Kosten Drahtelektrode (€/kg)", value=float(st.session_state.vk_0_data["Kosten Drahtelektrode"]) if st.session_state.vk_0_data["Blechdicke"] != "" else 0.0)
-    st.number_input("benötigte Drahtrollen", value=float(st.session_state.vk_0_data["benötigte Drahtrollen"]) if st.session_state.vk_0_data["benötigte Drahtrollen"] != "" else 0.0)
-    st.number_input("Schweißzeit + Nebenzeit (h)", value=float(st.session_state.vk_0_data["Schweißzeit + Nebenzeit"]) if st.session_state.vk_0_data["Schweißzeit + Nebenzeit"] != "" else 0.0)
-    kosten_schweisser = st.number_input("Kosten Schweißer (€)", value=float(st.session_state.vk_0_data["Kosten Schweißer"]) if st.session_state.vk_0_data["Kosten Schweißer"] != "" else 0.0)
-    kosten_sz = st.number_input("Kosten SZ (€)", value=float(st.session_state.vk_0_data["Kosten SZ"]) if st.session_state.vk_0_data["Kosten SZ"] != "" else 0.0)
+    st.number_input("Nahtlänge (mm)",
+                    value=float(st.session_state.vk_0_data["Nahtlänge"]) if st.session_state.vk_0_data[
+                                                                                "Nahtlänge"] != "" else 0.0)
+    st.number_input("Nahtbreite (mm)",
+                    value=float(st.session_state.vk_0_data["Nahtbreite"]) if st.session_state.vk_0_data[
+                                                                                 "Nahtbreite"] != "" else 0.0)
+    st.number_input("Blechdicke (mm)",
+                    value=float(st.session_state.vk_0_data["Blechdicke"]) if st.session_state.vk_0_data[
+                                                                                 "Blechdicke"] != "" else 0.0)
+    st.number_input("Drahtdurch- messer (mm)",
+                    value=float(st.session_state.vk_0_data["Drahtdurch- messer"]) if st.session_state.vk_0_data[
+                                                                                         "Drahtdurch- messer"] != "" else 0.0)
+    Masse_Drahtelektrode = st.number_input("Masse Drahtelektrode (kg)",
+                    value=float(st.session_state.vk_0_data["Masse Drahtelektrode"]) if st.session_state.vk_0_data[
+                                                                                           "Masse Drahtelektrode"] != "" else 0.0)
+    Kosten_Drahtelektrode = st.number_input("Kosten Drahtelektrode (€/kg)",
+                    value=float(st.session_state.vk_0_data["Kosten Drahtelektrode"]) if st.session_state.vk_0_data[
+                                                                                            "Kosten Drahtelektrode"] != "" else 0.0)
+    benötigte_Drahtrollen = st.number_input("benötigte Drahtrollen",
+                    value=float(st.session_state.vk_0_data["benötigte Drahtrollen"]) if st.session_state.vk_0_data[
+                                                                                            "benötigte Drahtrollen"] != "" else 0.0)
+    st.number_input("Schweißzeit + Nebenzeit (h)",
+                    value=float(st.session_state.vk_0_data["Schweißzeit + Nebenzeit"]) if st.session_state.vk_0_data[
+                                                                                              "Schweißzeit + Nebenzeit"] != "" else 0.0)
+    kosten_schweisser = st.number_input("Kosten Schweißer (€)",
+                                        value=float(st.session_state.vk_0_data["Kosten Schweißer"]) if
+                                        st.session_state.vk_0_data["Kosten Schweißer"] != "" else 0.0)
+
+    kostensz_value = Kosten_Drahtelektrode * benötigte_Drahtrollen * Masse_Drahtelektrode
+    st.session_state.vk_0_data["Kosten SZ"] = kostensz_value
+    kosten_sz = st.number_input("Kosten SZ (€)", value=kostensz_value)
     gesamtkosten_value = kosten_schweisser + kosten_sz
 
     st.session_state.vk_0_data["Gesamtkosten"] = gesamtkosten_value
     # Display the calculated "Gesamtkosten" value
     gesamtkosten_input = st.number_input("Gesamtkosten(€) / Stück", value=gesamtkosten_value)
+
 
 def perform_calculations(data):
     # Convert relevant fields to numeric type
