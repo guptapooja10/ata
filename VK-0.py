@@ -299,11 +299,11 @@ if st.button("Download JSON"):
 if st.button("Upload to Database"):
     # Extract the user input data
     user_input_data = {
-        'Brennen': st.session_state.vk_0_data['Brennen (min)'],
-        'Richten': st.session_state.vk_0_data['Richten (min)'],
-        'Heften_Zussamenb_Verputzen': st.session_state.vk_0_data['Heften_Zussamenb_Verputzen (min)'],
-        'Anzeichnen': st.session_state.vk_0_data['Anzeichnen (min)'],
-        'Schweißen': st.session_state.vk_0_data['Schweißen (min)'],
+        'Brennen': st.session_state.vk_0_data['Brennen'],
+        'Richten': st.session_state.vk_0_data['Richten'],
+        'Heften_Zussamenb_Verputzen': st.session_state.vk_0_data['Heften_Zussamenb_Verputzen'],
+        'Anzeichnen': st.session_state.vk_0_data['Anzeichnen'],
+        'Schweißen': st.session_state.vk_0_data['Schweißen'],
     }
 
     # Perform calculations on the input data
