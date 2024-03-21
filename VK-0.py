@@ -163,7 +163,7 @@ if firestore_data:
 col1, col2, col3 = st.columns(3)
 
 expander_properties_1 = ["Brennen", "Richten", "Heften_Zussamenb_Verputzen", "Anzeichnen", "Schweißen"]
-expander_properties_2 = ["Kunde", "Gegenstand", "Zeichnungs-Nr.", "Ausführen Nr."]
+# expander_properties_2 = ["Kunde", "Gegenstand", "Zeichnungs-Nr.", "Ausführen Nr."]
 
 with col1.expander("Schweißnahtberechnung"):
     for prop in expander_properties_1:
@@ -171,9 +171,9 @@ with col1.expander("Schweißnahtberechnung"):
         unique_key = f"expander1_{prop}"  # Unique key for expander text inputs
         st.session_state.vk_0_data[prop] = st.text_input(prompt, value=st.session_state.vk_0_data.get(prop, ''), key=unique_key).strip()
 
-with col1.expander("Customers"):
-    for prop in expander_properties_2:
-        st.write(f"{prop}: {st.session_state.data.get(prop, '')}")
+# with col1.expander("Customers"):
+#     for prop in expander_properties_2:
+#         st.write(f"{prop}: {st.session_state.data.get(prop, '')}")
 
 props = list(properties.keys())
 props_col1 = props[:len(props) // 3]
@@ -181,7 +181,7 @@ props_col2 = props[len(props) // 3: 2 * len(props) // 3]
 props_col3 = props[2 * len(props) // 3:]
 
 for prop in props_col1:
-    if prop not in expander_properties_1 and prop not in expander_properties_2:
+    if prop not in expander_properties_1:
         prompt = f"{prop} ({units.get(prop, '')})"
         unique_key = f"col1_{prop}"  # Unique key for col1 text inputs
         st.session_state.vk_0_data[prop] = col1.text_input(prompt, value=st.session_state.vk_0_data.get(prop, ''), key=unique_key).strip()
