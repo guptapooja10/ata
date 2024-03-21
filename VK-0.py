@@ -162,9 +162,10 @@ if firestore_data:
 
 col1, col2, col3 = st.columns(3)
 
-props_col1 = list(properties.keys())[:len(properties) // 3]
-props_col2 = list(properties.keys())[len(properties) // 3]
-props_col3 = list(properties.keys())[len(properties) // 3:]
+props = list(properties.keys())
+props_col1 = props[:len(props) // 3]
+props_col2 = props[len(props) // 3: 2 * len(props) // 3]
+props_col3 = props[2 * len(props) // 3:]
 
 for prop in props_col1:
     prompt = f"{prop} ({units.get(prop, '')})"
