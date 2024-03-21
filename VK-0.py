@@ -297,8 +297,21 @@ if st.button("Download JSON"):
 
 if st.button("Upload to Database"):
     # Extract the user input data
-    user_input_data = {prop: st.session_state.vk_0_data[prop] for prop in properties if
-                       prop not in ['Kunde', 'Gegenstand', 'Zeichnungs- Nr.', 'Ausführen Nr.']}
+    user_input_data = {}
+
+    # Extract data from input fields outside expanders
+    for prop in properties:
+        if prop not in ['Kunde', 'Gegenstand', 'Zeichnungs- Nr.', 'Ausführen Nr.']:
+            user_input_data[prop] = st.session_state.vk_0_data[prop]
+
+    # Extract data from input fields within the "Schweißnahtberechnung" expander
+    user_input_data.update({
+        "Brennen": st.session_state.vk_0_data.get("Brennen", 0.0),
+        "Richten": st.session_state.vk_0_data.get("Richten", 0.0),
+        "Heften_Zussamenb_Verputzen": st.session_state.vk_0_data.get("Heften_Zussamenb_Verputzen", 0.0),
+        "Anzeichnen": st.session_state.vk_0_data.get("Anzeichnen", 0.0),
+        "Schweißen": st.session_state.vk_0_data.get("Schweißen", 0.0),
+    })
 
     # Perform calculations on the input data
     user_input_data_calculated = perform_calculations(user_input_data)
@@ -307,5 +320,6 @@ if st.button("Upload to Database"):
     upload_data_to_firestore(db, selected_collection, 'VK-0', user_input_data_calculated)
 
     st.success("Data uploaded successfully!")
+
 
 
