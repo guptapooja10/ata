@@ -302,7 +302,7 @@ with st.expander("Processing Time"):
         # Perform the calculations
         gesamtstunden = df1["Hour"].sum()  # Sum of hours for all processes
         stunden_tonne = gesamtstunden / gewicht_value * 1000  # Hours per tonne
-        total_time = df1["Eur/hour"] * df1["Hour"]
+        #total_time = df1["Eur/hour"] * df1["Hour"]
         #df1["Total"] = df1["Eur/hour"] * df1["Hour"]
 
         # Update the displayed DataFrame
@@ -312,7 +312,7 @@ with st.expander("Processing Time"):
         # Update the input fields with the calculated values
         st.session_state.deckung_data["Gesamtstunden"] = gesamtstunden
         st.session_state.deckung_data["Stunden / Tonne"] = stunden_tonne
-        st.session_state.deckung_data["Total"] = total_time
+        #st.session_state.deckung_data["Total"] = total_time
 
         # Display the calculated results
         st.text_input("Gesamtstunden", value=gesamtstunden)
