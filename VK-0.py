@@ -65,6 +65,21 @@ properties = {
     'Heften_Zussamenb_Verputzen': float,
     'Anzeichnen': float,
     'Schweißen': float,
+    'Schweißnahtnummer': float,
+    'Schweißnaht': str,
+    'Positionsnummer': str,
+    'Lage': str,
+    'Nahtlänge': float,
+    'Nahtbreite': float,
+    'Blechdicke': float,
+    'Drahtdurch- messer': float,
+    'Masse Drahtelektrode': float,
+    'Kosten Drahtelektrode': float,
+    'benötigte Drahtrollen': float,
+    'Schweißzeit + Nebenzeit': float,
+    'Kosten Schweißer': float,
+    'Kosten SZ': float,
+    'Gesamtkosten': float,
 }
 
 units = {
@@ -73,6 +88,16 @@ units = {
     'Heften_Zussamenb_Verputzen': 'min',
     'Anzeichnen': 'min',
     'Schweißen': 'min',
+    'Nahtlänge': 'mm',
+    'Nahtbreite': 'mm',
+    'Blechdicke': 'mm',
+    'Drahtdurch- messer': 'mm',
+    'Masse Drahtelektrode': 'kg',
+    'Kosten Drahtelektrode': '€/kg',
+    'Schweißzeit + Nebenzeit': 'h',
+    'Kosten Schweißer': '€',
+    'Kosten SZ': '€',
+    'Gesamtkosten': '€ / Stück',
 }
 
 field_mapping = {
