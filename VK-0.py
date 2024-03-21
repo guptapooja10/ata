@@ -169,7 +169,6 @@ if firestore_data:
 col1, col2, col3 = st.columns(3)
 
 expander_properties_1 = ["Brennen", "Richten", "Heften_Zussamenb_Verputzen", "Anzeichnen", "Schweißen"]
-#expander_properties_2 = ["Kunde", "Gegenstand", "Zeichnungs-Nr.", "Ausführen Nr."]
 
 with col1.expander("Schweißnahtberechnung"):
     for prop in expander_properties_1:
@@ -177,6 +176,12 @@ with col1.expander("Schweißnahtberechnung"):
         unique_key = f"expander1_{prop}"  # Unique key for expander text inputs
         st.session_state.vk_0_data[prop] = st.text_input(prompt, value=st.session_state.vk_0_data.get(prop, ''), key=unique_key).strip()
 
+with col2.expander("Eigenschaften 1"):
+    expander_properties_2 = ["Schweißnahtnummer", "Schweißnaht", "Positionsnummer", "Lage", "Nahtlänge", "Nahtbreite", "Blechdicke", "Drahtdurchmesser", "Masse Drahtelektrode"]
+    for prop in expander_properties_2:
+        prompt = f"{prop} ({units.get(prop, '')})"
+        unique_key = f"expander2_{prop}"  # Unique key for expander text inputs
+        st.session_state.vk_0_data[prop] = st.text_input(prompt, value=st.session_state.vk_0_data.get(prop, ''), key=unique_key).strip()
 
 props = list(properties.keys())
 props_col1 = props[:len(props) // 3]
@@ -193,7 +198,7 @@ for prop in props_col1:
 for prop in props_col2:
     if prop == "Schweißnaht":
         # Dropdown options for Schweißnaht
-        weld_types = ["Type 1", "Type 2", "Type 3"]  # Replace with your actual options
+        weld_types = ["Kehlnaht", "HV 40°", "HV40/15", "HV45°", "HV45°/15", "V 45°", "V60°", "Schrägen"]
         default_value = st.session_state.vk_0_data.get(prop, '')
         if default_value not in weld_types:
             default_value = weld_types[0]  # Set default value if stored value not found
