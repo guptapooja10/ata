@@ -192,6 +192,13 @@ with col2.expander("Eigenschaften 1"):
             unique_key = f"expander2_{prop}"  # Unique key for expander text inputs
             st.session_state.vk_0_data[prop] = st.text_input(prompt, value=st.session_state.vk_0_data.get(prop, ''), key=unique_key).strip()
 
+with col3.expander("Eigenschaften 2"):
+    expander_properties_3 = ["Stundensatz Schweißer", "Kosten Drahtelektrode", "benötigte Drahtrollen", "Schweißzeit gesamt", "Nebenzeit", "Schweißzeit + Nebenzeit", "Kosten Schweißer", "Kosten SZ", "Gesamtkosten"]
+    for prop in expander_properties_3:
+        prompt = f"{prop} ({units.get(prop, '')})"
+        unique_key = f"expander3_{prop}"  # Unique key for expander text inputs
+        st.session_state.vk_0_data[prop] = st.text_input(prompt, value=st.session_state.vk_0_data.get(prop, ''), key=unique_key).strip()
+
 # Define props_col3
 props = list(properties.keys())
 props_col1 = props[:len(props) // 3]
