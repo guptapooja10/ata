@@ -302,22 +302,14 @@ with st.expander("Processing Time"):
         # Perform the calculations
         gesamtstunden = df1["Hour"].sum()  # Sum of hours for all processes
         stunden_tonne = gesamtstunden / gewicht_value * 1000  # Hours per tonne
-        #total_time = df1["Eur/hour"] * df1["Hour"]
-        #df1["Total"] = df1["Eur/hour"] * df1["Hour"]
-
-        # Update the displayed DataFrame
-        #edited_df = st.data_editor(df1, num_rows="dynamic")
-
-
-        # Update the input fields with the calculated values
+        df1["Fertigung_EUR"] = df1["Eur/hour"] * df1["Hour"]  # Calculate Fertigung_EUR
+        fertigung_eur_total = df1["Fertigung_EUR"].sum()  # Sum of Fertigung_EUR
         st.session_state.deckung_data["Gesamtstunden"] = gesamtstunden
         st.session_state.deckung_data["Stunden / Tonne"] = stunden_tonne
-        #st.session_state.deckung_data["Total"] = total_time
-
         # Display the calculated results
         st.text_input("Gesamtstunden", value=gesamtstunden)
         st.text_input("Stunden / Tonne", value=stunden_tonne)
-        #st.text_input("Total", value=total_time)
+        st.text_input("Fertigung_EUR_Total", value=fertigung_eur_total)
 
 # Create an expander for 'Grenzkosten'
 with st.expander("Grenzkosten"):
