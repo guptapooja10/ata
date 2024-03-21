@@ -317,7 +317,7 @@ with st.expander("Processing Time"):
         # Display the calculated results
         st.text_input("Gesamtstunden", value=gesamtstunden)
         st.text_input("Stunden / Tonne", value=stunden_tonne)
-        st.text_input("Total", value=total_time)
+        #st.text_input("Total", value=total_time)
 
 # Create an expander for 'Grenzkosten'
 with st.expander("Grenzkosten"):
