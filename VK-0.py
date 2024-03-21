@@ -170,6 +170,7 @@ col1, col2, col3 = st.columns(3)
 
 expander_properties_1 = ["Brennen", "Richten", "Heften_Zussamenb_Verputzen", "Anzeichnen", "Schweißen"]
 expander_properties_2 = ["Schweißzeit gesamt", "Nebenzeit", "Stundensatz Schweißer", "Schweißzeit + Nebenzeit", "Kosten Schweißer"]
+expander_properties_3 = ["Schweißnahtnummer", "Schweißnaht", "Positionsnummer", "Lage", "Nahtlänge", "Nahtbreite", "Blechdicke"]
 
 with col1.expander("Schweißnahtberechnung"):
     for prop in expander_properties_1:
@@ -177,16 +178,20 @@ with col1.expander("Schweißnahtberechnung"):
         unique_key = f"expander1_{prop}"  # Unique key for expander text inputs
         st.session_state.vk_0_data[prop] = st.text_input(prompt, value=st.session_state.vk_0_data.get(prop, ''), key=unique_key).strip()
 
-with col2.expander("Eigenschaften 1"):
+with col2.expander("Eigenschaften 2"):
     for prop in expander_properties_2:
         prompt = f"{prop} ({units.get(prop, '')})"
-        unique_key = f"expander1_{prop}"  # Unique key for expander text inputs
+        unique_key = f"expander2_{prop}"  # Unique key for expander text inputs
         st.session_state.vk_0_data[prop] = st.text_input(prompt, value=st.session_state.vk_0_data.get(prop, ''), key=unique_key).strip()
 
 
-# with col1.expander("Customers"):
-#     for prop in expander_properties_2:
-#         st.write(f"{prop}: {st.session_state.data.get(prop, '')}")
+with col1.expander("Eigenschaften 3"):
+    for prop in expander_properties_3:
+        prompt = f"{prop} ({units.get(prop, '')})"
+        unique_key = f"expander3_{prop}"  # Unique key for expander text inputs
+        st.session_state.vk_0_data[prop] = st.text_input(prompt, value=st.session_state.vk_0_data.get(prop, ''), key=unique_key).strip()
+
+
 
 props = list(properties.keys())
 props_col1 = props[:len(props) // 3]
@@ -201,9 +206,9 @@ for prop in props_col1:
 
 # Iterate over props_col2 and props_col3 (similar to your existing code)
 for prop in props_col2:
-    if prop not in expander_properties_1:
+    if prop not in expander_properties_2:
         prompt = f"{prop} ({units.get(prop, '')})"
-        unique_key = f"col1_{prop}"  # Unique key for col1 text inputs
+        unique_key = f"col2_{prop}"  # Unique key for col1 text inputs
         st.session_state.vk_0_data[prop] = col1.text_input(prompt, value=st.session_state.vk_0_data.get(prop, ''), key=unique_key).strip()
 
     if prop == "Schweißnaht":
@@ -220,9 +225,12 @@ for prop in props_col2:
         st.session_state.vk_0_data[prop] = col2.text_input(prompt, value=st.session_state.vk_0_data.get(prop, ''), key=unique_key).strip()
 
 for prop in props_col3:
-    prompt = f"{prop} ({units.get(prop, '')})"
-    unique_key = f"col3_{prop}"  # Unique key for col3 text inputs
-    st.session_state.vk_0_data[prop] = col3.text_input(prompt, value=st.session_state.vk_0_data.get(prop, ''), key=unique_key).strip()
+    if prop not in expander_properties_3:
+        prompt = f"{prop} ({units.get(prop, '')})"
+        unique_key = f"col3_{prop}"  # Unique key for col3 text inputs
+        st.session_state.vk_0_data[prop] = col3.text_input(prompt, value=st.session_state.vk_0_data.get(prop, ''),
+                                                           key=unique_key).strip()
+
 
 def perform_calculations(data):
     # Convert relevant fields to numeric type
