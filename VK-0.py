@@ -300,7 +300,8 @@ if st.button("Upload to Database"):
     user_input_data = {prop: st.session_state.vk_0_data[prop] for prop in properties if
                        prop not in ['Kunde', 'Gegenstand', 'Zeichnungs- Nr.', 'Ausführen Nr.']}
 
-    # Update the user input data with the new values for Brennen, Richten, Heften_Zussamenb_Verputzen, Anzeichnen, and Schweißen
+    # Update the user input data with the new values for Brennen, Richten, Heften_Zussamenb_Verputzen, Anzeichnen,
+    # and Schweißen
     user_input_data['Brennen'] = st.session_state.vk_0_data['Brennen (min)']
     user_input_data['Richten'] = st.session_state.vk_0_data['Richten (min)']
     user_input_data['Heften_Zussamenb_Verputzen'] = st.session_state.vk_0_data['Heften_Zussamenb_Verputzen (min)']
