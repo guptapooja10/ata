@@ -300,6 +300,7 @@ with st.expander("Processing Time"):
         # Perform the calculations
         gesamtstunden = df1["Hour"].sum()  # Sum of hours for all processes
         stunden_tonne = gesamtstunden / gewicht_value * 1000  # Hours per tonne
+
         #df1["Fertigung_EUR"] = df1["Eur/hour"] * df1["Hour"]  # Calculate Fertigung_EUR
         fertigung_eur_total = df1["Fertigung_EUR"].sum()  # Sum of Fertigung_EUR
         st.session_state.deckung_data["Gesamtstunden"] = gesamtstunden
@@ -345,7 +346,7 @@ with st.expander("Grenzkosten"):
 combined_data = {
     **st.session_state.deckung_data,  # Project and Product Details
     **st.session_state['Material'],  # Material Cost Details
-    # **st.session_state['Gesamtstunden'],
+    **st.session_state['Gesamtstunden'],
     'Erlös': st.session_state.erlos,
     'DB (%)': st.session_state.db_percentage,
     'Deckungsbeitrag': st.session_state.deckungsbeitrag,
