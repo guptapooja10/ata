@@ -283,30 +283,33 @@ eur_hour_col = 'Eur/hour'
 stunden_col = 'Stunden'
 total_stunden_tonne_col = 'Total_Stunden/Tonne'
 
-df1 = pd.DataFrame(columns=["Process", "Eur/hour", "Hour"])
+# Define the DataFrame with the "Total" column calculated as the product of "Eur/hour" and "Hour"
+df1 = pd.DataFrame([
+    {"Process": "Brennen", "Eur/hour": 0, "Hour": st.session_state.deckung_data.get('Brennen_VK_0', 0)},
+    {"Process": "Schlossern", "Eur/hour": 0, "Hour": st.session_state.deckung_data.get('Schlossern_VK_0', 0)},
+    {"Process": "Schweißen", "Eur/hour": 0, "Hour": st.session_state.deckung_data.get('Schweißen_VK_0', 0)},
+    {"Process": "sonstiges", "Eur/hour": 0, "Hour": 0},
+])
+
+
 
 with st.expander("Processing Time"):
     gewicht_value = st.session_state.deckung_data.get('Gewicht', 0)
     st.text_input("Gewicht", value=st.session_state.deckung_data["Gewicht"])
-    edited_df = st.dataframe(df1)
-
-    if st.button("Add Process"):
-        df1.loc[len(df1)] = ["", 0, 0]
+    edited_df = st.data_editor(df1, num_rows="dynamic")
 
     if st.button("Calculate Total Time"):
+        # Perform the calculations
         gesamtstunden = df1["Hour"].sum()  # Sum of hours for all processes
         stunden_tonne = gesamtstunden / gewicht_value * 1000  # Hours per tonne
-        df1["Fertigung_EUR"] = df1["Eur/hour"] * df1["Hour"]  # Calculate Fertigung_EUR
+        #df1["Fertigung_EUR"] = df1["Eur/hour"] * df1["Hour"]  # Calculate Fertigung_EUR
         fertigung_eur_total = df1["Fertigung_EUR"].sum()  # Sum of Fertigung_EUR
         st.session_state.deckung_data["Gesamtstunden"] = gesamtstunden
         st.session_state.deckung_data["Stunden / Tonne"] = stunden_tonne
         # Display the calculated results
         st.text_input("Gesamtstunden", value=gesamtstunden)
         st.text_input("Stunden / Tonne", value=stunden_tonne)
-        st.text_input("Fertigung_EUR_Total", value=fertigung_eur_total)
-
-        # Display the updated dataframe with Fertigung_EUR column
-        st.dataframe(df1)
+        #st.text_input("Fertigung_EUR_Total", value=fertigung_eur_total)
 
 
 # Create an expander for 'Grenzkosten'
