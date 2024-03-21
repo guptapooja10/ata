@@ -192,8 +192,13 @@ with col2.expander("Eigenschaften 1"):
             unique_key = f"expander2_{prop}"  # Unique key for expander text inputs
             st.session_state.vk_0_data[prop] = st.text_input(prompt, value=st.session_state.vk_0_data.get(prop, ''), key=unique_key).strip()
 
-# Remove the loop for props_col2 as we're handling the input of "Schweißnaht" separately
-# Iterate over props_col3 (similar to your existing code)
+# Define props_col3
+props = list(properties.keys())
+props_col1 = props[:len(props) // 3]
+props_col2 = props[len(props) // 3: 2 * len(props) // 3]
+props_col3 = props[2 * len(props) // 3:]
+
+# Iterate over props_col3
 for prop in props_col3:
     prompt = f"{prop} ({units.get(prop, '')})"
     unique_key = f"col3_{prop}"  # Unique key for col3 text inputs
