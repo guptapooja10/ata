@@ -297,14 +297,16 @@ if st.button("Download JSON"):
 
 
 if st.button("Upload to Database"):
+    # Update session state data with values from the input fields inside expanders
+    st.session_state.vk_0_data['Brennen'] = st.session_state.vk_0_data['Brennen (min)']
+    st.session_state.vk_0_data['Richten'] = st.session_state.vk_0_data['Richten (min)']
+    st.session_state.vk_0_data['Heften_Zussamenb_Verputzen'] = st.session_state.vk_0_data['Heften_Zussamenb_Verputzen (min)']
+    st.session_state.vk_0_data['Anzeichnen'] = st.session_state.vk_0_data['Anzeichnen (min)']
+    st.session_state.vk_0_data['Schweißen'] = st.session_state.vk_0_data['Schweißen (min)']
+
     # Extract the user input data
-    user_input_data = {
-        'Brennen': st.session_state.vk_0_data['Brennen'],
-        'Richten': st.session_state.vk_0_data['Richten'],
-        'Heften_Zussamenb_Verputzen': st.session_state.vk_0_data['Heften_Zussamenb_Verputzen'],
-        'Anzeichnen': st.session_state.vk_0_data['Anzeichnen'],
-        'Schweißen': st.session_state.vk_0_data['Schweißen'],
-    }
+    user_input_data = {prop: st.session_state.vk_0_data[prop] for prop in properties if
+                       prop not in ['Kunde', 'Gegenstand', 'Zeichnungs- Nr.', 'Ausführen Nr.']}
 
     # Perform calculations on the input data
     user_input_data_calculated = perform_calculations(user_input_data)
