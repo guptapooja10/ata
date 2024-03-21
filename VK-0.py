@@ -116,7 +116,7 @@ if 'current_collection' not in st.session_state:
 # Display a select box with all collection names
 collection_names = get_all_collections(db)
 # Update session state with selected collection
-selected_collection = st.selectbox('Select Collection:', options=collection_names)
+selected_collection = st.sidebar.selectbox('Select Collection:', options=collection_names)
 firestore_data = {}
 details_data = {}
 vk_0_data = {}
