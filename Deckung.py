@@ -300,8 +300,8 @@ with st.expander("Processing_Time"):
         stunden_tonne = gesamtstunden / gewicht_value * 1000  # Hours per tonne
 
         # df1["Fertigung_EUR"] = df1["Eur/hour"] * df1["Hour"]  # Calculate Fertigung_EUR
-        fertigung_eur_total = df1["Fertigung_EUR"].sum()  # Sum of Fertigung_EUR
-        st.session_state.deckung_data["Gesamtstunden"] = gesamtstunden
+        # fertigung_eur_total = df1["Fertigung_EUR"].sum()  # Sum of Fertigung_EUR
+        # st.session_state.deckung_data["Gesamtstunden"] = gesamtstunden
         st.session_state.deckung_data["Stunden / Tonne"] = stunden_tonne
         # Display the calculated results
         st.text_input("Gesamtstunden", value=gesamtstunden)
