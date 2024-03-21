@@ -160,10 +160,11 @@ if firestore_data:
             firestore_field = 'Benennung'
         st.session_state.vk_0_data[app_field] = firestore_data.get(firestore_field, "")
 
-col1, col2 = st.columns(2)
+col1, col2, col3 = st.columns(3)
 
-props_col1 = list(properties.keys())[:len(properties) // 2]
-props_col2 = list(properties.keys())[len(properties) // 2:]
+props_col1 = list(properties.keys())[:len(properties) // 3]
+props_col2 = list(properties.keys())[len(properties) // 3]
+props_col3 = list(properties.keys())[len(properties) // 3:]
 
 for prop in props_col1:
     prompt = f"{prop} ({units.get(prop, '')})"
@@ -175,6 +176,10 @@ for prop in props_col2:
     # Use the session state data to populate the fields
     st.session_state.vk_0_data[prop] = col2.text_input(prompt, value=st.session_state.vk_0_data[prop]).strip()
 
+for prop in props_col3:
+    prompt = f"{prop} ({units.get(prop, '')})"
+    # Use the session state data to populate the fields
+    st.session_state.vk_0_data[prop] = col3.text_input(prompt, value=st.session_state.vk_0_data[prop]).strip()
 
 def perform_calculations(data):
     # Convert relevant fields to numeric type
