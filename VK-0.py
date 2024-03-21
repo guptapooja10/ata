@@ -167,7 +167,8 @@ expander_properties = ["Brennen", "Richten", "Heften_Zussamenb_Verputzen", "Anze
 with col1.expander("Schweißnahtberechnung"):
     for prop in expander_properties:
         prompt = f"{prop} ({units.get(prop, '')})"
-        st.session_state.vk_0_data[prop] = st.text_input(prompt, value=st.session_state.vk_0_data.get(prop, '')).strip()
+        unique_key = f"expander_{prop}"  # Unique key for expander text inputs
+        st.session_state.vk_0_data[prop] = st.text_input(prompt, value=st.session_state.vk_0_data.get(prop, ''), key=unique_key).strip()
 
 props = list(properties.keys())
 props_col1 = props[:len(props) // 3]
@@ -177,7 +178,8 @@ props_col3 = props[2 * len(props) // 3:]
 for prop in props_col1:
     if prop not in expander_properties:
         prompt = f"{prop} ({units.get(prop, '')})"
-        st.session_state.vk_0_data[prop] = col1.text_input(prompt, value=st.session_state.vk_0_data.get(prop, '')).strip()
+        unique_key = f"col1_{prop}"  # Unique key for col1 text inputs
+        st.session_state.vk_0_data[prop] = col1.text_input(prompt, value=st.session_state.vk_0_data.get(prop, ''), key=unique_key).strip()
 
 # Iterate over props_col2 and props_col3 (similar to your existing code)
 for prop in props_col2:
@@ -191,11 +193,13 @@ for prop in props_col2:
         st.session_state.vk_0_data[prop] = selected_weld_type
     else:
         prompt = f"{prop} ({units.get(prop, '')})"
-        st.session_state.vk_0_data[prop] = col2.text_input(prompt, value=st.session_state.vk_0_data.get(prop, '')).strip()
+        unique_key = f"col2_{prop}"  # Unique key for col2 text inputs
+        st.session_state.vk_0_data[prop] = col2.text_input(prompt, value=st.session_state.vk_0_data.get(prop, ''), key=unique_key).strip()
 
 for prop in props_col3:
     prompt = f"{prop} ({units.get(prop, '')})"
-    st.session_state.vk_0_data[prop] = col3.text_input(prompt, value=st.session_state.vk_0_data.get(prop, '')).strip()
+    unique_key = f"col3_{prop}"  # Unique key for col3 text inputs
+    st.session_state.vk_0_data[prop] = col3.text_input(prompt, value=st.session_state.vk_0_data.get(prop, ''), key=unique_key).strip()
 
 def perform_calculations(data):
     # Convert relevant fields to numeric type
