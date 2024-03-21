@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 import io
-# from PIL import Image
+from PIL import Image
 from google.cloud import firestore
 from google.oauth2 import service_account
 import streamlit_antd_components as sac
@@ -21,7 +21,7 @@ sac.segmented(
     align='end', size='sm', bg_color='transparent'
 )
 
-# navigation_bar()
+
 
 key_dict = st.secrets["textkey"]
 creds = service_account.Credentials.from_service_account_info(key_dict)
@@ -51,8 +51,8 @@ def upload_data_to_firestore(db, collection_name, document_id, data):
     st.success("Data uploaded successfully!")
 
 
-# image = Image.open('logo_ata.png')
-# st.image(image, caption='Ata Logo', use_column_width=True)
+image = Image.open('logo_ata.png')
+st.image(image, caption='Ata Logo', use_column_width=True)
 
 # Define data types and properties
 properties = {
@@ -65,21 +65,6 @@ properties = {
     'Heften_Zussamenb_Verputzen': float,
     'Anzeichnen': float,
     'Schweißen': float,
-    'Schweißnahtnummer': float,
-    'Schweißnaht': str,
-    'Positionsnummer': str,
-    'Lage': str,
-    'Nahtlänge': float,
-    'Nahtbreite': float,
-    'Blechdicke': float,
-    'Drahtdurch- messer': float,
-    'Masse Drahtelektrode': float,
-    'Kosten Drahtelektrode': float,
-    'benötigte Drahtrollen': float,
-    'Schweißzeit + Nebenzeit': float,
-    'Kosten Schweißer': float,
-    'Kosten SZ': float,
-    'Gesamtkosten': float,
 }
 
 units = {
@@ -88,17 +73,6 @@ units = {
     'Heften_Zussamenb_Verputzen': 'min',
     'Anzeichnen': 'min',
     'Schweißen': 'min',
-    'Nahtlänge': 'mm',
-    'Nahtbreite': 'mm',
-    'Blechdicke': 'mm',
-    'Drahtdurch- messer': 'mm',
-    'Masse Drahtelektrode': 'kg',
-    'Kosten Drahtelektrode': '€/kg',
-    'Schweißzeit + Nebenzeit': 'h',
-    'Kosten Schweißer': '€',
-    'Kosten SZ': '€',
-    'Gesamtkosten': '€ / Stück',
-
 }
 
 field_mapping = {
@@ -117,7 +91,7 @@ if 'current_collection' not in st.session_state:
 # Display a select box with all collection names
 collection_names = get_all_collections(db)
 # Update session state with selected collection
-selected_collection = st.sidebar.selectbox('Select Collection:', options=collection_names)
+selected_collection = st.selectbox('Select Collection:', options=collection_names)
 firestore_data = {}
 details_data = {}
 vk_0_data = {}
@@ -151,7 +125,7 @@ if vk_0_data:
         if prop not in ['Kunde', 'Gegenstand', 'Zeichnungs- Nr.', 'Ausführen Nr.']:  # Remaining fields
             st.session_state.vk_0_data[prop] = vk_0_data.get(prop, "")
 
-st.title("Schweißen")
+st.title("Vorkalkulation")
 
 # If firestore_data is fetched, update the session state
 if firestore_data:
@@ -161,107 +135,21 @@ if firestore_data:
             firestore_field = 'Benennung'
         st.session_state.vk_0_data[app_field] = firestore_data.get(firestore_field, "")
 
-# col1, col2 = st.columns(2)
-#
-# props_col1 = list(properties.keys())[:len(properties) // 2]
-# props_col2 = list(properties.keys())[len(properties) // 2:]
-#
-# for prop in props_col1:
-#     prompt = f"{prop} ({units.get(prop, '')})"
-#     # Use the session state data to populate the fields
-#     st.session_state.vk_0_data[prop] = col1.text_input(prompt, value=st.session_state.vk_0_data[prop]).strip()
-#
-# for prop in props_col2:
-#     prompt = f"{prop} ({units.get(prop, '')})"
-#     # Use the session state data to populate the fields
-#     st.session_state.vk_0_data[prop] = col2.text_input(prompt, value=st.session_state.vk_0_data[prop]).strip()
+col1, col2 = st.columns(2)
 
-dfs = pd.DataFrame(
-    [
-        {"No.": 1, "Factor1": 7.5, "Factor2": 0},
-        {"No.": 2, "Factor1": 12, "Factor2": "MAG 135"},
-        {"No.": 3, "Factor1": 20, "Factor2": 2.74},
-    ]
-)
+props_col1 = list(properties.keys())[:len(properties) // 2]
+props_col2 = list(properties.keys())[len(properties) // 2:]
 
-# Define the expanders
-with st.expander("Faktoren Nebenzeiten"):
-    edited_df = st.data_editor(dfs, num_rows="dynamic")
+for prop in props_col1:
+    prompt = f"{prop} ({units.get(prop, '')})"
+    # Use the session state data to populate the fields
+    st.session_state.vk_0_data[prop] = col1.text_input(prompt, value=st.session_state.vk_0_data[prop]).strip()
 
-with st.expander("Customer"):
-    # Input fields for customer-related data
-    st.text_input("Kunde", value=st.session_state.vk_0_data["Kunde"])
-    st.text_input("Gegenstand", value=st.session_state.vk_0_data["Gegenstand"])
-    st.text_input("Zeichnungs- Nr.", value=st.session_state.vk_0_data["Zeichnungs- Nr."])
-    st.text_input("Ausführen Nr.", value=st.session_state.vk_0_data["Ausführen Nr."])
+for prop in props_col2:
+    prompt = f"{prop} ({units.get(prop, '')})"
+    # Use the session state data to populate the fields
+    st.session_state.vk_0_data[prop] = col2.text_input(prompt, value=st.session_state.vk_0_data[prop]).strip()
 
-with st.expander("Schweißnahtberechnung"):
-    # Input fields for processing times
-    st.number_input("Brennen", value=float(st.session_state.vk_0_data["Brennen"]))
-    st.number_input("Richten", value=float(st.session_state.vk_0_data["Richten"]))
-    st.number_input("Heften_Zussamenb_Verputzen",
-                    value=float(st.session_state.vk_0_data["Heften_Zussamenb_Verputzen"]))
-    st.number_input("Anzeichnen", value=float(st.session_state.vk_0_data["Anzeichnen"]))
-    st.number_input("Schweißen", value=float(st.session_state.vk_0_data["Schweißen"]))
-
-weld_names = ["Kehlnaht", "HV 40°", "HV40/15", "HV45°", "HV45°/15", "V 45°", "V60°", "Schrägen"]
-
-with st.expander("Eigenschaften"):
-    st.number_input("Schweißnahtnummer",
-                    value=float(st.session_state.vk_0_data["Schweißnahtnummer"]) if st.session_state.vk_0_data[
-                                                                                        "Schweißnahtnummer"] != "" else 0.0)
-    st.selectbox("Schweißnaht", options=weld_names,
-                 index=weld_names.index(st.session_state.vk_0_data["Schweißnaht"]) if st.session_state.vk_0_data[
-                                                                                          "Schweißnaht"] in weld_names else 0)
-    st.text_input("Positionsnummer", value=st.session_state.vk_0_data["Positionsnummer"])
-    st.text_input("Lage", value=st.session_state.vk_0_data["Lage"])
-    st.number_input("Nahtlänge (mm)",
-                    value=float(st.session_state.vk_0_data["Nahtlänge"]) if st.session_state.vk_0_data[
-                                                                                "Nahtlänge"] != "" else 0.0)
-    st.number_input("Nahtbreite (mm)",
-                    value=float(st.session_state.vk_0_data["Nahtbreite"]) if st.session_state.vk_0_data[
-                                                                                 "Nahtbreite"] != "" else 0.0)
-    st.number_input("Blechdicke (mm)",
-                    value=float(st.session_state.vk_0_data["Blechdicke"]) if st.session_state.vk_0_data[
-                                                                                 "Blechdicke"] != "" else 0.0)
-    st.number_input("Drahtdurch- messer (mm)",
-                    value=float(st.session_state.vk_0_data["Drahtdurch- messer"]) if st.session_state.vk_0_data[
-                                                                                         "Drahtdurch- messer"] != "" else 0.0)
-    masse_drahtelektrode = st.session_state.vk_0_data.get("Masse Drahtelektrode", 0.0)
-    kosten_drahtelektrode = st.session_state.vk_0_data.get("Kosten Drahtelektrode", 0.0)
-    benotigte_drahtrollen = st.session_state.vk_0_data.get("benötigte Drahtrollen", 0.0)
-    schweisszeit_nebenzeit = st.session_state.vk_0_data.get("Schweißzeit + Nebenzeit", 0.0)
-    kosten_schweisser = st.session_state.vk_0_data.get("Kosten Schweißer", 0.0)
-
-    # Input fields for Masse Drahtelektrode, Kosten Drahtelektrode, benötigte Drahtrollen, Schweißzeit + Nebenzeit, and Kosten Schweißer
-    masse_drahtelektrode_input = st.number_input("Masse Drahtelektrode (kg)", value=float(
-        masse_drahtelektrode) if masse_drahtelektrode != "" else 0.0)
-    kosten_drahtelektrode_input = st.number_input("Kosten Drahtelektrode (€/kg)", value=float(
-        kosten_drahtelektrode) if kosten_drahtelektrode != "" else 0.0)
-    benotigte_drahtrollen_input = st.number_input("benötigte Drahtrollen", value=float(
-        benotigte_drahtrollen) if benotigte_drahtrollen != "" else 0.0)
-    schweisszeit_nebenzeit_input = st.number_input("Schweißzeit + Nebenzeit (h)", value=float(
-        schweisszeit_nebenzeit) if schweisszeit_nebenzeit != "" else 0.0)
-    kosten_schweisser_input = st.number_input("Kosten Schweißer (€)",
-                                              value=float(kosten_schweisser) if kosten_schweisser != "" else 0.0)
-
-    # Calculate Kosten SZ
-    kostensz_value = kosten_drahtelektrode_input * benotigte_drahtrollen_input * masse_drahtelektrode_input
-
-    # Store Kosten SZ in session state
-    st.session_state.vk_0_data["Kosten SZ"] = kostensz_value
-
-    # Display Kosten SZ
-    kosten_sz_input = st.number_input("Kosten SZ (€)", value=kostensz_value)
-
-    # Calculate Gesamtkosten
-    gesamtkosten_value = kosten_schweisser_input + kosten_sz_input
-
-    # Store Gesamtkosten in session state
-    st.session_state.vk_0_data["Gesamtkosten"] = gesamtkosten_value
-
-    # Display Gesamtkosten
-    gesamtkosten_input = st.number_input("Gesamtkosten(€) / Stück", value=gesamtkosten_value)
 
 def perform_calculations(data):
     # Convert relevant fields to numeric type
@@ -297,17 +185,8 @@ if st.button("Download JSON"):
 
 if st.button("Upload to Database"):
     # Extract the user input data
-    user_input_data = {}
-
-    # Extract data from input fields outside expanders
-    for prop in properties:
-        if prop not in ['Kunde', 'Gegenstand', 'Zeichnungs- Nr.', 'Ausführen Nr.']:
-            user_input_data[prop] = st.session_state.vk_0_data[prop]
-
-    # Extract data from input fields within the "Schweißnahtberechnung" expander
-    schweiss_expander_data = st.session_state.vk_0_data.get("Schweißnahtberechnung", {})
-    for field in ['Brennen', 'Richten', 'Heften_Zussamenb_Verputzen', 'Anzeichnen', 'Schweißen']:
-        user_input_data[field] = schweiss_expander_data.get(field, 0.0)
+    user_input_data = {prop: st.session_state.vk_0_data[prop] for prop in properties if
+                       prop not in ['Kunde', 'Gegenstand', 'Zeichnungs- Nr.', 'Ausführen Nr.']}
 
     # Perform calculations on the input data
     user_input_data_calculated = perform_calculations(user_input_data)
@@ -316,6 +195,3 @@ if st.button("Upload to Database"):
     upload_data_to_firestore(db, selected_collection, 'VK-0', user_input_data_calculated)
 
     st.success("Data uploaded successfully!")
-
-
-
