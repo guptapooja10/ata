@@ -205,6 +205,9 @@ props_col1 = props[:len(props) // 3]
 props_col2 = props[len(props) // 3: 2 * len(props) // 3]
 props_col3 = props[2 * len(props) // 3:]
 
+# Exclude properties listed under Eigenschaften 2 expander from iteration
+props_col3 = [prop for prop in props_col3 if prop not in expander_properties_3]
+
 # Iterate over props_col3
 for prop in props_col3:
     prompt = f"{prop} ({units.get(prop, '')})"
