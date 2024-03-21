@@ -113,8 +113,8 @@ if 'Material' not in st.session_state:
 if "Erlös" not in st.session_state:
     st.session_state.erlos = 0.0
 
-if "Processing_Time" not in st.session_state:
-    st.session_state.Processing_Time = 0.0
+# if "Processing_Time" not in st.session_state:
+#     st.session_state.Processing_Time = 0.0
 
 if "Deckungsbeitrag" not in st.session_state:
     st.session_state.deckungsbeitrag = 0.0
@@ -346,7 +346,7 @@ with st.expander("Grenzkosten"):
 combined_data = {
     **st.session_state.deckung_data,  # Project and Product Details
     **st.session_state['Material'],  # Material Cost Details
-    **st.session_state['Processing_Time'],
+    # **st.session_state['Processing_Time'],
     'Erlös': st.session_state.erlos,
     'DB (%)': st.session_state.db_percentage,
     'Deckungsbeitrag': st.session_state.deckungsbeitrag,
