@@ -150,7 +150,7 @@ if vk_0_data:
         if prop not in ['Kunde', 'Gegenstand', 'Zeichnungs- Nr.', 'Ausführen Nr.']:  # Remaining fields
             st.session_state.vk_0_data[prop] = vk_0_data.get(prop, "")
 
-st.title("Vorkalkulation")
+st.title("Schweißen")
 
 # If firestore_data is fetched, update the session state
 if firestore_data:
