@@ -176,7 +176,10 @@ for prop in props_col2:
     if prop == "Schweißnaht":
         # Dropdown options for Schweißnaht
         weld_types = ["Kehlnaht", "HV40°", "HV40/15", "HV45°", "HV45°/15", "V45°", "V60°", "Schrägen"]
-        selected_weld_type = col2.selectbox(prop, weld_types, index=weld_types.index(st.session_state.vk_0_data.get(prop, '')))
+        default_value = st.session_state.vk_0_data.get(prop, '')
+        if default_value not in weld_types:
+            default_value = weld_types[0]  # Set default value if stored value not found
+        selected_weld_type = col2.selectbox(prop, weld_types, index=weld_types.index(default_value))
         st.session_state.vk_0_data[prop] = selected_weld_type
     else:
         prompt = f"{prop} ({units.get(prop, '')})"
