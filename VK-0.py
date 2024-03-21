@@ -197,12 +197,12 @@ with st.expander("Customer"):
 
 with st.expander("Schweißnahtberechnung"):
     # Input fields for processing times
-    st.number_input("Brennen (min)", value=float(st.session_state.vk_0_data["Brennen"]))
-    st.number_input("Richten (min)", value=float(st.session_state.vk_0_data["Richten"]))
-    st.number_input("Heften_Zussamenb_Verputzen (min)",
+    st.number_input("Brennen", value=float(st.session_state.vk_0_data["Brennen"]))
+    st.number_input("Richten", value=float(st.session_state.vk_0_data["Richten"]))
+    st.number_input("Heften_Zussamenb_Verputzen",
                     value=float(st.session_state.vk_0_data["Heften_Zussamenb_Verputzen"]))
-    st.number_input("Anzeichnen (min)", value=float(st.session_state.vk_0_data["Anzeichnen"]))
-    st.number_input("Schweißen (min)", value=float(st.session_state.vk_0_data["Schweißen"]))
+    st.number_input("Anzeichnen", value=float(st.session_state.vk_0_data["Anzeichnen"]))
+    st.number_input("Schweißen", value=float(st.session_state.vk_0_data["Schweißen"]))
 
 weld_names = ["Kehlnaht", "HV 40°", "HV40/15", "HV45°", "HV45°/15", "V 45°", "V60°", "Schrägen"]
 
@@ -295,15 +295,7 @@ if st.button("Download JSON"):
     json_data = df.to_json(orient="records")
     st.download_button("Download JSON File", json_data, file_name="data.json", mime="application/json")
 
-
 if st.button("Upload to Database"):
-    # Update session state data with values from the input fields inside expanders
-    st.session_state.vk_0_data['Brennen'] = st.session_state.vk_0_data['Brennen (min)']
-    st.session_state.vk_0_data['Richten'] = st.session_state.vk_0_data['Richten (min)']
-    st.session_state.vk_0_data['Heften_Zussamenb_Verputzen'] = st.session_state.vk_0_data['Heften_Zussamenb_Verputzen (min)']
-    st.session_state.vk_0_data['Anzeichnen'] = st.session_state.vk_0_data['Anzeichnen (min)']
-    st.session_state.vk_0_data['Schweißen'] = st.session_state.vk_0_data['Schweißen (min)']
-
     # Extract the user input data
     user_input_data = {prop: st.session_state.vk_0_data[prop] for prop in properties if
                        prop not in ['Kunde', 'Gegenstand', 'Zeichnungs- Nr.', 'Ausführen Nr.']}
