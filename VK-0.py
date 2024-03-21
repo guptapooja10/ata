@@ -179,36 +179,21 @@ with col1.expander("Schweißnahtberechnung"):
 with col2.expander("Eigenschaften 1"):
     expander_properties_2 = ["Schweißnahtnummer", "Schweißnaht", "Positionsnummer", "Lage", "Nahtlänge", "Nahtbreite", "Blechdicke", "Drahtdurchmesser", "Masse Drahtelektrode"]
     for prop in expander_properties_2:
-        prompt = f"{prop} ({units.get(prop, '')})"
-        unique_key = f"expander2_{prop}"  # Unique key for expander text inputs
-        st.session_state.vk_0_data[prop] = st.text_input(prompt, value=st.session_state.vk_0_data.get(prop, ''), key=unique_key).strip()
+        if prop == "Schweißnaht":
+            # Dropdown options for Schweißnaht
+            weld_types = ["Kehlnaht", "HV 40°", "HV40/15", "HV45°", "HV45°/15", "V 45°", "V60°", "Schrägen"]
+            default_value = st.session_state.vk_0_data.get(prop, '')
+            if default_value not in weld_types:
+                default_value = weld_types[0]  # Set default value if stored value not found
+            selected_weld_type = st.selectbox(prop, weld_types, index=weld_types.index(default_value))
+            st.session_state.vk_0_data[prop] = selected_weld_type
+        else:
+            prompt = f"{prop} ({units.get(prop, '')})"
+            unique_key = f"expander2_{prop}"  # Unique key for expander text inputs
+            st.session_state.vk_0_data[prop] = st.text_input(prompt, value=st.session_state.vk_0_data.get(prop, ''), key=unique_key).strip()
 
-props = list(properties.keys())
-props_col1 = props[:len(props) // 3]
-props_col2 = props[len(props) // 3: 2 * len(props) // 3]
-props_col3 = props[2 * len(props) // 3:]
-
-for prop in props_col1:
-    if prop not in expander_properties_1:
-        prompt = f"{prop} ({units.get(prop, '')})"
-        unique_key = f"col1_{prop}"  # Unique key for col1 text inputs
-        st.session_state.vk_0_data[prop] = col1.text_input(prompt, value=st.session_state.vk_0_data.get(prop, ''), key=unique_key).strip()
-
-# Iterate over props_col2 and props_col3 (similar to your existing code)
-for prop in props_col2:
-    if prop == "Schweißnaht":
-        # Dropdown options for Schweißnaht
-        weld_types = ["Kehlnaht", "HV 40°", "HV40/15", "HV45°", "HV45°/15", "V 45°", "V60°", "Schrägen"]
-        default_value = st.session_state.vk_0_data.get(prop, '')
-        if default_value not in weld_types:
-            default_value = weld_types[0]  # Set default value if stored value not found
-        selected_weld_type = col2.selectbox(prop, weld_types, index=weld_types.index(default_value))
-        st.session_state.vk_0_data[prop] = selected_weld_type
-    else:
-        prompt = f"{prop} ({units.get(prop, '')})"
-        unique_key = f"col2_{prop}"  # Unique key for col2 text inputs
-        st.session_state.vk_0_data[prop] = col2.text_input(prompt, value=st.session_state.vk_0_data.get(prop, ''), key=unique_key).strip()
-
+# Remove the loop for props_col2 as we're handling the input of "Schweißnaht" separately
+# Iterate over props_col3 (similar to your existing code)
 for prop in props_col3:
     prompt = f"{prop} ({units.get(prop, '')})"
     unique_key = f"col3_{prop}"  # Unique key for col3 text inputs
