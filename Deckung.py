@@ -8,26 +8,23 @@ from google.oauth2 import service_account
 from VK_ST_0 import get_all_collections, get_data_from_firestore, field_mapping, upload_data_to_firestore
 import streamlit_antd_components as sac
 
-
 sac.segmented(
 
-        items=[
-            sac.SegmentedItem(label='Deckung', href='https://deckung.streamlit.app/'),
-            # sac.SegmentedItem(label='About', href='https://aboutpage.streamlit.app/'),
-            # sac.SegmentedItem(label='Sign In', href='https://credentials-page.streamlit.app/'),
-            sac.SegmentedItem(label='Project Instantiation', href='https://ata-app-navigator.streamlit.app/'),
-            sac.SegmentedItem(label='Material List', href='https://vk-st-0.streamlit.app/'),
-            sac.SegmentedItem(label='Schweißen', href='https://ata-vk-0.streamlit.app/'),
-            sac.SegmentedItem(label='Angebot', href='https://angebot.streamlit.app/'),
-            sac.SegmentedItem(label='Project Status', href='https://ata-project-status.streamlit.app/'), ],
-        align='end', size='sm', bg_color='transparent'
-    )
+    items=[
+        sac.SegmentedItem(label='Deckung', href='https://deckung.streamlit.app/'),
+        # sac.SegmentedItem(label='About', href='https://aboutpage.streamlit.app/'),
+        # sac.SegmentedItem(label='Sign In', href='https://credentials-page.streamlit.app/'),
+        sac.SegmentedItem(label='Project Instantiation', href='https://ata-app-navigator.streamlit.app/'),
+        sac.SegmentedItem(label='Material List', href='https://vk-st-0.streamlit.app/'),
+        sac.SegmentedItem(label='Schweißen', href='https://ata-vk-0.streamlit.app/'),
+        sac.SegmentedItem(label='Angebot', href='https://angebot.streamlit.app/'),
+        sac.SegmentedItem(label='Project Status', href='https://ata-project-status.streamlit.app/'), ],
+    align='end', size='sm', bg_color='transparent'
+)
 # Initialize Firestore client
 key_dict = st.secrets["textkey"]
 creds = service_account.Credentials.from_service_account_info(key_dict)
 db = firestore.Client(credentials=creds)
-
-
 
 # Upload image
 uploaded_file = st.sidebar.file_uploader("Upload Image", type=["jpg", "jpeg", "png"])
@@ -62,7 +59,6 @@ deckung_properties = {
     'DB': float,
     'Deckungsbeitrag': float,
 }
-
 
 units = {
     'Gewicht': 'kg',
@@ -107,7 +103,7 @@ if 'Material' not in st.session_state:
         columns=["Calculated Weight(Kg)", "Delivery Weight(Kg)", "Price(€)", "Price per Kg(€/Kg)"]
     ).to_dict(orient='index')
 
-#if 'Gesamtstunden' not in st.session_state:
+# if 'Gesamtstunden' not in st.session_state:
 #     st.session_state['Gesamtstunden'] = pd.DataFrame(
 #         index=["Brennen", "Schlossern", "Schweißen", "sonstiges", "Gesamt", "Stunden/Tonne", "Fertigung EUR"],
 #         columns=["Eur/hour", "Stunden", "Total_Stunden/Tonne"]
@@ -131,9 +127,9 @@ if "DB (%)" not in st.session_state:
 
 # Now 'df' is defined from the session state
 df = pd.DataFrame.from_dict(st.session_state['Material']).transpose()
-#try:
+# try:
 #    df1 = pd.DataFrame.from_dict(st.session_state['Gesamtstunden']).transpose()
-#except Exception as e:
+# except Exception as e:
 #    print("Error:", e)
 
 
@@ -183,10 +179,12 @@ if st.session_state.current_collection != selected_collection:
                 st.session_state.erlos = try_convert_to_float(deckungsbeitrag_data.get('Erlös', 0.0))
                 st.session_state.deckungsbeitrag = try_convert_to_float(
                     deckungsbeitrag_data.get('Deckungsbeitrag', 0.0))
-                st.session_state.Gesamtstunden = try_convert_to_float(deckungsbeitrag_data.get('Gesamtstunden', 0.0))
+
                 # Debugging
                 # st.write("Deckungsbeitrag from DB:", st.session_state.deckungsbeitrag)
                 st.session_state.db_percentage = try_convert_to_float(deckungsbeitrag_data.get('DB (%)', 0.0))
+
+
             else:
                 st.write("No data found for the selected collection.")
 
@@ -209,7 +207,6 @@ with st.expander("Project Details"):
             prompt += f" ({units[prop]})"
         st.session_state.deckung_data[prop] = st.text_input(prompt, key=f"{prop}_input",
                                                             value=st.session_state.deckung_data[prop]).strip()
-
 
 # Product Details Expander
 with st.expander("Product Details"):
@@ -258,7 +255,8 @@ with st.expander("Material Cost Details"):
 
         # Update the "Material Kosten" in "Product Details" if it's already been rendered
         if 'Material Kosten' in st.session_state.deckung_data:
-            st.session_state.deckung_data['Material Kosten'] = st.session_state['total_material_cost']  # this is where the Material Kosten is being used
+            st.session_state.deckung_data['Material Kosten'] = st.session_state[
+                'total_material_cost']  # this is where the Material Kosten is being used
 
 with st.expander("Deckungsbeitrag"):
     # Input fields
@@ -271,7 +269,6 @@ with st.expander("Deckungsbeitrag"):
     st.session_state.deckungsbeitrag = st.number_input("Deckungsbeitrag", value=st.session_state.deckungsbeitrag)
     st.write("Deckungsbeitrag in UI:", st.session_state.deckungsbeitrag)
 
-
 # Fetch values from Firestore for VK-0 document
 vk_0_data = get_data_from_firestore(selected_collection, 'VK-0')
 if vk_0_data:
@@ -279,7 +276,6 @@ if vk_0_data:
     st.session_state.deckung_data['Brennen_VK_0'] = vk_0_data.get('Brennen_VK_0', "")
     st.session_state.deckung_data['Schlossern_VK_0'] = vk_0_data.get('Schlossern_VK_0', "")
     st.session_state.deckung_data['Schweißen_VK_0'] = vk_0_data.get('Schweißen_VK_0', "")
-
 
 brennen_col = 'Brennen'
 eur_hour_col = 'Eur/hour'
@@ -293,7 +289,6 @@ df1 = pd.DataFrame([
     {"Process": "sonstiges", "Eur/hour": 0, "Hour": 0},
 ])
 
-
 with st.expander("Processing_Time"):
     gewicht_value = st.session_state.deckung_data.get('Gewicht', 0)
     st.text_input("Gewicht", value=st.session_state.deckung_data["Gewicht"])
@@ -304,14 +299,14 @@ with st.expander("Processing_Time"):
         gesamtstunden = df1["Hour"].sum()  # Sum of hours for all processes
         stunden_tonne = gesamtstunden / gewicht_value * 1000  # Hours per tonne
 
-        #df1["Fertigung_EUR"] = df1["Eur/hour"] * df1["Hour"]  # Calculate Fertigung_EUR
+        # df1["Fertigung_EUR"] = df1["Eur/hour"] * df1["Hour"]  # Calculate Fertigung_EUR
         fertigung_eur_total = df1["Fertigung_EUR"].sum()  # Sum of Fertigung_EUR
         st.session_state.deckung_data["Gesamtstunden"] = gesamtstunden
         st.session_state.deckung_data["Stunden / Tonne"] = stunden_tonne
         # Display the calculated results
         st.text_input("Gesamtstunden", value=gesamtstunden)
         st.text_input("Stunden / Tonne", value=stunden_tonne)
-        #st.text_input("Fertigung_EUR_Total", value=fertigung_eur_total)
+        # st.text_input("Fertigung_EUR_Total", value=fertigung_eur_total)
 
 # Create an expander for 'Grenzkosten'
 with st.expander("Grenzkosten"):
@@ -335,7 +330,9 @@ with st.expander("Grenzkosten"):
 
         # Access 'Fertigung EUR' from session state
         data['fertigung_eur'] = st.session_state.get('fertigung_eur', 0.0)
-        data['Grenzkosten'] = data['fertigung_eur'] + data['Material Kosten'] + data['Glühen'] + data['Prüfen , Doku'] + data['Strahlen / Streichen'] + data['techn. Bearb.'] + data['mech. Vorbearb.'] + data['mech. Bearbeitung'] + data['Zwischentransporte'] + data['transporte']
+        data['Grenzkosten'] = data['fertigung_eur'] + data['Material Kosten'] + data['Glühen'] + data['Prüfen , Doku'] + \
+                              data['Strahlen / Streichen'] + data['techn. Bearb.'] + data['mech. Vorbearb.'] + data[
+                                  'mech. Bearbeitung'] + data['Zwischentransporte'] + data['transporte']
         return data
 
 
@@ -446,13 +443,13 @@ if st.button("Upload to Database", key="upload_to_db"):
     combined_data_to_upload = {
         **st.session_state.deckung_data,  # Project and Product Details
         **st.session_state['Material'],  # Material Cost Details
-        #**st.session_state['Gesamtstunden'],
+        # **st.session_state['Gesamtstunden'],
         'Erlös': st.session_state.erlos,
         'DB (%)': st.session_state.db_percentage,
         'Deckungsbeitrag': st.session_state.deckungsbeitrag,
-        #'total_stunden': st.session_state['Gesamtstunden'].get('Gesamtstunden', {}).get('Stunden', 0),
-        #'stunden_tonne': st.session_state['Gesamtstunden'].get('Stunden/Tonne', {}).get(total_stunden_tonne_col, 0),
-        #'fertigung_eur': st.session_state['Gesamtstunden'].get('Fertigung EUR', {}).get(stunden_col, 0),
+        # 'total_stunden': st.session_state['Gesamtstunden'].get('Gesamtstunden', {}).get('Stunden', 0),
+        # 'stunden_tonne': st.session_state['Gesamtstunden'].get('Stunden/Tonne', {}).get(total_stunden_tonne_col, 0),
+        # 'fertigung_eur': st.session_state['Gesamtstunden'].get('Fertigung EUR', {}).get(stunden_col, 0),
     }
 
     # Call the function to upload data to Firestore
