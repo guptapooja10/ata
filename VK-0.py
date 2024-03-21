@@ -192,7 +192,7 @@ for prop in props_col1:
 for prop in props_col2:
     if prop == "Schweißnaht":
         # Dropdown options for Schweißnaht
-        weld_types = ["Type 1", "Type 2", "Type 3"]  # Replace with your actual options
+        weld_types = ["Kehlnaht", "HV 40°", "HV40/15", "HV45°", "HV45°/15", "V 45°", "V60°", "Schrägen"] # Replace with your actual options
         default_value = st.session_state.vk_0_data.get(prop, '')
         if default_value not in weld_types:
             default_value = weld_types[0]  # Set default value if stored value not found
