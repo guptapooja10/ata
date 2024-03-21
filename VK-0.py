@@ -173,9 +173,15 @@ for prop in props_col1:
     st.session_state.vk_0_data[prop] = col1.text_input(prompt, value=st.session_state.vk_0_data[prop]).strip()
 
 for prop in props_col2:
-    prompt = f"{prop} ({units.get(prop, '')})"
-    # Use the session state data to populate the fields
-    st.session_state.vk_0_data[prop] = col2.text_input(prompt, value=st.session_state.vk_0_data[prop]).strip()
+    if prop == "Schweißnaht":
+        # Dropdown options for Schweißnaht
+        weld_types = ["Kehlnaht", "HV 40°", "HV40/15", "HV45°", "HV45°/15", "V 45°", "V60°", "Schrägen"]
+        selected_weld_type = col2.selectbox(prop, weld_types, index=weld_types.index(st.session_state.vk_0_data.get(prop, '')))
+        st.session_state.vk_0_data[prop] = selected_weld_type
+    else:
+        prompt = f"{prop} ({units.get(prop, '')})"
+        # Use the session state data to populate the fields
+        st.session_state.vk_0_data[prop] = col2.text_input(prompt, value=st.session_state.vk_0_data[prop]).strip()
 
 for prop in props_col3:
     prompt = f"{prop} ({units.get(prop, '')})"
