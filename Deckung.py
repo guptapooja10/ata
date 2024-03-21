@@ -285,9 +285,9 @@ total_stunden_tonne_col = 'Total_Stunden/Tonne'
 
 # Define the DataFrame with the "Total" column calculated as the product of "Eur/hour" and "Hour"
 df1 = pd.DataFrame([
-    {"Process": "Brennen", "Eur/hour": 0, "Hour": st.session_state.deckung_data.get('Brennen_VK_0', 0), "Total": 0},
-    {"Process": "Schlossern", "Eur/hour": 0, "Hour": st.session_state.deckung_data.get('Schlossern_VK_0', 0), "Total": 0},
-    {"Process": "Schweißen", "Eur/hour": 0, "Hour": st.session_state.deckung_data.get('Schweißen_VK_0', 0), "Total": 0},
+    {"Process": "Brennen", "Eur/hour": 0, "Hour": st.session_state.deckung_data.get('Brennen_VK_0', 0)},
+    {"Process": "Schlossern", "Eur/hour": 0, "Hour": st.session_state.deckung_data.get('Schlossern_VK_0', 0)},
+    {"Process": "Schweißen", "Eur/hour": 0, "Hour": st.session_state.deckung_data.get('Schweißen_VK_0', 0)},
     {"Process": "sonstiges", "Eur/hour": 0, "Hour": 0, "Total": 0},
 ])
 
