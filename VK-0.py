@@ -162,20 +162,28 @@ if firestore_data:
 
 col1, col2, col3 = st.columns(3)
 
+expander_properties = ["Brennen", "Richten", "Heften_Zussamenb_Verputzen", "Anzeichnen", "Schweißen"]
+
+with col1.expander("Schweißnahtberechnung"):
+    for prop in expander_properties:
+        prompt = f"{prop} ({units.get(prop, '')})"
+        st.session_state.vk_0_data[prop] = st.text_input(prompt, value=st.session_state.vk_0_data.get(prop, '')).strip()
+
 props = list(properties.keys())
 props_col1 = props[:len(props) // 3]
 props_col2 = props[len(props) // 3: 2 * len(props) // 3]
 props_col3 = props[2 * len(props) // 3:]
 
 for prop in props_col1:
-    prompt = f"{prop} ({units.get(prop, '')})"
-    # Use the session state data to populate the fields
-    st.session_state.vk_0_data[prop] = col1.text_input(prompt, value=st.session_state.vk_0_data[prop]).strip()
+    if prop not in expander_properties:
+        prompt = f"{prop} ({units.get(prop, '')})"
+        st.session_state.vk_0_data[prop] = col1.text_input(prompt, value=st.session_state.vk_0_data.get(prop, '')).strip()
 
+# Iterate over props_col2 and props_col3 (similar to your existing code)
 for prop in props_col2:
     if prop == "Schweißnaht":
         # Dropdown options for Schweißnaht
-        weld_types = ["Kehlnaht", "HV40°", "HV40/15", "HV45°", "HV45°/15", "V45°", "V60°", "Schrägen"]
+        weld_types = ["Type 1", "Type 2", "Type 3"]  # Replace with your actual options
         default_value = st.session_state.vk_0_data.get(prop, '')
         if default_value not in weld_types:
             default_value = weld_types[0]  # Set default value if stored value not found
@@ -183,13 +191,11 @@ for prop in props_col2:
         st.session_state.vk_0_data[prop] = selected_weld_type
     else:
         prompt = f"{prop} ({units.get(prop, '')})"
-        # Use the session state data to populate the fields
-        st.session_state.vk_0_data[prop] = col2.text_input(prompt, value=st.session_state.vk_0_data[prop]).strip()
+        st.session_state.vk_0_data[prop] = col2.text_input(prompt, value=st.session_state.vk_0_data.get(prop, '')).strip()
 
 for prop in props_col3:
     prompt = f"{prop} ({units.get(prop, '')})"
-    # Use the session state data to populate the fields
-    st.session_state.vk_0_data[prop] = col3.text_input(prompt, value=st.session_state.vk_0_data[prop]).strip()
+    st.session_state.vk_0_data[prop] = col3.text_input(prompt, value=st.session_state.vk_0_data.get(prop, '')).strip()
 
 def perform_calculations(data):
     # Convert relevant fields to numeric type
