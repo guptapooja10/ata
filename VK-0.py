@@ -225,11 +225,10 @@ for prop in props_col2:
         st.session_state.vk_0_data[prop] = col2.text_input(prompt, value=st.session_state.vk_0_data.get(prop, ''), key=unique_key).strip()
 
 for prop in props_col3:
-    if prop not in expander_properties_3:
-        prompt = f"{prop} ({units.get(prop, '')})"
-        unique_key = f"col3_{prop}"  # Unique key for col3 text inputs
-        st.session_state.vk_0_data[prop] = col3.text_input(prompt, value=st.session_state.vk_0_data.get(prop, ''),
-                                                           key=unique_key).strip()
+    prompt = f"{prop} ({units.get(prop, '')})"
+    unique_key = f"col3_{prop}"  # Unique key for col3 text inputs
+    st.session_state.vk_0_data[prop] = col3.text_input(prompt, value=st.session_state.vk_0_data.get(prop, ''),
+                                                       key=unique_key).strip()
 
 
 def perform_calculations(data):
