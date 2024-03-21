@@ -300,13 +300,12 @@ if st.button("Upload to Database"):
     user_input_data = {prop: st.session_state.vk_0_data[prop] for prop in properties if
                        prop not in ['Kunde', 'Gegenstand', 'Zeichnungs- Nr.', 'Ausführen Nr.']}
 
-    # Update the user input data with the new values for Brennen, Richten, Heften_Zussamenb_Verputzen, Anzeichnen,
-    # and Schweißen
-    user_input_data['Brennen'] = st.session_state.vk_0_data['Brennen (min)']
-    user_input_data['Richten'] = st.session_state.vk_0_data['Richten (min)']
-    user_input_data['Heften_Zussamenb_Verputzen'] = st.session_state.vk_0_data['Heften_Zussamenb_Verputzen (min)']
-    user_input_data['Anzeichnen'] = st.session_state.vk_0_data['Anzeichnen (min)']
-    user_input_data['Schweißen'] = st.session_state.vk_0_data['Schweißen (min)']
+    # Update the user input data with the new values for Brennen, Richten, Heften_Zussamenb_Verputzen, Anzeichnen, and Schweißen
+    user_input_data['Brennen'] = st.session_state.vk_0_data['Brennen']
+    user_input_data['Richten'] = st.session_state.vk_0_data['Richten']
+    user_input_data['Heften_Zussamenb_Verputzen'] = st.session_state.vk_0_data['Heften_Zussamenb_Verputzen']
+    user_input_data['Anzeichnen'] = st.session_state.vk_0_data['Anzeichnen']
+    user_input_data['Schweißen'] = st.session_state.vk_0_data['Schweißen']
 
     # Perform calculations on the updated input data
     user_input_data_calculated = perform_calculations(user_input_data)
@@ -315,3 +314,4 @@ if st.button("Upload to Database"):
     upload_data_to_firestore(db, selected_collection, 'VK-0', user_input_data_calculated)
 
     st.success("Data uploaded successfully!")
+
